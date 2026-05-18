@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Login</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+      <h1>Iniciar sesión</h1>
+      <br>
+      <div th:if='${param.error}'>
+          <p>Usuario no existe o contraseña incorrecta</p>
+      </div>
+      
+      <!-- 
+        Formulario login Spring Security 
+        Username y password son obligatorios 
+        porque Spring los detecta automáticamente
+      -->
+      </div>
+      <form th:action="@{/login}" method="post">
+          <input type="text" name="username" placeholder="Usuario...">
+          <br>
+          <input type="password" name="password" placeholder='Contraseña...'>
+          <br>
+          <button type="submit">Entrar</button>
+      </form>
+  </body>
+</html>

@@ -105,7 +105,7 @@ public class Usuario {
         this.apellido2 = apellido2;
     }
 
-    public Enum getTipo() {
+    public Rol getTipo() {
         return tipo;
     }
 

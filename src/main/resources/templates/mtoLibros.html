@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Mantenimiento de Libros</title>
+</head>
+<body>
+
+<h1>📚 Mantenimiento de Libros</h1>
+
+<br>
+
+<a th:href="@{/libros/nuevo}">
+    <button>➕ Nuevo libro</button>
+</a>
+
+<br><br>
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Título</th>
+            <th>Autor</th>
+            <th>ISBN</th>
+            <th>Stock</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr th:each="libro : ${libros}">
+            <td th:text="${libro.id}"></td>
+            <td th:text="${libro.titulo}"></td>
+            <td th:text="${libro.autor}"></td>
+            <td th:text="${libro.isbn}"></td>
+            <td th:text="${libro.stock}"></td>
+
+            <td>
+                <a th:href="@{'/libros/editar/' + ${libro.id}}">
+                    <button>✏ Editar</button>
+                </a>
+
+                <a th:href="@{'/libros/eliminar/' + ${libro.id}}">
+                    <button>🗑 Eliminar</button>
+                </a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<br>
+
+<a href="/">
+    <button>🏠 Inicio</button>
+</a>
+
+</body>
+</html>

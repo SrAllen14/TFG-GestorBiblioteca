@@ -5,16 +5,23 @@
 package com.tfg.crud.GestorBiblioteca.service;
 
 import com.tfg.crud.GestorBiblioteca.entity.Libro;
+import com.tfg.crud.GestorBiblioteca.repository.LibroRepository;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author Usuario
  */
+@Service
 public class LibroServiceImp implements LibroService{
 
+    @Autowired
+    private LibroRepository libroRepository;
+    
     @Override
     public Libro registarLibro(Libro libro) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
@@ -22,7 +29,7 @@ public class LibroServiceImp implements LibroService{
 
     @Override
     public List<Libro> listarLibros() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return libroRepository.findAll();
     }
 
     @Override

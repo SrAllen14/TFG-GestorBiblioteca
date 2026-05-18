@@ -13,7 +13,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
  *
  * @author Usuario
  */
-public interface UsuarioService extends UserDetailsService{
+public interface UsuarioService{
     
     public Usuario registrarUsuario(UsuarioDTO usuarioDTO);
     public List<Usuario> listarUsuarios();

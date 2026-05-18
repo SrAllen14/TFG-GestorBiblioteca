@@ -6,15 +6,21 @@ package com.tfg.crud.GestorBiblioteca.service;
 
 import com.tfg.crud.GestorBiblioteca.dto.UsuarioDTO;
 import com.tfg.crud.GestorBiblioteca.entity.Usuario;
+import com.tfg.crud.GestorBiblioteca.repository.UsuarioRepository;
 import java.util.List;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author Usuario
  */
+
+@Service
 public class UsuarioServiceImp implements UsuarioService{
+    
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
     @Override
     public Usuario registrarUsuario(UsuarioDTO usuarioDTO) {
@@ -23,7 +29,7 @@ public class UsuarioServiceImp implements UsuarioService{
 
     @Override
     public List<Usuario> listarUsuarios() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return usuarioRepository.findAll();
     }
 
     @Override
@@ -50,10 +56,4 @@ public class UsuarioServiceImp implements UsuarioService{
     public boolean rehabilitarUsuario(Long id) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-    
 }
