@@ -7,7 +7,6 @@ package com.tfg.crud.GestorBiblioteca.service;
 import com.tfg.crud.GestorBiblioteca.dto.UsuarioDTO;
 import com.tfg.crud.GestorBiblioteca.entity.Usuario;
 import java.util.List;
-import org.springframework.security.core.userdetails.UserDetailsService;
 
 /**
  *

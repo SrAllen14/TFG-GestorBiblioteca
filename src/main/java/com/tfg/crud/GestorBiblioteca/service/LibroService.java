@@ -6,13 +6,12 @@ package com.tfg.crud.GestorBiblioteca.service;
 
 import com.tfg.crud.GestorBiblioteca.entity.Libro;
 import java.util.List;
-import org.springframework.security.core.userdetails.UserDetailsService;
 
 /**
  *
  * @author Usuario
  */
-public interface LibroService extends UserDetailsService{
+public interface LibroService{
     
     public Libro registarLibro(Libro libro);
     public List<Libro> listarLibros();

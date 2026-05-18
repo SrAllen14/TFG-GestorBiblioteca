@@ -6,13 +6,12 @@ package com.tfg.crud.GestorBiblioteca.service;
 
 import com.tfg.crud.GestorBiblioteca.entity.Ejemplar;
 import java.util.List;
-import org.springframework.security.core.userdetails.UserDetailsService;
 
 /**
  *
  * @author Usuario
  */
-public interface EjemplarService extends UserDetailsService{
+public interface EjemplarService{
     
     public Ejemplar registrarEjemplar(Ejemplar ejemplar);
     public List<Ejemplar> listarEjemplares();

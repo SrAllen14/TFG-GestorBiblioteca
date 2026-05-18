@@ -8,13 +8,12 @@ import com.tfg.crud.GestorBiblioteca.dto.PrestamoDTO;
 import com.tfg.crud.GestorBiblioteca.entity.Prestamo;
 import java.time.LocalDate;
 import java.util.List;
-import org.springframework.security.core.userdetails.UserDetailsService;
 
 /**
  *
  * @author Usuario
  */
-public interface PrestamoService extends UserDetailsService{
+public interface PrestamoService{
     
     public Prestamo registrarPretamo(PrestamoDTO prestamoDTO);
     public List<Prestamo> listarPrestamos();
