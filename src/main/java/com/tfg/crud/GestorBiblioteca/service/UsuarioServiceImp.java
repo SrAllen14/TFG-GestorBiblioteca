@@ -91,21 +91,41 @@ public class UsuarioServiceImp implements UsuarioService{
 
     @Override
     public Usuario buscarUsuarioPorId(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return usuarioRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
     }
 
     @Override
-    public Usuario editarUsuario(UsuarioDTO usuarioDTO) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void modificarEstadoUsuario(Long id) {
+        Usuario usuario = buscarUsuarioPorId(id);
+        
+        usuario.setActivo(!usuario.isActivo());
+        
+        usuarioRepository.save(usuario);
     }
 
     @Override
-    public boolean inhabilitarUsuario(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+    public Usuario editarUsuario(Long id, Usuario usuarioEditado) {
+        
+        Usuario usuario = buscarUsuarioPorId(id);
+        
+        usuario.setNombre(usuarioEditado.getNombre());
+        usuario.setApellido1(usuarioEditado.getApellido1());
+        usuario.setApellido2(usuarioEditado.getApellido2());
+        usuario.setRol(usuarioEditado.getRol());
+        
+        if(usuarioEditado.getRol() == Rol.ROLE_ADMINISTRADOR || usuarioEditado.getRol() == Rol.ROLE_BIBLIOTECARIO){
+        
+            usuario.setUsername(usuarioEditado.getUsername());
+            
+            if(usuarioEditado.getPassword() != null && usuarioEditado.getPassword().isBlank()){
+                usuario.setPassword(passwordEncoder.encode(usuarioEditado.getPassword()));
+            }
+        } else{
+            usuario.setUsername(null);
+            usuario.setPassword(null);
+        }
+        
+        return usuarioRepository.save(usuario);
 
-    @Override
-    public boolean rehabilitarUsuario(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

@@ -11,81 +11,81 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
   </head>
   <body>
       <form th:action="@{/usuario/crear}" 
-      th:object="${usuarioDTO}" 
-      method="post">
-
-    <div>
-        <label for="nombre">Nombre</label>
-        <input type="text" 
-               id="nombre"
-               th:field="*{nombre}" 
-               required>
-    </div>
-
-    <div>
-        <label for="apellido1">Primer apellido</label>
-        <input type="text" 
-               id="apellido1"
-               th:field="*{apellido1}" 
-               required>
-    </div>
+            th:object="${usuarioDTO}" 
+            method="post">
 
           <div>
-            <label for="apellido2">Segundo apellido</label>
-            <input type="text" 
-                   id="apellido2"
-                   th:field="*{apellido2}" 
-                   required>
-            </div>
+              <label for="nombre">Nombre</label>
+              <input type="text" 
+                     id="nombre"
+                     th:field="*{nombre}" 
+                     required>
+          </div>
 
-    <div>
-        <label for="rol">Rol</label>
+          <div>
+              <label for="apellido1">Primer apellido</label>
+              <input type="text" 
+                     id="apellido1"
+                     th:field="*{apellido1}" 
+                     required>
+          </div>
 
-        <select id="rol" th:field="*{rol}" required>
+                <div>
+                  <label for="apellido2">Segundo apellido</label>
+                  <input type="text" 
+                         id="apellido2"
+                         th:field="*{apellido2}" 
+                         required>
+                  </div>
 
-            <option value="">Seleccione un rol</option>
+          <div>
+              <label for="rol">Rol</label>
 
-            <!-- ADMIN puede crear todos -->
-            <option value="ROLE_ALUMNO">Alumno</option>
-            <option value="ROLE_PROFESOR">Profesor</option>
-            <option value="ROLE_BIBLIOTECARIO">Bibliotecario</option>
-            <option value="ROLE_ADMINISTRADOR">Administrador</option>
+              <select id="rol" th:field="*{rol}" required>
 
-        </select>
-    </div>
+                  <option value="">Seleccione un rol</option>
 
-    <!-- Credenciales -->
-    <div id="credenciales" style="display:none;">
+                  <!-- ADMIN puede crear todos -->
+                  <option value="ROLE_ALUMNO">Alumno</option>
+                  <option value="ROLE_PROFESOR">Profesor</option>
+                  <option value="ROLE_BIBLIOTECARIO">Bibliotecario</option>
+                  <option value="ROLE_ADMINISTRADOR">Administrador</option>
 
-        <div>
-            <label for="username">Username</label>
-            <input type="text" 
-                   id="username"
-                   th:field="*{username}">
-        </div>
+              </select>
+          </div>
 
-        <div>
-            <label for="password">Contraseña</label>
-            <input type="password" 
-                   id="password"
-                   th:field="*{password}">
-        </div>
+          <!-- Credenciales -->
+          <div id="credenciales" style="display:none;">
 
-    </div>
-    <div th:if="${error}">
-        <p th:text="${error}"></p>
-    </div>
+              <div>
+                  <label for="username">Username</label>
+                  <input type="text" 
+                         id="username"
+                         th:field="*{username}">
+              </div>
 
-    <div th:if="${success}">
-        <p th:text="${success}"></p>
-    </div>
-    <div>
-        <button type="submit">
-            Crear usuario
-        </button>
-    </div>
+              <div>
+                  <label for="password">Contraseña</label>
+                  <input type="password" 
+                         id="password"
+                         th:field="*{password}">
+              </div>
 
-</form>
+          </div>
+          <div th:if="${error}">
+              <p th:text="${error}"></p>
+          </div>
+
+          <div th:if="${success}">
+              <p th:text="${success}"></p>
+          </div>
+          <div>
+              <button type="submit">
+                  Crear usuario
+              </button>
+          </div>
+
+      </form>
 
 <script>
 

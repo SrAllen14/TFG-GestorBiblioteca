@@ -22,7 +22,12 @@ public class LibroServiceImp implements LibroService{
     
     @Override
     public Libro registarLibro(Libro libro) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        
+        libro.setActivo(true);
+        
+        libroRepository.save(libro);
+        
+        return libro;
     }
 
     @Override
@@ -37,21 +42,30 @@ public class LibroServiceImp implements LibroService{
 
     @Override
     public Libro buscarLibroPorId(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return libroRepository.findById(id).orElseThrow(() -> new RuntimeException("Libro no encontrado"));
     }
 
     @Override
-    public Libro editarLibro(Libro libro) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public Libro editarLibro(Long id, Libro libroEditado) {
+        
+        Libro libro = buscarLibroPorId(id);
+        
+        libro.setTitulo(libroEditado.getTitulo());
+        libro.setAutor(libroEditado.getAutor());
+        libro.setGenero(libroEditado.getGenero());
+        
+        libroRepository.save(libro);
+        
+        return libro;
     }
 
     @Override
-    public boolean inhabilitarLibro(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+    public void modificarEstadoLibro(Long id) {
 
-    @Override
-    public boolean rehabilitarLibro(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Libro libro = buscarLibroPorId(id);
+        
+        libro.setActivo(!libro.isActivo());
+        
+        libroRepository.save(libro);
     }
 }

@@ -3,13 +3,138 @@
 Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
 Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
 -->
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
   <head>
-    <title>TODO supply a title</title>
+    <title>Edición Usuario</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
   <body>
-      <div>TODO write content</div>
+      <form th:action="@{/usuario/editar/{id}(id=${usuario.idUsuario})}"
+            th:object="${usuario}"
+            method="post">
+
+          <!-- Nombre -->
+          <div>
+              <label for="nombre">Nombre</label>
+
+              <input type="text"
+                     id="nombre"
+                     th:field="*{nombre}"
+                     required>
+          </div>
+
+          <!-- Apellidos -->
+          <div>
+              <label for="apellido1">Primer Apellido</label>
+
+              <input type="text"
+                     id="apellido1"
+                     th:field="*{apellido1}"
+                     required>
+          </div>
+
+          <div>
+              <label for="apellido2">Segundo Apellido</label>
+
+              <input type="text"
+                     id="apellido2"
+                     th:field="*{apellido2}"
+                     required>
+          </div>
+          
+          <!-- Rol -->
+          <div>
+              <label for="rol">Rol</label>
+
+              <select id="rol"
+                      th:field="*{rol}"
+                      required>
+
+                  <option value="ROLE_ALUMNO">
+                      Alumno
+                  </option>
+
+                  <option value="ROLE_PROFESOR">
+                      Profesor
+                  </option>
+
+                  <option value="ROLE_BIBLIOTECARIO">
+                      Bibliotecario
+                  </option>
+
+                  <option value="ROLE_ADMINISTRADOR">
+                      Administrador
+                  </option>
+
+              </select>
+          </div>
+
+          <!-- Credenciales -->
+          <div id="credenciales">
+
+              <div>
+                  <label for="username">Username</label>
+
+                  <input type="text"
+                         id="username"
+                         th:field="*{username}">
+              </div>
+
+              <div>
+                  <label for="password">
+                      Nueva contraseña
+                  </label>
+
+                  <input type="password"
+                         id="password"
+                         name="password">
+              </div>
+
+              <small>
+                  Dejar vacío para mantener
+                  la contraseña actual
+              </small>
+
+          </div>
+
+          <!-- Botón -->
+          <div>
+              <button type="submit">
+                  Guardar cambios
+              </button>
+          </div>
+
+      </form>
+
+      <script>
+
+          const rolSelect =
+              document.getElementById("rol");
+
+          const credenciales =
+              document.getElementById("credenciales");
+
+          function controlarCredenciales() {
+
+              if(rolSelect.value === "ROLE_ADMINISTRADOR" ||
+                 rolSelect.value === "ROLE_BIBLIOTECARIO") {
+
+                  credenciales.style.display = "block";
+
+              } else {
+
+                  credenciales.style.display = "none";
+              }
+          }
+
+          controlarCredenciales();
+
+          rolSelect.addEventListener(
+              "change",
+              controlarCredenciales
+          );
+
+      </script>
   </body>
 </html>

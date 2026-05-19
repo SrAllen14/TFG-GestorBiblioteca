@@ -34,21 +34,26 @@ public class Libro {
     @Column(name = "Genero")
     @Enumerated(EnumType.STRING)
     private Genero genero;
-
+    
+    @Column(name = "Activo")
+    private boolean activo;
+    
     public Libro() {
     }
 
-    public Libro(String titulo, String autor, Genero genero) {
+    public Libro(String titulo, String autor, Genero genero, boolean activo) {
         this.titulo = titulo;
         this.autor = autor;
         this.genero = genero;
+        this.activo = activo;
     }
 
-    public Libro(long idLibro, String titulo, String autor, Genero genero) {
+    public Libro(long idLibro, String titulo, String autor, Genero genero, boolean activo) {
         this.idLibro = idLibro;
         this.titulo = titulo;
         this.autor = autor;
         this.genero = genero;
+        this.activo = activo;
     }
 
     public long getIdLibro() {
@@ -83,6 +88,14 @@ public class Libro {
         this.genero = genero;
     }
 
+    public boolean isActivo() {
+        return activo;
+    }
+
+    public void setActivo(boolean activo) {
+        this.activo = activo;
+    }
+    
     @Override
     public String toString() {
         return "Libro{titulo=" + titulo + ", autor=" + autor + ", genero=" + genero + '}';

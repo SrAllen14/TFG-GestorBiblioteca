@@ -18,7 +18,6 @@ public interface UsuarioService{
     public List<Usuario> listarUsuarios();
     public Usuario buscarUsuarioPorNombre(String nombre);
     public Usuario buscarUsuarioPorId(Long id);
-    public Usuario editarUsuario(UsuarioDTO usuarioDTO);
-    public boolean inhabilitarUsuario(Long id);
-    public boolean rehabilitarUsuario(Long id);
+    public Usuario editarUsuario(Long id, Usuario usuarioEditado);
+    public void modificarEstadoUsuario(Long id);
 }

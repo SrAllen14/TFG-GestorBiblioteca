@@ -9,13 +9,13 @@ package com.tfg.crud.GestorBiblioteca.entity;
  * @author Usuario
  */
 public enum Genero {
-    ACCIÓN,
-    HISTÓRICA,
-    CIENCIA_FICCIÓN,
+    ACCION,
+    HISTORICA,
+    CIENCIA_FICCION,
     NOVELA_NEGRA,
-    ROMÁNTICA,
+    ROMANTICA,
     ENCICLOPEDIA,
     DICCIONARIO,
-    POESÍA,
+    POESIA,
     TEATRO
 }

@@ -5,11 +5,64 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
 -->
 <html>
   <head>
-    <title>TODO supply a title</title>
+    <title>Registro Libro</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
   <body>
-      <div>TODO write content</div>
+      <form th:action="@{/libro/crear}" 
+            th:object="${libro}" 
+            method="post">
+
+          <div>
+              <label for="titulo">Título</label>
+              <input type="text" 
+                     id="titulo"
+                     th:field="*{titulo}" 
+                     required>
+          </div>
+
+          <div>
+              <label for="autor">Autor</label>
+              <input type="text" 
+                     id="autor"
+                     th:field="*{autor}" 
+                     required>
+          </div>
+          
+          <div>
+              <label for="genero">Género</label>
+
+              <select id="genero" th:field="*{genero}" required>
+
+                  <option value="">Seleccione un rol</option>
+
+                  <!-- ADMIN puede crear todos -->
+                  <option value="ACCION">Acción</option>
+                  <option value="HISTORICA">Histórica</option>
+                  <option value="CIENCIA_FICCION">Ciencia ficción</option>
+                  <option value="NOVELA_NEGRA">Novela negra</option>
+                  <option value="ROMANTICA">Romántica</option>
+                  <option value="ENCICLOPEDIA">Enciclopedia</option>
+                  <option value="DICCIONARIO">Diccionario</option>
+                  <option value="POESIA">Poesía</option>
+                  <option value="TEATRO">Teatro</option>
+              </select>
+          </div>
+          
+          <div th:if="${error}">
+              <p th:text="${error}"></p>
+          </div>
+
+          <div th:if="${success}">
+              <p th:text="${success}"></p>
+          </div>
+          <div>
+              <button type="submit">
+                  Crear libro
+              </button>
+          </div>
+
+      </form>
   </body>
 </html>
