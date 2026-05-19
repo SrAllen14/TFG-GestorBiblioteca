@@ -3,13 +3,108 @@
 Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
 Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
 -->
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
   <head>
-    <title>TODO supply a title</title>
+    <title>Registrar Usuario</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
   <body>
-      <div>TODO write content</div>
+      <form th:action="@{/usuario/crear}" 
+      th:object="${usuarioDTO}" 
+      method="post">
+
+    <div>
+        <label for="nombre">Nombre</label>
+        <input type="text" 
+               id="nombre"
+               th:field="*{nombre}" 
+               required>
+    </div>
+
+    <div>
+        <label for="apellido1">Primer apellido</label>
+        <input type="text" 
+               id="apellido1"
+               th:field="*{apellido1}" 
+               required>
+    </div>
+
+          <div>
+            <label for="apellido2">Segundo apellido</label>
+            <input type="text" 
+                   id="apellido2"
+                   th:field="*{apellido2}" 
+                   required>
+            </div>
+
+    <div>
+        <label for="rol">Rol</label>
+
+        <select id="rol" th:field="*{rol}" required>
+
+            <option value="">Seleccione un rol</option>
+
+            <!-- ADMIN puede crear todos -->
+            <option value="ROLE_ALUMNO">Alumno</option>
+            <option value="ROLE_PROFESOR">Profesor</option>
+            <option value="ROLE_BIBLIOTECARIO">Bibliotecario</option>
+            <option value="ROLE_ADMINISTRADOR">Administrador</option>
+
+        </select>
+    </div>
+
+    <!-- Credenciales -->
+    <div id="credenciales" style="display:none;">
+
+        <div>
+            <label for="username">Username</label>
+            <input type="text" 
+                   id="username"
+                   th:field="*{username}">
+        </div>
+
+        <div>
+            <label for="password">Contraseña</label>
+            <input type="password" 
+                   id="password"
+                   th:field="*{password}">
+        </div>
+
+    </div>
+    <div th:if="${error}">
+        <p th:text="${error}"></p>
+    </div>
+
+    <div th:if="${success}">
+        <p th:text="${success}"></p>
+    </div>
+    <div>
+        <button type="submit">
+            Crear usuario
+        </button>
+    </div>
+
+</form>
+
+<script>
+
+    const rolSelect = document.getElementById("rol");
+    const credenciales = document.getElementById("credenciales");
+
+    rolSelect.addEventListener("change", function () {
+
+        if (this.value === "ROLE_ADMINISTRADOR" || 
+            this.value === "ROLE_BIBLIOTECARIO") {
+
+            credenciales.style.display = "block";
+
+        } else {
+
+            credenciales.style.display = "none";
+        }
+    });
+
+</script>
   </body>
 </html>

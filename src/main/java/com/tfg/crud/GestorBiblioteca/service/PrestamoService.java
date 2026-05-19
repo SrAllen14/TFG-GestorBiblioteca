@@ -8,11 +8,14 @@ import com.tfg.crud.GestorBiblioteca.dto.PrestamoDTO;
 import com.tfg.crud.GestorBiblioteca.entity.Prestamo;
 import java.time.LocalDate;
 import java.util.List;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author Usuario
  */
+
+@Service
 public interface PrestamoService{
     
     public Prestamo registrarPretamo(PrestamoDTO prestamoDTO);

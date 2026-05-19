@@ -5,10 +5,14 @@
 package com.tfg.crud.GestorBiblioteca.service;
 
 import com.tfg.crud.GestorBiblioteca.dto.UsuarioDTO;
+import com.tfg.crud.GestorBiblioteca.entity.Rol;
 import com.tfg.crud.GestorBiblioteca.entity.Usuario;
 import com.tfg.crud.GestorBiblioteca.repository.UsuarioRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -21,10 +25,58 @@ public class UsuarioServiceImp implements UsuarioService{
     
     @Autowired
     private UsuarioRepository usuarioRepository;
+    
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public Usuario registrarUsuario(UsuarioDTO usuarioDTO) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        
+        Usuario usuario = new Usuario();
+        usuario.setNombre(usuarioDTO.getNombre());
+        usuario.setApellido1(usuarioDTO.getApellido1());
+        usuario.setApellido2(usuarioDTO.getApellido2());
+        usuario.setRol(usuarioDTO.getRol());
+        usuario.setActivo(true);
+        
+        // Debemos comprobar que tipo de usuario es
+        // En caso de ser "BIBLIOTECARIO" o "ADMINISTADOR" deberá tener username y password
+        if(usuarioDTO.getRol() == Rol.ROLE_BIBLIOTECARIO || usuarioDTO.getRol() == Rol.ROLE_ADMINISTRADOR){
+            
+            // Comprobamos si el campo de "username" está vacio
+            if(usuarioDTO.getUsername() == null || usuarioDTO.getUsername().isBlank()){
+                // Si está vacio lanzamos una excepción
+                throw new RuntimeException("El identificativo de usuario es obligatorio");
+            }
+            
+            // Comprobamos si el campo de "password" está vacio
+            if(usuarioDTO.getPassword() == null || usuarioDTO.getPassword().isBlank()){
+                // Si está vacio lanzamos una excepción
+                throw new RuntimeException("La contraseña es obligatoria");
+            }
+            
+            // En caso de no haber error, introducimos los datos en el usuario.
+            usuario.setUsername(usuarioDTO.getUsername());
+            usuario.setPassword(passwordEncoder.encode(usuarioDTO.getPassword()));
+            
+        } else{
+            
+            // En caso de no ser bibliotecario u administrador, introducimos valor nulo en el usuario.
+            usuario.setUsername(null);
+            usuario.setPassword(null);
+        }
+        
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String rolUsuario = auth.getAuthorities().iterator().next().getAuthority();
+        
+        if(rolUsuario.equals("ROLE_BIBLIOTECARIO")){
+            
+            if(usuarioDTO.getRol() == Rol.ROLE_ADMINISTRADOR || usuarioDTO.getRol() == Rol.ROLE_BIBLIOTECARIO){
+                throw new RuntimeException("Un bibliotecario no puede crear administradores ni bibliotecarios");
+            }
+        }
+        
+        return usuarioRepository.save(usuario);
     }
 
     @Override

@@ -17,23 +17,29 @@ public class UsuarioDTO {
     private String apellido1;
     private String apellido2;
     private Rol rol;
+    private String username;
+    private String password;
 
     public UsuarioDTO() {
     }
 
-    public UsuarioDTO(String nombre, String apellido1, String apellido2, Rol rol) {
+    public UsuarioDTO(String nombre, String apellido1, String apellido2, Rol rol, String username, String password) {
         this.nombre = nombre;
         this.apellido1 = apellido1;
         this.apellido2 = apellido2;
         this.rol = rol;
+        this.username = username;
+        this.password = password;
     }
 
-    public UsuarioDTO(Long idUsuario, String nombre, String apellido1, String apellido2, Rol rol) {
+    public UsuarioDTO(Long idUsuario, String nombre, String apellido1, String apellido2, Rol rol, String username, String password) {
         this.idUsuario = idUsuario;
         this.nombre = nombre;
         this.apellido1 = apellido1;
         this.apellido2 = apellido2;
         this.rol = rol;
+        this.username = username;
+        this.password = password;
     }
 
     public Long getIdUsuario() {
@@ -74,5 +80,21 @@ public class UsuarioDTO {
 
     public void setRol(Rol rol) {
         this.rol = rol;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

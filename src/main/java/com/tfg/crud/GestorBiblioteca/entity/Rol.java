@@ -9,8 +9,8 @@ package com.tfg.crud.GestorBiblioteca.entity;
  * @author Usuario
  */
 public enum Rol {
-    ALUMNO,
-    PROFESOR,
-    ADMINISTRADOR,
-    BIBLIOTECARIO;
+    ROLE_ALUMNO,
+    ROLE_PROFESOR,
+    ROLE_ADMINISTRADOR,
+    ROLE_BIBLIOTECARIO;
 }

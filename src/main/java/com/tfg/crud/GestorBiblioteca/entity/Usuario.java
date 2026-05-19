@@ -41,36 +41,41 @@ public class Usuario {
     @Column(name = "Password")
     private String password;
     
-    @Column(name = "Tipo")
+    @Column(name = "Rol")
     @Enumerated(EnumType.STRING)
     private Rol tipo;
+    
+    private boolean activo;
 
     public Usuario() {
     }
 
-    public Usuario(String nombre, String apellido1, String apellido2, Rol tipo) {
+    public Usuario(String nombre, String apellido1, String apellido2, Rol tipo, boolean activo) {
         this.nombre = nombre;
         this.apellido1 = apellido1;
         this.apellido2 = apellido2;
         this.tipo = tipo;
+        this.activo = activo;
     }
 
-    public Usuario(String nombre, String apellido1, String apellido2, String username, String password, Rol tipo) {
+    public Usuario(String nombre, String apellido1, String apellido2, String username, String password, Rol tipo, boolean activo) {
         this.nombre = nombre;
         this.apellido1 = apellido1;
         this.apellido2 = apellido2;
         this.username = username;
         this.password = password;
         this.tipo = tipo;
+        this.activo = activo;
     }
 
-    public Usuario(long idUsuario, String nombre, String apellido1, String apellido2, String password, Rol tipo) {
+    public Usuario(long idUsuario, String nombre, String apellido1, String apellido2, String password, Rol tipo, boolean activo) {
         this.idUsuario = idUsuario;
         this.nombre = nombre;
         this.apellido1 = apellido1;
         this.apellido2 = apellido2;
         this.password = password;
         this.tipo = tipo;
+        this.activo = activo;
     }
 
     public long getIdUsuario() {
@@ -105,11 +110,11 @@ public class Usuario {
         this.apellido2 = apellido2;
     }
 
-    public Rol getTipo() {
+    public Rol getRol() {
         return tipo;
     }
 
-    public void setTipo(Rol tipo) {
+    public void setRol(Rol tipo) {
         this.tipo = tipo;
     }
 
@@ -127,6 +132,14 @@ public class Usuario {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public boolean isActivo() {
+        return activo;
+    }
+
+    public void setActivo(boolean activo) {
+        this.activo = activo;
     }
 
     @Override

@@ -30,7 +30,7 @@ public class UserDetailsServiceImp implements UserDetailsService{
         
         Usuario usuario = usuarioRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
 
-        return new User(usuario.getUsername(), usuario.getPassword(), Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + usuario.getTipo().name())));
+        return new User(usuario.getUsername(), usuario.getPassword(), Collections.singletonList(new SimpleGrantedAuthority(usuario.getRol().name())));
     }
 
     

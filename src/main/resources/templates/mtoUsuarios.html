@@ -10,6 +10,9 @@
 
 <br>
 
+<a href="/usuario/crear">
+    <button>Registrar Usuario</button>
+</a>
 <table border="1">
     <thead>
         <tr>
@@ -18,7 +21,7 @@
             <th>Apellido 1</th>
             <th>Apellido 2</th>
             <th>Username</th>
-            <th>Tipo</th>
+            <th>Rol</th>
         </tr>
     </thead>
 
@@ -29,7 +32,7 @@
             <td th:text="${usuario.apellido1}"></td>
             <td th:text="${usuario.apellido2}"></td>
             <td th:text="${usuario.username}"></td>
-            <td th:text="${usuario.tipo}"></td>
+            <td th:text="${usuario.rol}"></td>
         </tr>
     </tbody>
 </table>
