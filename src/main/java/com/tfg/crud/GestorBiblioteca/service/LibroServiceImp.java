@@ -56,6 +56,7 @@ public class LibroServiceImp implements LibroService{
         libro.setTitulo(libroEditado.getTitulo());
         libro.setAutor(libroEditado.getAutor());
         libro.setGenero(libroEditado.getGenero());
+        libro.setEditorial(libroEditado.getEditorial());
         
         if (!IsbnValidator.isValid(libroEditado.getIsbn())){
             throw new IllegalArgumentException("ISBN inválido");

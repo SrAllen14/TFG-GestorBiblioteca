@@ -18,4 +18,7 @@ import org.springframework.stereotype.Repository;
 public interface EjemplarRepository extends JpaRepository<Ejemplar, Long>{
    
     List<Ejemplar> findByLibroIdLibro(Long idLibro);
+    
+    long countByLibroIdLibro(Long idLibro);
+    
 }

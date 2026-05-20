@@ -20,7 +20,8 @@ public interface PrestamoService{
     
     public Prestamo registrarPretamo(PrestamoDTO prestamoDTO);
     public List<Prestamo> listarPrestamos();
-    public Prestamo buscarPrestamoPorId(Long id);
+    public Prestamo buscarPrestamoPorId(Long idPrestamo);
     public Prestamo editarPrestamo(PrestamoDTO prestamoDTO);
-    public boolean finalizarPrestamo(LocalDate fechaDevolucion, Long id);
+    public void finalizarPrestamo(LocalDate fechaDevolucion, Long idPrestamo);
+    public void reabrirPrestamo(Long idPrestamo);
 }

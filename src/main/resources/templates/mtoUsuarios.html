@@ -3,6 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <title>Listado de Usuarios</title>
+    
+    <style>
+
+        body{
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+
+        table{
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td{
+            border: 1px solid black;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th{
+            background-color: lightgray;
+        }
+
+        .boton{
+            padding: 10px 15px;
+            background-color: #2d89ef;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+    </style>
 </head>
 <body>
 
@@ -11,7 +44,7 @@
 <br>
 
 <a th:href="@{/usuario/crear}">
-    <button>Registrar Usuario</button>
+    <button class="boton">Registrar Usuario</button>
 </a>
 <table border="1">
     <thead>
@@ -56,7 +89,7 @@
 <br>
 
 <a href="/">
-    <button>🏠 Inicio</button>
+    <button class="boton">🏠 Inicio</button>
 </a>
 
 </body>

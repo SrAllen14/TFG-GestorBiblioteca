@@ -21,11 +21,17 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
           <div>
               <h1 th:text="${libro.genero}"></h1>
           </div>
+          <div>
+              <h1 th:text="${libro.editorial}"></h1>
+          </div>
+          <div>
+              <h1 th:text="${libro.isbn}"></h1>
+          </div>
       </div>
       <div>
-          <a th:href="@{/ejemplar/{idLibro}/registro(idLibro=${libro.idLibro})}">
-              <button>Registrar ejemplar</button>
-          </a>
+          <form th:action="@{/ejemplar/{idLibro}/registro(idLibro=${libro.idLibro})}" method="post">
+              <button type="submit">Registrar ejemplar</button>
+          </form>
       </div>
       <div class="box">
           <table>
@@ -33,7 +39,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                   <tr>
                       <th>Id</th>
                       <th>Código</th>
-                      <th>Editorial</th>
                       <th>Acciones</th>
                   </tr>
               </thead>
@@ -41,10 +46,12 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                   <tr th:each="ejemplar : ${ejemplares}">
                       <td th:text="${ejemplar.idEjemplar}"></td>
                       <td th:text="${ejemplar.codigo}"></td>
-                      <td th:text="${ejemplar.editorial}"></td>
                   </tr>
               </tbody>
           </table>
       </div>
+      <a th:href="@{/libro}">
+          <button>Salir</button>
+      </a>
   </body>
 </html>

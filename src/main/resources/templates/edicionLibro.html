@@ -55,6 +55,14 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
           </div>
           
           <div>
+              <label for="editorial">Editorial</label>
+              <input type="text" 
+                     id="editorial"
+                     th:field="*{editorial}" 
+                     required>
+          </div>
+          
+          <div>
               <label for="isbn">ISBN</label>
               <input type="text" 
                      id="isbn"
@@ -74,5 +82,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                   Editar libro
               </button>
           </div>
+      </form>
+      <a th:href="@{/libro}">
+        <button>Salir</button>
+    </a>
   </body>
 </html>

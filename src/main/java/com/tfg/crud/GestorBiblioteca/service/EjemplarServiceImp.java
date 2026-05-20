@@ -5,6 +5,7 @@
 package com.tfg.crud.GestorBiblioteca.service;
 
 import com.tfg.crud.GestorBiblioteca.entity.Ejemplar;
+import com.tfg.crud.GestorBiblioteca.entity.Libro;
 import com.tfg.crud.GestorBiblioteca.repository.EjemplarRepository;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,11 +21,24 @@ public class EjemplarServiceImp implements EjemplarService{
     
     @Autowired
     private EjemplarRepository ejemplarRepository;
+    
+    @Autowired
+    private LibroService libroService;
 
     @Override
-    public Ejemplar registrarEjemplar(Ejemplar ejemplar) {
+    public Ejemplar registrarEjemplar(Long idLibro) {
         
-        ejemplar.setActivo(true);
+        Libro libro = libroService.buscarLibroPorId(idLibro);
+        
+        long numeroEjemplar = ejemplarRepository.countByLibroIdLibro(idLibro) + 1;
+        
+        String codigo = libro.getIsbn() + "-" + numeroEjemplar;
+        
+        Ejemplar ejemplar = new Ejemplar();
+        
+        ejemplar.setLibro(libro);
+        ejemplar.setActivo(true);        
+        ejemplar.setCodigo(codigo);
         
         ejemplarRepository.save(ejemplar);
         

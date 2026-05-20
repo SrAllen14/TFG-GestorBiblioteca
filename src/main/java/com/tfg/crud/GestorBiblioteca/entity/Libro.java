@@ -39,8 +39,11 @@ public class Libro {
     @Enumerated(EnumType.STRING)
     private Genero genero;
     
+    @Column(name = "Editorial")
+    private String editorial;
+    
     @Column(name = "ISBN", unique = true)
-    @Pattern(regexp = "\\d{13}", message = "El ISBN debe tener 13 dígitos numéricos")
+    @Pattern(regexp = "^(\\d{10}|\\d{13}|\\d{9}X)$", message = "ISBN debe ser ISBN-10 o ISBN-13 válido")
     private String isbn;
     
     @Column(name = "Activo")
@@ -52,20 +55,22 @@ public class Libro {
     public Libro() {
     }
 
-    public Libro(String titulo, String autor, Genero genero, String isbn, boolean activo) {
+    public Libro(String titulo, String autor, Genero genero, String editorial, String isbn, boolean activo) {
         this.titulo = titulo;
         this.autor = autor;
         this.genero = genero;
+        this.editorial = editorial;
         this.isbn = isbn;
         this.activo = activo;
         this.ejemplares = new ArrayList<>();
     }
 
-    public Libro(long idLibro, String titulo, String autor, Genero genero, String isbn, boolean activo) {
+    public Libro(long idLibro, String titulo, String autor, Genero genero, String editorial, String isbn, boolean activo) {
         this.idLibro = idLibro;
         this.titulo = titulo;
         this.autor = autor;
         this.genero = genero;
+        this.editorial = editorial;
         this.isbn = isbn;
         this.activo = activo;
         this.ejemplares = new ArrayList<>();
@@ -126,9 +131,17 @@ public class Libro {
     public void setIsbn(String isbn) {
         this.isbn = isbn;
     }
-    
+
+    public String getEditorial() {
+        return editorial;
+    }
+
+    public void setEditorial(String editorial) {
+        this.editorial = editorial;
+    }
+
     @Override
     public String toString() {
-        return "Libro{titulo=" + titulo + ", autor=" + autor + ", genero=" + genero + '}';
+        return "Libro{" + "titulo=" + titulo + ", autor=" + autor + ", genero=" + genero + ", editorial=" + editorial + ", isbn=" + isbn + ", activo=" + activo + ", ejemplares=" + ejemplares + '}';
     }
 }

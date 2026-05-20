@@ -6,8 +6,10 @@ package com.tfg.crud.GestorBiblioteca.service;
 
 import com.tfg.crud.GestorBiblioteca.dto.PrestamoDTO;
 import com.tfg.crud.GestorBiblioteca.entity.Prestamo;
+import com.tfg.crud.GestorBiblioteca.repository.PrestamoRepository;
 import java.time.LocalDate;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -17,29 +19,43 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class PrestamoServiceImp implements PrestamoService{
+    
+    @Autowired
+    private PrestamoRepository prestamoRepository;
 
     @Override
     public Prestamo registrarPretamo(PrestamoDTO prestamoDTO) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Prestamo prestamo = new Prestamo();
+        
+        return prestamo;
     }
 
     @Override
     public List<Prestamo> listarPrestamos() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        
+        return prestamoRepository.findAll();
     }
 
     @Override
-    public Prestamo buscarPrestamoPorId(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public Prestamo buscarPrestamoPorId(Long idPrestamo) {
+        
+        return prestamoRepository.findById(idPrestamo).orElseThrow(() -> new RuntimeException("No se ha encontrado el prestamo"));
     }
 
     @Override
     public Prestamo editarPrestamo(PrestamoDTO prestamoDTO) {
+        Prestamo prestamo = new Prestamo();
+        
+        return prestamo;
+    }
+
+    @Override
+    public void finalizarPrestamo(LocalDate fechaDevolucion, Long idPrestamo) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public boolean finalizarPrestamo(LocalDate fechaDevolucion, Long id) {
+    public void reabrirPrestamo(Long idPrestamo) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     

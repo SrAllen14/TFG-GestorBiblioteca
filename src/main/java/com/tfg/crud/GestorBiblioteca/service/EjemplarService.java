@@ -13,7 +13,7 @@ import java.util.List;
  */
 public interface EjemplarService{
     
-    public Ejemplar registrarEjemplar(Ejemplar ejemplar);
+    public Ejemplar registrarEjemplar(Long idLibro);
     public Ejemplar buscarEjemplarPorId(Long id);
     public List<Ejemplar> listarEjemplaresPorLibro(Long id);
     public List<Ejemplar> listarEjemplares();

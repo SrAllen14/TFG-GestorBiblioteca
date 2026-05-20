@@ -29,9 +29,6 @@ public class Ejemplar {
     @Column(name = "Codigo")
     private String codigo;
     
-    @Column(name = "Editorial")
-    private String editorial;
-    
     @ManyToOne
     @JoinColumn(name = "idLibro")
     private Libro libro;
@@ -44,7 +41,6 @@ public class Ejemplar {
 
     public Ejemplar(String codigo, String editorial, Libro libro, boolean activo) {
         this.codigo = codigo;
-        this.editorial = editorial;
         this.libro = libro;
         this.activo = activo;
     }
@@ -52,7 +48,6 @@ public class Ejemplar {
     public Ejemplar(long idEjemplar, String codigo, String editorial, Libro libro, boolean activo) {
         this.idEjemplar = idEjemplar;
         this.codigo = codigo;
-        this.editorial = editorial;
         this.libro = libro;
         this.activo = activo;
     }
@@ -73,14 +68,6 @@ public class Ejemplar {
         this.codigo = codigo;
     }
 
-    public String getEditorial() {
-        return editorial;
-    }
-
-    public void setEditorial(String editorial) {
-        this.editorial = editorial;
-    }
-
     public Libro getLibro() {
         return libro;
     }
@@ -99,6 +86,6 @@ public class Ejemplar {
 
     @Override
     public String toString() {
-        return "Ejemplar{" + "idEjemplar=" + idEjemplar + ", codigo=" + codigo + ", editorial=" + editorial + ", libro=" + libro + '}';
+        return "Ejemplar{" + "idEjemplar=" + idEjemplar + ", codigo=" + codigo + ", libro=" + libro + '}';
     }
 }

@@ -31,25 +31,12 @@ public class ejemplarController {
     
     @Autowired
     private EjemplarService ejemplarService;
-    
-    
-    @GetMapping("/{idLibro}/registro")
-    public String mostrarRegistroEjemplar(Model modelo, @PathVariable Long idLibro){
         
-        Libro libro = libroService.buscarLibroPorId(idLibro);
-        Ejemplar ejemplar = new Ejemplar();
-        
-        ejemplar.setLibro(libro);
-        
-        modelo.addAttribute("ejemplar", ejemplar);
-        
-        return "registroEjemplar";
-    }
     
     @PostMapping("/{idLibro}/registro")
-    public String registrarEjemplar(@PathVariable Long idLibro, @ModelAttribute Ejemplar ejemplar){
+    public String registrarEjemplar(@PathVariable Long idLibro){
     
-        ejemplarService.registrarEjemplar(ejemplar);
+        ejemplarService.registrarEjemplar(idLibro);
         
         return "redirect:/libro/consultar/"+idLibro;
     }
