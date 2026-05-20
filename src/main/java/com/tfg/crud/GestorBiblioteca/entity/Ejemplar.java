@@ -36,20 +36,25 @@ public class Ejemplar {
     @JoinColumn(name = "idLibro")
     private Libro libro;
 
+    @Column(name = "Activo")
+    private boolean activo;
+    
     public Ejemplar() {
     }
 
-    public Ejemplar(String codigo, String editorial, Libro libro) {
+    public Ejemplar(String codigo, String editorial, Libro libro, boolean activo) {
         this.codigo = codigo;
         this.editorial = editorial;
         this.libro = libro;
+        this.activo = activo;
     }
 
-    public Ejemplar(long idEjemplar, String codigo, String editorial, Libro libro) {
+    public Ejemplar(long idEjemplar, String codigo, String editorial, Libro libro, boolean activo) {
         this.idEjemplar = idEjemplar;
         this.codigo = codigo;
         this.editorial = editorial;
         this.libro = libro;
+        this.activo = activo;
     }
 
     public long getIdEjemplar() {
@@ -82,6 +87,14 @@ public class Ejemplar {
 
     public void setLibro(Libro libro) {
         this.libro = libro;
+    }
+
+    public boolean isActivo() {
+        return activo;
+    }
+
+    public void setActivo(boolean activo) {
+        this.activo = activo;
     }
 
     @Override

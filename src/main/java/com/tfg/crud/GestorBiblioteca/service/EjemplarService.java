@@ -14,6 +14,8 @@ import java.util.List;
 public interface EjemplarService{
     
     public Ejemplar registrarEjemplar(Ejemplar ejemplar);
+    public Ejemplar buscarEjemplarPorId(Long id);
+    public List<Ejemplar> listarEjemplaresPorLibro(Long id);
     public List<Ejemplar> listarEjemplares();
-    public boolean eliminarEjemplar(Long id);
+    public void darDeBajaEjemplar(Long id);
 }

@@ -5,6 +5,7 @@
 package com.tfg.crud.GestorBiblioteca.repository;
 
 import com.tfg.crud.GestorBiblioteca.entity.Ejemplar;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -15,5 +16,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface EjemplarRepository extends JpaRepository<Ejemplar, Long>{
-    
+   
+    List<Ejemplar> findByLibroIdLibro(Long idLibro);
 }

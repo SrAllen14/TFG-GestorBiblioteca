@@ -53,6 +53,15 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                   <option value="TEATRO">Teatro</option>
               </select>
           </div>
+          
+          <div>
+              <label for="isbn">ISBN</label>
+              <input type="text" 
+                     id="isbn"
+                     th:field="*{isbn}" 
+                     required>
+          </div>
+          
           <div th:if="${error}">
               <p th:text="${error}"></p>
           </div>

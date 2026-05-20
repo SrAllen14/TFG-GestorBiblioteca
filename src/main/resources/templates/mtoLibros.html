@@ -23,7 +23,8 @@
             <th>Título</th>
             <th>Autor</th>
             <th>Género</th>
-            <th colspan="2">Acciones</th>
+            <th>ISBN</th>
+            <th colspan="3">Acciones</th>
         </tr>
     </thead>
 
@@ -33,6 +34,7 @@
             <td th:text="${libro.titulo}"></td>
             <td th:text="${libro.autor}"></td>
             <td th:text="${libro.genero}"></td>
+            <td th:text="${libro.isbn}"</td>
 
             <td>
                 <a th:href="@{/libro/editar/{id}(id=${libro.idLibro})}">
@@ -42,12 +44,15 @@
             <td>
                 <form th:action="@{/libro/estado/{id}(id=${libro.idLibro})}"
                       method="post">
-
                     <button type="submit"
                             th:text="${libro.activo} ? 'Dar de baja' : 'Rehabilitar'">
                     </button>
-
                 </form>
+            </td>
+            <td>
+                <a th:href="@{/libro/consultar/{id}(id=${libro.idLibro})}">
+                    <button>Consultar</button>
+                </a>
             </td>
         </tr>
     </tbody>

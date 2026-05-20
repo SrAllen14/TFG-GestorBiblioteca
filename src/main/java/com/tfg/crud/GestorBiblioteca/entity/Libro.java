@@ -11,7 +11,11 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Pattern;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -35,25 +39,36 @@ public class Libro {
     @Enumerated(EnumType.STRING)
     private Genero genero;
     
+    @Column(name = "ISBN", unique = true)
+    @Pattern(regexp = "\\d{13}", message = "El ISBN debe tener 13 dígitos numéricos")
+    private String isbn;
+    
     @Column(name = "Activo")
     private boolean activo;
+    
+    @OneToMany(mappedBy = "libro")
+    private List<Ejemplar> ejemplares;
     
     public Libro() {
     }
 
-    public Libro(String titulo, String autor, Genero genero, boolean activo) {
+    public Libro(String titulo, String autor, Genero genero, String isbn, boolean activo) {
         this.titulo = titulo;
         this.autor = autor;
         this.genero = genero;
+        this.isbn = isbn;
         this.activo = activo;
+        this.ejemplares = new ArrayList<>();
     }
 
-    public Libro(long idLibro, String titulo, String autor, Genero genero, boolean activo) {
+    public Libro(long idLibro, String titulo, String autor, Genero genero, String isbn, boolean activo) {
         this.idLibro = idLibro;
         this.titulo = titulo;
         this.autor = autor;
         this.genero = genero;
+        this.isbn = isbn;
         this.activo = activo;
+        this.ejemplares = new ArrayList<>();
     }
 
     public long getIdLibro() {
@@ -94,6 +109,22 @@ public class Libro {
 
     public void setActivo(boolean activo) {
         this.activo = activo;
+    }
+
+    public List<Ejemplar> getEjemplares() {
+        return ejemplares;
+    }
+
+    public void setEjemplares(List<Ejemplar> ejemplares) {
+        this.ejemplares = ejemplares;
+    }
+
+    public String getIsbn() {
+        return isbn;
+    }
+
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
     }
     
     @Override

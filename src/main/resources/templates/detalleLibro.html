@@ -3,13 +3,48 @@
 Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
 Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
 -->
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
   <head>
-    <title>TODO supply a title</title>
+    <title>Detalle de Libro</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
   <body>
-      <div>TODO write content</div>
+      <div>Información del libro</div>
+      <div class="box">
+          <div>
+              <h1 th:text="${libro.titulo}"></h1>
+          </div>
+          <div>
+              <h1 th:text="${libro.autor}"></h1>
+          </div>
+          <div>
+              <h1 th:text="${libro.genero}"></h1>
+          </div>
+      </div>
+      <div>
+          <a th:href="@{/ejemplar/{idLibro}/registro(idLibro=${libro.idLibro})}">
+              <button>Registrar ejemplar</button>
+          </a>
+      </div>
+      <div class="box">
+          <table>
+              <thead>
+                  <tr>
+                      <th>Id</th>
+                      <th>Código</th>
+                      <th>Editorial</th>
+                      <th>Acciones</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr th:each="ejemplar : ${ejemplares}">
+                      <td th:text="${ejemplar.idEjemplar}"></td>
+                      <td th:text="${ejemplar.codigo}"></td>
+                      <td th:text="${ejemplar.editorial}"></td>
+                  </tr>
+              </tbody>
+          </table>
+      </div>
   </body>
 </html>

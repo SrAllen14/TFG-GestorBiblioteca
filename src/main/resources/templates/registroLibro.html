@@ -3,7 +3,7 @@
 Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
 Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
 -->
-<html>
+<html xmlns:th="http://www.thymeleaf.es">
   <head>
     <title>Registro Libro</title>
     <meta charset="UTF-8">
@@ -48,6 +48,14 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                   <option value="POESIA">Poesía</option>
                   <option value="TEATRO">Teatro</option>
               </select>
+          </div>
+          
+          <div>
+              <label for="isbn">ISBN</label>
+              <input type="text" 
+                     id="isbn"
+                     th:field="*{isbn}" 
+                     required>
           </div>
           
           <div th:if="${error}">
