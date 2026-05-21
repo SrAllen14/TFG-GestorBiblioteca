@@ -32,7 +32,10 @@ public class PrestamoServiceImp implements PrestamoService{
     private EjemplarService ejemplarService;
     
     @Override
-    public Prestamo registrarPretamo(PrestamoDTO prestamoDTO) {
+    public Prestamo registrarPrestamo(PrestamoDTO prestamoDTO) {
+        LocalDate fechaInicio = LocalDate.now();
+        LocalDate fechaFin = sumarDiasHabiles(fechaInicio);
+        
         Prestamo prestamo = new Prestamo();
         Usuario usuario = usuarioService.buscarUsuarioPorId(prestamoDTO.getIdUsuario());
         Ejemplar ejemplar = ejemplarService.buscarEjemplarPorId(prestamoDTO.getIdEjemplar());
@@ -40,8 +43,8 @@ public class PrestamoServiceImp implements PrestamoService{
         prestamo.setUsuario(usuario);
         prestamo.setEjemplar(ejemplar);
         
-        prestamo.setFechaInicio(prestamoDTO.getFechaInicio());
-        prestamo.setFechaFin(prestamoDTO.getFechaFin());
+        prestamo.setFechaInicio(fechaInicio);
+        prestamo.setFechaFin(fechaFin);
         prestamo.setFechaDevolucion(null);
         
         prestamoRepository.save(prestamo);
@@ -50,9 +53,12 @@ public class PrestamoServiceImp implements PrestamoService{
     }
 
     @Override
-    public List<Prestamo> listarPrestamos() {
+    public List<Prestamo> listarPrestamosPorCodigo(String codigo) {
+        if(codigo == null || codigo.isBlank()){
+            codigo = "";
+        }
         
-        return prestamoRepository.findAll();
+        return prestamoRepository.findByEjemplarCodigoContainingIgnoreCase(codigo);
     }
 
     @Override
@@ -76,6 +82,26 @@ public class PrestamoServiceImp implements PrestamoService{
     @Override
     public void reabrirPrestamo(Long idPrestamo) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public LocalDate sumarDiasHabiles(LocalDate fechaInicio) {
+
+        LocalDate fechaFin = fechaInicio;
+        int contador = 0;
+        
+        while(contador < 5){
+            fechaFin = fechaFin.plusDays(1);
+            switch (fechaFin.getDayOfWeek()){
+                case SATURDAY:
+                    break;
+                case SUNDAY:
+                    break;
+                default: contador++;
+            }
+        }
+        
+        return fechaFin;
     }
     
 }

@@ -48,14 +48,29 @@
     <a th:href="@{/prestamo/registro}" class="boton">
         Registrar Prestamo
     </a>
+    
+    <br>
+    <br>
+    <form th:action="@{/prestamo}"
+          method="get">
+        <input type="text"
+               name="codigo"
+               placeholder="Buscar codigo"
+               th:value="${codigoBuscado}">
+
+        <button type="submit">
+            Buscar
+        </button>
+    </form>
     <table>
 
         <thead>
             <tr>
                 <th>ID</th>
                 <th>Usuario</th>
-                <th>Ejemplar</th>
-                <th>Fecha préstamo</th>
+                <th>Libro</th>
+                <th>Fecha Inicio</th>
+                <th>Fecha Fin</th>
                 <th>Fecha devolución</th>
                 <th>Estado</th>
             </tr>
@@ -69,22 +84,16 @@
 
                 <td th:text="${prestamo.usuario.nombre}"></td>
 
-                <td th:text="${prestamo.ejemplar.codigo}"></td>
+                <td th:text="${prestamo.ejemplar.libro.titulo} + ' - ' + ${prestamo.ejemplar.libro.editorial}"></td>
 
-                <td th:text="${prestamo.fechaPrestamo}"></td>
+                <td th:text="${prestamo.fechaInicio}"></td>
+                
+                <td th:text="${prestamo.fechaFin}"></td>
 
                 <td th:text="${prestamo.fechaDevolucion}"></td>
 
-                <td>
-                    <span th:if="${prestamo.devuelto}">
-                        Devuelto
-                    </span>
-
-                    <span th:unless="${prestamo.devuelto}">
-                        Prestado
-                    </span>
-                </td>
-
+                <td th:text="${prestamo.fechaDevolucion} == null ? Activo : Devuelto"></td>
+                
             </tr>
 
         </tbody>

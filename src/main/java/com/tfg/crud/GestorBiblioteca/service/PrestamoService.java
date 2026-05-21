@@ -18,10 +18,11 @@ import org.springframework.stereotype.Service;
 @Service
 public interface PrestamoService{
     
-    public Prestamo registrarPretamo(PrestamoDTO prestamoDTO);
-    public List<Prestamo> listarPrestamos();
+    public Prestamo registrarPrestamo(PrestamoDTO prestamoDTO);
+    public List<Prestamo> listarPrestamosPorCodigo(String codigo);
     public Prestamo buscarPrestamoPorId(Long idPrestamo);
     public Prestamo editarPrestamo(PrestamoDTO prestamoDTO);
     public void finalizarPrestamo(LocalDate fechaDevolucion, Long idPrestamo);
     public void reabrirPrestamo(Long idPrestamo);
+    public LocalDate sumarDiasHabiles(LocalDate FechaInicio);
 }

@@ -12,6 +12,7 @@ import java.time.LocalDate;
  */
 public class PrestamoDTO {
     
+    private Long idLibro;
     private Long idUsuario;
     private Long idEjemplar;
     private LocalDate fechaInicio;
@@ -20,11 +21,20 @@ public class PrestamoDTO {
     public PrestamoDTO() {
     }
 
-    public PrestamoDTO(Long idUsuario, Long idEjemplar, LocalDate fechaInicio, LocalDate fechaFin, LocalDate fechaDevolucion) {
+    public PrestamoDTO(Long idLibro, Long idUsuario, Long idEjemplar, LocalDate fechaInicio, LocalDate fechaFin) {
+        this.idLibro = idLibro;
         this.idUsuario = idUsuario;
         this.idEjemplar = idEjemplar;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
+    }
+
+    public Long getIdLibro() {
+        return idLibro;
+    }
+
+    public void setIdLibro(Long idLibro) {
+        this.idLibro = idLibro;
     }
 
     public Long getIdUsuario() {
@@ -39,7 +49,7 @@ public class PrestamoDTO {
         return idEjemplar;
     }
 
-    public void setIdEjemplar(String IdEjemplar) {
+    public void setIdEjemplar(Long idEjemplar) {
         this.idEjemplar = idEjemplar;
     }
 

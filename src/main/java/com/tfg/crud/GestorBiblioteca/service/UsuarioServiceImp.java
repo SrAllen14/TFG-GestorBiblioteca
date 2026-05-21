@@ -140,6 +140,6 @@ public class UsuarioServiceImp implements UsuarioService{
         
         List<Usuario> usuarios =  usuarioRepository.findByActivoTrueAndTipoInAndNombreContainingIgnoreCase(rolesPermitidos, filtroNombre);
         
-        return usuarios; //.stream().filter(usuario -> usuario.getPrestamos().stream().filter(p -> p.getFechaDevolucion() == null).count() < 5).toList();
+        return usuarios.stream().filter(usuario -> usuario.getPrestamos().stream().filter(p -> p.getFechaDevolucion() == null).count() < 5).toList();
     }
 }

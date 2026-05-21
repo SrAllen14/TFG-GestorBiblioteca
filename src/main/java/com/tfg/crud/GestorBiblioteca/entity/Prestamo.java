@@ -25,7 +25,7 @@ public class Prestamo {
     
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
-    private Long idPretamo;
+    private Long idPrestamo;
     
     @Column(name = "FechaInicio")
     private LocalDate fechaInicio;
@@ -55,8 +55,8 @@ public class Prestamo {
         this.ejemplar = ejemplar;
     }
 
-    public Prestamo(Long idPretamo, LocalDate fechaInicio, LocalDate fechaFin, LocalDate fechaDevolucion, Usuario usuario, Ejemplar ejemplar) {
-        this.idPretamo = idPretamo;
+    public Prestamo(Long idPrestamo, LocalDate fechaInicio, LocalDate fechaFin, LocalDate fechaDevolucion, Usuario usuario, Ejemplar ejemplar) {
+        this.idPrestamo = idPrestamo;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
         this.fechaDevolucion = fechaDevolucion;
@@ -64,12 +64,12 @@ public class Prestamo {
         this.ejemplar = ejemplar;
     }
 
-    public Long getIdPretamo() {
-        return idPretamo;
+    public Long getIdPrestamo() {
+        return idPrestamo;
     }
 
-    public void setIdPretamo(Long idPretamo) {
-        this.idPretamo = idPretamo;
+    public void setIdPrestamo(Long idPrestamo) {
+        this.idPrestamo = idPrestamo;
     }
 
     public LocalDate getFechaInicio() {
@@ -114,6 +114,6 @@ public class Prestamo {
 
     @Override
     public String toString() {
-        return "Prestamo{" + "idPretamo=" + idPretamo + ", fechaPrestamo=" + fechaInicio + ", fechaFin=" + fechaFin + ", fechaDevolucion=" + fechaDevolucion + ", usuario=" + usuario + ", ejemplar=" + ejemplar + '}';
+        return "Prestamo{" + "idPrestamo=" + idPrestamo + ", fechaPrestamo=" + fechaInicio + ", fechaFin=" + fechaFin + ", fechaDevolucion=" + fechaDevolucion + ", usuario=" + usuario + ", ejemplar=" + ejemplar + '}';
     }
 }

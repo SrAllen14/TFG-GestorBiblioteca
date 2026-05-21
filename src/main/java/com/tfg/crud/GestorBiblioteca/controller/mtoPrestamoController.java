@@ -10,6 +10,9 @@ import com.tfg.crud.GestorBiblioteca.service.EjemplarService;
 import com.tfg.crud.GestorBiblioteca.service.LibroService;
 import com.tfg.crud.GestorBiblioteca.service.PrestamoService;
 import com.tfg.crud.GestorBiblioteca.service.UsuarioService;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAmount;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -43,18 +46,38 @@ public class mtoPrestamoController {
     private EjemplarService ejemplarService;
     
     @GetMapping
-    public String mostrarPrestamos(Model modelo){
-        modelo.addAttribute("prestamos", prestamoService.listarPrestamos());
+    public String mostrarPrestamos(Model modelo, @RequestParam(required = false) String codigo){
+        
+        modelo.addAttribute("prestamos", prestamoService.listarPrestamosPorCodigo(codigo));
         
         return "mtoPrestamos";
     }
     
     @GetMapping("/registro")
-    public String mostrarRegistroPrestamo(Model modelo, @RequestParam(required = false) String nombre, @RequestParam(required = false) String isbn){
+    public String mostrarRegistroPrestamo(Model modelo, @RequestParam(required = false) String nombre, @RequestParam(required = false) String isbn, @RequestParam(required = false) Long idLibro, @RequestParam(required = false) Long idEjemplar, @RequestParam(required = false) Long idUsuario){
         
-        modelo.addAttribute("prestamoDTO", new PrestamoDTO());
-        modelo.addAttribute("usuariosDisponibles", usuarioService.buscarUsuariosDisponibles(nombre));
+        LocalDate fechaInicio = LocalDate.now();
+        LocalDate fechaFin = prestamoService.sumarDiasHabiles(fechaInicio);
+        
+        PrestamoDTO prestamoDTO = new PrestamoDTO();
+        
+        prestamoDTO.setIdLibro(idLibro);
+        prestamoDTO.setIdEjemplar(idEjemplar);
+        prestamoDTO.setIdUsuario(idUsuario);
+        prestamoDTO.setFechaInicio(fechaInicio);
+        prestamoDTO.setFechaFin(fechaFin);
+        
+        modelo.addAttribute("prestamoDTO", prestamoDTO);
+        
         modelo.addAttribute("librosDisponibles", libroService.listarLibrosDisponibles(isbn));
+        
+        if(idLibro != null){
+            modelo.addAttribute("ejemplaresDisponibles", ejemplarService.listarEjemplaresDisponibles(idLibro));
+        }
+        
+        if(idEjemplar != null){
+            modelo.addAttribute("usuariosDisponibles", usuarioService.buscarUsuariosDisponibles(nombre));
+        }
         
         modelo.addAttribute("nombreBuscado", nombre);
         modelo.addAttribute("isbnBuscado", isbn);
@@ -66,7 +89,7 @@ public class mtoPrestamoController {
     public String registrarPrestamo(@ModelAttribute PrestamoDTO prestamoDTO, RedirectAttributes redirectAttributes){
     
         try{
-            prestamoService.registrarPretamo(prestamoDTO);
+            prestamoService.registrarPrestamo(prestamoDTO);
         } catch(RuntimeException re){
             redirectAttributes.addFlashAttribute("error", re.getMessage());
             return "redirect:/prestamo/registro";
