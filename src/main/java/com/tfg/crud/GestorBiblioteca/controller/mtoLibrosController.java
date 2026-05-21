@@ -38,6 +38,9 @@ public class mtoLibrosController {
     public String mostrarLibros(Model modelo) {
 
         modelo.addAttribute("libros", libroService.listarLibros());
+        modelo.addAttribute("librosDisponibles", libroService.listarLibrosDisponibles(null));
+        modelo.addAttribute("ejemplaresDisponibles", ejemplarService.listarEjemplaresDisponibles(Long.valueOf("4")));
+        
         return "mtoLibros";
     }
 

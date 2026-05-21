@@ -25,10 +25,10 @@ public class Prestamo {
     
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
-    private long idPretamo;
+    private Long idPretamo;
     
     @Column(name = "FechaInicio")
-    private LocalDate fechaPrestamo;
+    private LocalDate fechaInicio;
     
     @Column(name = "FechaFin")
     private LocalDate fechaFin;
@@ -47,37 +47,37 @@ public class Prestamo {
     public Prestamo() {
     }
 
-    public Prestamo(LocalDate fechaPrestamo, LocalDate fechaFin, LocalDate fechaDevolucion, Usuario usuario, Ejemplar ejemplar) {
-        this.fechaPrestamo = fechaPrestamo;
+    public Prestamo(LocalDate fechaInicio, LocalDate fechaFin, LocalDate fechaDevolucion, Usuario usuario, Ejemplar ejemplar) {
+        this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
         this.fechaDevolucion = fechaDevolucion;
         this.usuario = usuario;
         this.ejemplar = ejemplar;
     }
 
-    public Prestamo(long idPretamo, LocalDate fechaPrestamo, LocalDate fechaFin, LocalDate fechaDevolucion, Usuario usuario, Ejemplar ejemplar) {
+    public Prestamo(Long idPretamo, LocalDate fechaInicio, LocalDate fechaFin, LocalDate fechaDevolucion, Usuario usuario, Ejemplar ejemplar) {
         this.idPretamo = idPretamo;
-        this.fechaPrestamo = fechaPrestamo;
+        this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
         this.fechaDevolucion = fechaDevolucion;
         this.usuario = usuario;
         this.ejemplar = ejemplar;
     }
 
-    public long getIdPretamo() {
+    public Long getIdPretamo() {
         return idPretamo;
     }
 
-    public void setIdPretamo(long idPretamo) {
+    public void setIdPretamo(Long idPretamo) {
         this.idPretamo = idPretamo;
     }
 
-    public LocalDate getFechaPrestamo() {
-        return fechaPrestamo;
+    public LocalDate getFechaInicio() {
+        return fechaInicio;
     }
 
-    public void setFechaPrestamo(LocalDate fechaPrestamo) {
-        this.fechaPrestamo = fechaPrestamo;
+    public void setFechaInicio(LocalDate fechaInicio) {
+        this.fechaInicio = fechaInicio;
     }
 
     public LocalDate getFechaFin() {
@@ -114,6 +114,6 @@ public class Prestamo {
 
     @Override
     public String toString() {
-        return "Prestamo{" + "idPretamo=" + idPretamo + ", fechaPrestamo=" + fechaPrestamo + ", fechaFin=" + fechaFin + ", fechaDevolucion=" + fechaDevolucion + ", usuario=" + usuario + ", ejemplar=" + ejemplar + '}';
+        return "Prestamo{" + "idPretamo=" + idPretamo + ", fechaPrestamo=" + fechaInicio + ", fechaFin=" + fechaFin + ", fechaDevolucion=" + fechaDevolucion + ", usuario=" + usuario + ", ejemplar=" + ejemplar + '}';
     }
 }

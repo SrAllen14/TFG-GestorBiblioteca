@@ -11,7 +11,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -24,7 +27,7 @@ public class Ejemplar {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long idEjemplar;
+    private Long idEjemplar;
     
     @Column(name = "Codigo")
     private String codigo;
@@ -36,6 +39,9 @@ public class Ejemplar {
     @Column(name = "Activo")
     private boolean activo;
     
+    @OneToMany(mappedBy = "ejemplar")
+    private List<Prestamo> prestamos;
+    
     public Ejemplar() {
     }
 
@@ -43,20 +49,22 @@ public class Ejemplar {
         this.codigo = codigo;
         this.libro = libro;
         this.activo = activo;
+        this.prestamos = new ArrayList<>();
     }
 
-    public Ejemplar(long idEjemplar, String codigo, String editorial, Libro libro, boolean activo) {
+    public Ejemplar(Long idEjemplar, String codigo, String editorial, Libro libro, boolean activo) {
         this.idEjemplar = idEjemplar;
         this.codigo = codigo;
         this.libro = libro;
         this.activo = activo;
+        this.prestamos = new ArrayList<>();
     }
 
-    public long getIdEjemplar() {
+    public Long getIdEjemplar() {
         return idEjemplar;
     }
 
-    public void setIdEjemplar(long idEjemplar) {
+    public void setIdEjemplar(Long idEjemplar) {
         this.idEjemplar = idEjemplar;
     }
 
@@ -82,6 +90,14 @@ public class Ejemplar {
 
     public void setActivo(boolean activo) {
         this.activo = activo;
+    }
+
+    public List<Prestamo> getPrestamos() {
+        return prestamos;
+    }
+
+    public void setPrestamos(List<Prestamo> prestamos) {
+        this.prestamos = prestamos;
     }
 
     @Override

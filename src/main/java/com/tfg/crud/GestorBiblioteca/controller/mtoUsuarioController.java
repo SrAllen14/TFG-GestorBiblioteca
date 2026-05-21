@@ -32,7 +32,7 @@ public class mtoUsuarioController {
     public String mostrarMtoUsuario(Model modelo){
     
         modelo.addAttribute("usuarios", usuarioService.listarUsuarios());
-        
+        modelo.addAttribute("usuariosDisponibles", usuarioService.buscarUsuariosDisponibles(null));
         return "mtoUsuarios";
     }
     
@@ -58,19 +58,29 @@ public class mtoUsuarioController {
         
     }
     
-    @GetMapping("/editar/{id}")
-    public String mostrarEditarUsuario(Model modelo, @PathVariable Long id){
+    @GetMapping("/editar/{idUsuario}")
+    public String mostrarEditarUsuario(Model modelo, @PathVariable Long idUsuario){
         
-        Usuario usuario = usuarioService.buscarUsuarioPorId(id);
-        modelo.addAttribute("usuario", usuario);
+        Usuario usuario = usuarioService.buscarUsuarioPorId(idUsuario);
+        
+        UsuarioDTO usuarioDTO = new UsuarioDTO();
+        
+        usuarioDTO.setNombre(usuario.getNombre());
+        usuarioDTO.setApellido1(usuario.getApellido1());
+        usuarioDTO.setApellido2(usuario.getApellido2());
+        usuarioDTO.setRol(usuario.getRol());
+        usuarioDTO.setUsername(usuario.getUsername());
+        
+        modelo.addAttribute("usuarioDTO", usuarioDTO);
+        modelo.addAttribute("idUsuario", idUsuario);
         
         return "edicionUsuario";
     }
     
-    @PostMapping("/editar/{id}")
-    public String editarUsuario(@PathVariable Long id, @ModelAttribute Usuario usuario){
+    @PostMapping("/editar/{idUsuario}")
+    public String editarUsuario(@PathVariable Long idUsuario, @ModelAttribute UsuarioDTO usuarioDTO){
         
-        usuarioService.editarUsuario(id, usuario);
+        usuarioService.editarUsuario(idUsuario, usuarioDTO);
         return "redirect:/usuario";
     }
     

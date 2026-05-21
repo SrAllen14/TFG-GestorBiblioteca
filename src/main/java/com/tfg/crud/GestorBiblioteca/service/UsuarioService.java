@@ -18,6 +18,7 @@ public interface UsuarioService{
     public List<Usuario> listarUsuarios();
     public Usuario buscarUsuarioPorNombre(String nombre);
     public Usuario buscarUsuarioPorId(Long id);
-    public Usuario editarUsuario(Long id, Usuario usuarioEditado);
+    public List<Usuario> buscarUsuariosDisponibles(String filtroNombre);
+    public Usuario editarUsuario(Long id, UsuarioDTO usuarioEditadoDTO);
     public void modificarEstadoUsuario(Long id);
 }

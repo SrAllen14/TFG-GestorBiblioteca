@@ -11,7 +11,10 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -24,7 +27,7 @@ public class Usuario {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long idUsuario;
+    private Long idUsuario;
     
     @Column(name = "Nombre")
     private String nombre;
@@ -47,6 +50,9 @@ public class Usuario {
     
     private boolean activo;
 
+    @OneToMany(mappedBy = "usuario")
+    private List<Prestamo> prestamos;
+    
     public Usuario() {
     }
 
@@ -56,6 +62,7 @@ public class Usuario {
         this.apellido2 = apellido2;
         this.tipo = tipo;
         this.activo = activo;
+        this.prestamos = new ArrayList<>();
     }
 
     public Usuario(String nombre, String apellido1, String apellido2, String username, String password, Rol tipo, boolean activo) {
@@ -66,9 +73,10 @@ public class Usuario {
         this.password = password;
         this.tipo = tipo;
         this.activo = activo;
+        this.prestamos = new ArrayList<>();
     }
 
-    public Usuario(long idUsuario, String nombre, String apellido1, String apellido2, String password, Rol tipo, boolean activo) {
+    public Usuario(Long idUsuario, String nombre, String apellido1, String apellido2, String password, Rol tipo, boolean activo) {
         this.idUsuario = idUsuario;
         this.nombre = nombre;
         this.apellido1 = apellido1;
@@ -76,13 +84,14 @@ public class Usuario {
         this.password = password;
         this.tipo = tipo;
         this.activo = activo;
+        this.prestamos = new ArrayList<>();
     }
 
-    public long getIdUsuario() {
+    public Long getIdUsuario() {
         return idUsuario;
     }
 
-    public void setIdUsuario(long idUsuario) {
+    public void setIdUsuario(Long idUsuario) {
         this.idUsuario = idUsuario;
     }
 
@@ -140,6 +149,14 @@ public class Usuario {
 
     public void setActivo(boolean activo) {
         this.activo = activo;
+    }
+
+    public List<Prestamo> getPrestamos() {
+        return prestamos;
+    }
+
+    public void setPrestamos(List<Prestamo> prestamos) {
+        this.prestamos = prestamos;
     }
 
     @Override

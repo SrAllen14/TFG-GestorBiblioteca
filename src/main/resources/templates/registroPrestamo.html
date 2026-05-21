@@ -3,13 +3,43 @@
 Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
 Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
 -->
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
   <head>
-    <title>TODO supply a title</title>
+    <title>Registrar Usuario</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
   <body>
-      <div>TODO write content</div>
+      <form th:action="@{/prestamo/registro}" 
+            method="get">
+
+          <div>
+              <label for="nombre">Nombre</label>
+              <input type="text" 
+                     name="nombre"
+                     th:value="${nombreBuscado}">
+          </div>
+          <div>
+              <label for="nombre">Isbn</label>
+              <input type="text" 
+                     th:value="${isbnBuscado}"
+                     name="isbn">
+          </div>
+          <div>
+              <button type="submit">
+                  Buscar
+              </button>
+          </div>
+
+      </form>
+      <div th:each="usuario : ${usuariosDisponibles}">
+        <p th:text="${usuario.nombre}"></p>
+    </div>
+      <div th:each="libro : ${librosDisponibles}">
+        <p th:text="${libro.titulo}"></p>
+    </div>
+      <a th:href="@{/prestamo}">
+        <button>Salir</button>
+    </a>
   </body>
 </html>

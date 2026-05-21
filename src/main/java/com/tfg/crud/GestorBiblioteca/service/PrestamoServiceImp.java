@@ -5,7 +5,9 @@
 package com.tfg.crud.GestorBiblioteca.service;
 
 import com.tfg.crud.GestorBiblioteca.dto.PrestamoDTO;
+import com.tfg.crud.GestorBiblioteca.entity.Ejemplar;
 import com.tfg.crud.GestorBiblioteca.entity.Prestamo;
+import com.tfg.crud.GestorBiblioteca.entity.Usuario;
 import com.tfg.crud.GestorBiblioteca.repository.PrestamoRepository;
 import java.time.LocalDate;
 import java.util.List;
@@ -22,10 +24,27 @@ public class PrestamoServiceImp implements PrestamoService{
     
     @Autowired
     private PrestamoRepository prestamoRepository;
-
+    
+    @Autowired
+    private UsuarioService usuarioService;
+    
+    @Autowired
+    private EjemplarService ejemplarService;
+    
     @Override
     public Prestamo registrarPretamo(PrestamoDTO prestamoDTO) {
         Prestamo prestamo = new Prestamo();
+        Usuario usuario = usuarioService.buscarUsuarioPorId(prestamoDTO.getIdUsuario());
+        Ejemplar ejemplar = ejemplarService.buscarEjemplarPorId(prestamoDTO.getIdEjemplar());
+        
+        prestamo.setUsuario(usuario);
+        prestamo.setEjemplar(ejemplar);
+        
+        prestamo.setFechaInicio(prestamoDTO.getFechaInicio());
+        prestamo.setFechaFin(prestamoDTO.getFechaFin());
+        prestamo.setFechaDevolucion(null);
+        
+        prestamoRepository.save(prestamo);
         
         return prestamo;
     }

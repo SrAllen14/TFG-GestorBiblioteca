@@ -30,7 +30,7 @@ public class EjemplarServiceImp implements EjemplarService{
         
         Libro libro = libroService.buscarLibroPorId(idLibro);
         
-        long numeroEjemplar = ejemplarRepository.countByLibroIdLibro(idLibro) + 1;
+        Long numeroEjemplar = ejemplarRepository.countByLibroIdLibro(idLibro) + 1;
         
         String codigo = libro.getIsbn() + "-" + numeroEjemplar;
         
@@ -70,5 +70,13 @@ public class EjemplarServiceImp implements EjemplarService{
     public List<Ejemplar> listarEjemplaresPorLibro(Long id) {
 
         return ejemplarRepository.findByLibroIdLibro(id);
+    }
+
+    @Override
+    public List<Ejemplar> listarEjemplaresDisponibles(Long idLibro) {
+        
+        List<Ejemplar> ejemplares = ejemplarRepository.findByLibroIdLibroAndActivoTrue(idLibro);
+        
+        return ejemplares.stream().filter(e -> e.getPrestamos().stream().noneMatch((p -> p.getFechaDevolucion() == null))).toList();
     }
 }

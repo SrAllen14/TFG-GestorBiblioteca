@@ -12,7 +12,6 @@ import com.tfg.crud.GestorBiblioteca.entity.Rol;
  */
 public class UsuarioDTO {
     
-    private Long idUsuario;
     private String nombre;
     private String apellido1;
     private String apellido2;
@@ -30,24 +29,6 @@ public class UsuarioDTO {
         this.rol = rol;
         this.username = username;
         this.password = password;
-    }
-
-    public UsuarioDTO(Long idUsuario, String nombre, String apellido1, String apellido2, Rol rol, String username, String password) {
-        this.idUsuario = idUsuario;
-        this.nombre = nombre;
-        this.apellido1 = apellido1;
-        this.apellido2 = apellido2;
-        this.rol = rol;
-        this.username = username;
-        this.password = password;
-    }
-
-    public Long getIdUsuario() {
-        return idUsuario;
-    }
-
-    public void setIdUsuario(Long idUsuario) {
-        this.idUsuario = idUsuario;
     }
 
     public String getNombre() {

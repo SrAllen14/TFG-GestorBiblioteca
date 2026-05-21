@@ -27,7 +27,7 @@ public class Libro {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long idLibro;
+    private Long idLibro;
     
     @Column(name = "Titulo")
     private String titulo;
@@ -65,7 +65,7 @@ public class Libro {
         this.ejemplares = new ArrayList<>();
     }
 
-    public Libro(long idLibro, String titulo, String autor, Genero genero, String editorial, String isbn, boolean activo) {
+    public Libro(Long idLibro, String titulo, String autor, Genero genero, String editorial, String isbn, boolean activo) {
         this.idLibro = idLibro;
         this.titulo = titulo;
         this.autor = autor;
@@ -76,11 +76,11 @@ public class Libro {
         this.ejemplares = new ArrayList<>();
     }
 
-    public long getIdLibro() {
+    public Long getIdLibro() {
         return idLibro;
     }
 
-    public void setIdLibro(long idLibro) {
+    public void setIdLibro(Long idLibro) {
         this.idLibro = idLibro;
     }
 

@@ -91,9 +91,13 @@
         </tr>
     </tbody>
 </table>
-
+<div th:each="libroDisponible : ${librosDisponibles}">
+    <p th:text="${libroDisponible.titulo}"></p>
+</div>
 <br>
-
+<div th:each="ejemplarDisponible : ${ejemplaresDisponibles}">
+    <p th:text="${ejemplarDisponible.codigo}"></p>
+</div>
 <a href="/">
     <button class="boton">🏠 Inicio</button>
 </a>

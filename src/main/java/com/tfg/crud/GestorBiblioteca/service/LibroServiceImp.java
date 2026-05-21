@@ -78,4 +78,16 @@ public class LibroServiceImp implements LibroService{
         
         libroRepository.save(libro);
     }
+
+    @Override
+    public List<Libro> listarLibrosDisponibles(String isbn) {
+        
+        if(isbn == null || isbn.isBlank()){
+            isbn = "";
+        }
+        
+        List <Libro> libros = libroRepository.findByIsbnContainingAndActivoTrue(isbn);
+        
+        return libros.stream().filter(l ->!l.getEjemplares().isEmpty()).toList();
+    }
 }

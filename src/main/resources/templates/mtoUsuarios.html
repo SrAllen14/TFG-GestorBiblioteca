@@ -85,7 +85,9 @@
         </tr>
     </tbody>
 </table>
-
+<div th:each="usuarioDisponible : ${usuariosDisponibles}">
+    <p th:text="${usuarioDisponible.nombre}"></p>
+</div>
 <br>
 
 <a href="/">

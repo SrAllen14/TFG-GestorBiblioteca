@@ -104,21 +104,21 @@ public class UsuarioServiceImp implements UsuarioService{
     }
 
     @Override
-    public Usuario editarUsuario(Long id, Usuario usuarioEditado) {
+    public Usuario editarUsuario(Long idUsuario, UsuarioDTO usuarioEditadoDTO) {
         
-        Usuario usuario = buscarUsuarioPorId(id);
+        Usuario usuario = buscarUsuarioPorId(idUsuario);
         
-        usuario.setNombre(usuarioEditado.getNombre());
-        usuario.setApellido1(usuarioEditado.getApellido1());
-        usuario.setApellido2(usuarioEditado.getApellido2());
-        usuario.setRol(usuarioEditado.getRol());
+        usuario.setNombre(usuarioEditadoDTO.getNombre());
+        usuario.setApellido1(usuarioEditadoDTO.getApellido1());
+        usuario.setApellido2(usuarioEditadoDTO.getApellido2());
+        usuario.setRol(usuarioEditadoDTO.getRol());
         
-        if(usuarioEditado.getRol() == Rol.ROLE_ADMINISTRADOR || usuarioEditado.getRol() == Rol.ROLE_BIBLIOTECARIO){
+        if(usuarioEditadoDTO.getRol() == Rol.ROLE_ADMINISTRADOR || usuarioEditadoDTO.getRol() == Rol.ROLE_BIBLIOTECARIO){
         
-            usuario.setUsername(usuarioEditado.getUsername());
+            usuario.setUsername(usuarioEditadoDTO.getUsername());
             
-            if(usuarioEditado.getPassword() != null && usuarioEditado.getPassword().isBlank()){
-                usuario.setPassword(passwordEncoder.encode(usuarioEditado.getPassword()));
+            if(usuarioEditadoDTO.getPassword() != null && usuarioEditadoDTO.getPassword().isBlank()){
+                usuario.setPassword(passwordEncoder.encode(usuarioEditadoDTO.getPassword()));
             }
         } else{
             usuario.setUsername(null);
@@ -127,5 +127,19 @@ public class UsuarioServiceImp implements UsuarioService{
         
         return usuarioRepository.save(usuario);
 
+    }
+
+    @Override
+    public List<Usuario> buscarUsuariosDisponibles(String filtroNombre) {
+
+        if(filtroNombre == null || filtroNombre.isBlank()){
+            filtroNombre = "";
+        }
+        
+        List<Rol> rolesPermitidos = List.of(Rol.ROLE_ALUMNO, Rol.ROLE_PROFESOR);
+        
+        List<Usuario> usuarios =  usuarioRepository.findByActivoTrueAndTipoInAndNombreContainingIgnoreCase(rolesPermitidos, filtroNombre);
+        
+        return usuarios; //.stream().filter(usuario -> usuario.getPrestamos().stream().filter(p -> p.getFechaDevolucion() == null).count() < 5).toList();
     }
 }

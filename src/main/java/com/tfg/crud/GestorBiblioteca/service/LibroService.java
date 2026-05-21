@@ -17,6 +17,7 @@ public interface LibroService{
     public List<Libro> listarLibros();
     public Libro buscarLibroPorTitulo(String titulo);
     public Libro buscarLibroPorId(Long id);
+    public List<Libro> listarLibrosDisponibles(String isbn);
     public Libro editarLibro(Long id, Libro libro);
     public void modificarEstadoLibro(Long id);
 }

@@ -10,8 +10,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
   <body>
-      <form th:action="@{/usuario/editar/{id}(id=${usuario.idUsuario})}"
-            th:object="${usuario}"
+      <form th:action="@{/usuario/editar/{idUsuario}(idUsuario=${idUsuario})}"
+            th:object="${usuarioDTO}"
             method="post">
 
           <!-- Nombre -->
