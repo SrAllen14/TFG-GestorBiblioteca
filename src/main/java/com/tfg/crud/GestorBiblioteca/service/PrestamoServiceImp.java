@@ -12,6 +12,8 @@ import com.tfg.crud.GestorBiblioteca.repository.PrestamoRepository;
 import java.time.LocalDate;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 /**
@@ -118,6 +120,12 @@ public class PrestamoServiceImp implements PrestamoService{
         }
         
         return fechaFin;
+    }
+
+    @Override
+    public Page<Prestamo> buscarPrestamos(String busqueda, Boolean activo, Pageable pageable) {
+        
+        return prestamoRepository.buscarPrestamos(busqueda, activo, pageable);
     }
     
 }
