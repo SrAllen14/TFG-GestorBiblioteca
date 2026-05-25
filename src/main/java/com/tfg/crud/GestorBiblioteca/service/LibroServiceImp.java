@@ -9,6 +9,8 @@ import com.tfg.crud.GestorBiblioteca.repository.LibroRepository;
 import com.tfg.crud.GestorBiblioteca.validation.IsbnValidator;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 /**
@@ -36,11 +38,6 @@ public class LibroServiceImp implements LibroService{
     @Override
     public List<Libro> listarLibros() {
         return libroRepository.findAll();
-    }
-
-    @Override
-    public Libro buscarLibroPorTitulo(String titulo) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
@@ -89,5 +86,13 @@ public class LibroServiceImp implements LibroService{
         List <Libro> libros = libroRepository.findByIsbnContainingAndActivoTrue(isbn);
         
         return libros.stream().filter(l ->!l.getEjemplares().isEmpty()).toList();
+    }
+
+    @Override
+    public Page<Libro> buscarLibros(String busqueda, Boolean activo, Pageable pageable) {
+        if(activo == null){
+            return libroRepository.buscarTodosLibros(busqueda, pageable);
+        }
+        return libroRepository.buscarLibros(busqueda, activo, pageable);
     }
 }

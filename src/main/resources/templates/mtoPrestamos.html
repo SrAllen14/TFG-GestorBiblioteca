@@ -73,6 +73,7 @@
                 <th>Fecha Fin</th>
                 <th>Fecha devolución</th>
                 <th>Estado</th>
+                <th colspan="2">Acciones</th>
             </tr>
         </thead>
 
@@ -93,6 +94,28 @@
                 <td th:text="${prestamo.fechaDevolucion}"></td>
 
                 <td th:text="${prestamo.fechaDevolucion} == null ? Activo : Devuelto"></td>
+                
+                <td>
+                    <a th:href="@{/prestamo/editar/{id}(id=${prestamo.idPrestamo})}">
+                        <button>Editar</button>
+                    </a>
+                </td>
+                <td>
+                    <form th:if="${prestamo.FechaDevolucion == null}" 
+                        th:action="@{/prestamo/finalizar/{idPrestamo}(idPrestamo=${prestamo.idPrestamo})}"
+                          method="post">
+                        <button type="submit"
+                                th:text="Finalizar">
+                        </button>
+                    </form>
+                    <form th:if="${prestamo.FechaDevolucion != null}"  
+                        th:action="@{/prestamo/reabrir/{idPrestamo}(idPrestamo=${prestamo.idPrestamo})}"
+                          method="post">
+                        <button type="submit"
+                                th:text="reabrir">
+                        </button>
+                    </form>
+                </td>
                 
             </tr>
 

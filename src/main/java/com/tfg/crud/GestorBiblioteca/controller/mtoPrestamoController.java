@@ -11,8 +11,6 @@ import com.tfg.crud.GestorBiblioteca.service.LibroService;
 import com.tfg.crud.GestorBiblioteca.service.PrestamoService;
 import com.tfg.crud.GestorBiblioteca.service.UsuarioService;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.TemporalAmount;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -98,12 +96,55 @@ public class mtoPrestamoController {
     }
     /*
     @GetMapping("/editar/{idPrestamo}")
-    public String mostrarEditarPrestamo(Model modelo, @PathVariable Long idPrestamo){
+    public String mostrarEditarPrestamo(Model modelo, @PathVariable Long idPrestamo, @RequestParam(required = false) String nombre, @RequestParam(required = false) String isbn, @RequestParam(required = false) Long idLibro, @RequestParam(required = false) Long idEjemplar, @RequestParam(required = false) Long idUsuario){
         Prestamo prestamo = prestamoService.buscarPrestamoPorId(idPrestamo);
         
         PrestamoDTO prestamoDTO = new PrestamoDTO();
         
+        prestamoDTO.setIdLibro(prestamo.getEjemplar().getLibro().getIdLibro());
+        prestamoDTO.setIdEjemplar(prestamo.getEjemplar().getIdEjemplar());
+        prestamoDTO.setIdUsuario(prestamo.getUsuario().getIdUsuario());
+        prestamoDTO.setFechaInicio(prestamo.getFechaInicio());
+        prestamoDTO.setFechaFin(prestamo.getFechaFin());
+        
+        
+        
+        modelo.addAttribute("librosDisponibles", libroService.listarLibrosDisponibles(prestamo.getEjemplar().getCodigo()));
+        
+        if(prestamo.getEjemplar().getLibro().getIdLibro() != null){
+            modelo.addAttribute("ejemplaresDisponibles", ejemplarService.listarEjemplaresDisponibles(prestamo.getEjemplar().getLibro().getIdLibro()));
+        }
+        
+        if(prestamo.getUsuario().getIdUsuario() != null){
+            modelo.addAttribute("usuariosDisponibles", usuarioService.buscarUsuariosDisponibles(prestamo.getUsuario().getNombre()));
+        }
+        modelo.addAttribute("prestamoDTO", prestamoDTO);
+        
         return "edicionPrestamo";
     }
-*/
+    
+    @PostMapping("/editar/{idPrestamo}")
+    public String editarPrestamo(@PathVariable Long idPrestamo, @ModelAttribute PrestamoDTO prestamoDTO){
+        
+        prestamoService.editarPrestamo(idPrestamo, prestamoDTO);
+        return "redirect:/prestamo";
+    }*/
+    
+    @PostMapping("/finalizar/{idPrestamo}")
+    public String modificarEstadoPrestamo(@PathVariable Long idPrestamo){
+        
+        LocalDate hoy = LocalDate.now();
+        
+        prestamoService.finalizarPrestamo(hoy, idPrestamo);
+        
+        return "redirect:/prestamo";
+    }
+    
+    @PostMapping("/reabrir/{idPrestamo}")
+    public String reabrirPrestamo(@PathVariable Long idPrestamo){
+    
+        prestamoService.reabrirPrestamo(idPrestamo);
+        
+        return "redirect:/prestamo";
+    }
 }

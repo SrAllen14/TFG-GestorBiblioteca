@@ -13,7 +13,7 @@
         table{
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
+            margin: 20px;
         }
 
         th, td{
@@ -29,6 +29,7 @@
         .boton{
             padding: 10px 15px;
             background-color: #2d89ef;
+            margin: 20px;
             color: white;
             text-decoration: none;
             border-radius: 5px;
@@ -45,8 +46,40 @@
 <a th:href="@{/libro/crear}">
     <button class="boton">➕ Nuevo libro</button>
 </a>
-
+<div></div>
+<a th:href="@{/libro/exportar}"
+   class="boton">
+    Exportar CSV
+</a>
+<br>
+<form method="post" action="/libro/importar" enctype="multipart/form-data">
+    <input type="file" name="archivo" accept=".csv" required>
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+    <button type="submit">Importar CSV</button>
+</form>
 <br><br>
+
+<form th:action="@{/libro}"
+      method="get">
+        <input type="text"
+               name="busqueda"
+               placeholder="Buscar..."
+               th:value="${busqueda}">
+        <select name="activo">
+            <option value="" th:selected="${activo == null}">
+                Todos
+            </option>
+            <option value="true" th:selected="${activo == 'true'}">
+                Activos
+            </option>
+            <option value="false" th:selected="${activo == 'false'}">
+                Inactivos
+            </option>
+        </select>
+        <button type="submit">
+            Buscar
+        </button>
+</form>
 
 <table border="1">
     <thead>
@@ -68,7 +101,7 @@
             <td th:text="${libro.autor}"></td>
             <td th:text="${libro.genero}"></td>
             <td th:text="${libro.editorial}"></td>
-            <td th:text="${libro.isbn}"</td>
+            <td th:text="${libro.isbn}"></td>
 
             <td>
                 <a th:href="@{/libro/editar/{id}(id=${libro.idLibro})}">
@@ -91,12 +124,28 @@
         </tr>
     </tbody>
 </table>
-<div th:each="libroDisponible : ${librosDisponibles}">
-    <p th:text="${libroDisponible.titulo}"></p>
-</div>
-<br>
-<div th:each="ejemplarDisponible : ${ejemplaresDisponibles}">
-    <p th:text="${ejemplarDisponible.codigo}"></p>
+<div>
+
+    <a class='boton'
+        th:if="${pagina.hasPrevious()}"
+       th:href="@{/libro(
+            page=${pagina.number - 1},
+            busqueda=${busqueda}
+       )}">
+        Anterior
+    </a>
+
+    <span th:text="${pagina.number + 1}"></span>
+
+    <a  class='boton'
+        th:if="${pagina.hasNext()}"
+       th:href="@{/libro(
+            page=${pagina.number + 1},
+            busqueda=${busqueda}
+       )}">
+        Siguiente
+    </a>
+
 </div>
 <a href="/">
     <button class="boton">🏠 Inicio</button>

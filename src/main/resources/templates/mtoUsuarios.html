@@ -46,6 +46,29 @@
 <a th:href="@{/usuario/crear}">
     <button class="boton">Registrar Usuario</button>
 </a>
+
+<form th:action="@{/libro}"
+      method="get">
+        <input type="text"
+               name="busqueda"
+               placeholder="Buscar..."
+               th:value="${busqueda}">
+        <select name="activo">
+            <option value="" th:selected="${activo == null}">
+                Todos
+            </option>
+            <option value="true" th:selected="${activo == 'true'}">
+                Activos
+            </option>
+            <option value="false" th:selected="${activo == 'false'}">
+                Inactivos
+            </option>
+        </select>
+        <button type="submit">
+            Buscar
+        </button>
+</form>
+
 <table border="1">
     <thead>
         <tr>

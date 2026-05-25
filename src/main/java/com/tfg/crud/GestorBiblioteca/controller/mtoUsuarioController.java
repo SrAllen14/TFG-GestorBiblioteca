@@ -8,6 +8,9 @@ import com.tfg.crud.GestorBiblioteca.dto.UsuarioDTO;
 import com.tfg.crud.GestorBiblioteca.entity.Usuario;
 import com.tfg.crud.GestorBiblioteca.service.UsuarioServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
@@ -29,10 +33,23 @@ public class mtoUsuarioController {
     private UsuarioServiceImp usuarioService;
     
     @GetMapping
-    public String mostrarMtoUsuario(Model modelo){
+    public String mostrarMtoUsuario(Model modelo, @RequestParam(required = false) String busqueda, @RequestParam(required = false) String activo, @PageableDefault(size = 5) Pageable pageable){
     
-        modelo.addAttribute("usuarios", usuarioService.listarUsuarios());
-        modelo.addAttribute("usuariosDisponibles", usuarioService.buscarUsuariosDisponibles(null));
+        Boolean activoFiltro = null;
+
+        if ("true".equalsIgnoreCase(activo)) {
+            activoFiltro = true;
+        } else if ("false".equalsIgnoreCase(activo)) {
+            activoFiltro = false;
+        }
+        
+        Page<Usuario> pagina = usuarioService.buscarUsuarios(busqueda, activoFiltro, pageable);
+        
+        modelo.addAttribute("pagina", pagina);
+        modelo.addAttribute("libros", pagina.getContent());
+        modelo.addAttribute("busqueda", busqueda);
+        modelo.addAttribute("activo", activo);
+        
         return "mtoUsuarios";
     }
     
@@ -84,10 +101,10 @@ public class mtoUsuarioController {
         return "redirect:/usuario";
     }
     
-    @PostMapping("/estado/{id}")
-    public String cambiarEstadoUsuario(@PathVariable Long id){
+    @PostMapping("/estado/{idUsuario}")
+    public String cambiarEstadoUsuario(@PathVariable Long idUsuario){
     
-        usuarioService.modificarEstadoUsuario(id);
+        usuarioService.modificarEstadoUsuario(idUsuario);
         return "redirect:/usuario";
     }
 }

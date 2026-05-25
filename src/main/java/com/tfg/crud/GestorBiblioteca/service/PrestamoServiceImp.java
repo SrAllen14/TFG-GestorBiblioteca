@@ -66,22 +66,38 @@ public class PrestamoServiceImp implements PrestamoService{
         
         return prestamoRepository.findById(idPrestamo).orElseThrow(() -> new RuntimeException("No se ha encontrado el prestamo"));
     }
-
+/*
     @Override
-    public Prestamo editarPrestamo(PrestamoDTO prestamoDTO) {
-        Prestamo prestamo = new Prestamo();
+    public Prestamo editarPrestamo(Long idPrestamo, PrestamoDTO prestamoDTO) {
+        Prestamo prestamo = buscarPrestamoPorId(idPrestamo);
+        Usuario usuario = usuarioService.buscarUsuarioPorId(prestamoDTO.getIdUsuario());
+        Ejemplar ejemplar = ejemplarService.buscarEjemplarPorId(prestamoDTO.getIdEjemplar());
         
-        return prestamo;
-    }
+        prestamo.setUsuario(usuario);
+        prestamo.setEjemplar(ejemplar);
+        prestamo.setFechaFin(prestamoDTO.getFechaFin());
+        
+        
+        
+        return prestamoRepository.save(prestamo);
+    }*/
 
     @Override
     public void finalizarPrestamo(LocalDate fechaDevolucion, Long idPrestamo) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Prestamo prestamo = buscarPrestamoPorId(idPrestamo);
+        
+        prestamo.setFechaDevolucion(fechaDevolucion);
+        
+        prestamoRepository.save(prestamo);
     }
 
     @Override
     public void reabrirPrestamo(Long idPrestamo) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Prestamo prestamo = buscarPrestamoPorId(idPrestamo);
+        
+        prestamo.setFechaDevolucion(null);
+        
+        prestamoRepository.save(prestamo);    
     }
 
     @Override

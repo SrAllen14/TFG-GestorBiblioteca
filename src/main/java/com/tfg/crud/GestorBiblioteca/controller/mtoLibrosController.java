@@ -5,12 +5,21 @@
 package com.tfg.crud.GestorBiblioteca.controller;
 
 import com.tfg.crud.GestorBiblioteca.entity.Ejemplar;
+import com.tfg.crud.GestorBiblioteca.entity.Genero;
 import com.tfg.crud.GestorBiblioteca.entity.Libro;
 import com.tfg.crud.GestorBiblioteca.service.EjemplarService;
 import com.tfg.crud.GestorBiblioteca.service.LibroService;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +27,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
@@ -35,11 +46,23 @@ public class mtoLibrosController {
     private EjemplarService ejemplarService;
 
     @GetMapping
-    public String mostrarLibros(Model modelo) {
+    public String mostrarLibros(Model modelo, @RequestParam(required = false) String busqueda, @RequestParam(required = false) String activo, @PageableDefault(size = 5) Pageable pageable) {
 
-        modelo.addAttribute("libros", libroService.listarLibros());
-        modelo.addAttribute("librosDisponibles", libroService.listarLibrosDisponibles(null));
-        modelo.addAttribute("ejemplaresDisponibles", ejemplarService.listarEjemplaresDisponibles(Long.valueOf("4")));
+        Boolean activoFiltro = null;
+
+        if ("true".equalsIgnoreCase(activo)) {
+            activoFiltro = true;
+        } else if ("false".equalsIgnoreCase(activo)) {
+            activoFiltro = false;
+        }
+
+        Page<Libro> pagina = libroService.buscarLibros(busqueda, activoFiltro, pageable);
+        
+        modelo.addAttribute("pagina", pagina);
+        modelo.addAttribute("libros", pagina.getContent());
+        modelo.addAttribute("busqueda", busqueda);
+        modelo.addAttribute("activo", activo);
+        
         
         return "mtoLibros";
     }
@@ -95,9 +118,55 @@ public class mtoLibrosController {
     }
 
     @PostMapping("/estado/{idLibro}")
-    public String cambiarEstadoUsuario(@PathVariable Long idLibro) {
+    public String cambiarEstadoLibro(@PathVariable Long idLibro) {
 
         libroService.modificarEstadoLibro(idLibro);
+        return "redirect:/libro";
+    }
+    
+    @GetMapping("/exportar")
+    public void exportarLibros(HttpServletResponse response) throws IOException{
+        
+        List<Libro> libros = libroService.listarLibros();
+        
+        response.setContentType("text/csv");
+        response.setHeader("Content-Disposition", "attachment; filename=libros.csv");
+        
+        PrintWriter writer = response.getWriter();
+        
+        writer.println("Titulo,Autor,ISBN,Genero,Editorial");
+        
+        for(Libro l : libros){
+            writer.println(l.getTitulo() + ',' + l.getAutor() + ',' + l.getIsbn() + ',' + l.getGenero() + ',' + l.getEditorial());
+        }
+        
+        writer.flush();
+        writer.close();
+    }
+    
+    @PostMapping("/importar")
+    public String importarLibros(@RequestParam("archivo") MultipartFile archivo) throws IOException{
+        
+        BufferedReader reader = new BufferedReader(new InputStreamReader(archivo.getInputStream()));
+        String line;
+        
+        reader.readLine();
+        
+        while((line=reader.readLine()) != null){
+            
+            String[] data = line.split(",");
+            
+            Libro libro = new Libro();
+            libro.setTitulo(data[0]);
+            libro.setAutor(data[1]);
+            libro.setIsbn(data[2]);
+            libro.setGenero(Genero.valueOf(data[3]));
+            libro.setEditorial(data[4]);
+            libro.setActivo(true);
+            
+            libroService.registarLibro(libro);
+        }
+        
         return "redirect:/libro";
     }
 }

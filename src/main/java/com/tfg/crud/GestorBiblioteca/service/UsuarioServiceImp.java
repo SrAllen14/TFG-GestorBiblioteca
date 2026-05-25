@@ -10,6 +10,8 @@ import com.tfg.crud.GestorBiblioteca.entity.Usuario;
 import com.tfg.crud.GestorBiblioteca.repository.UsuarioRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -85,11 +87,6 @@ public class UsuarioServiceImp implements UsuarioService{
     }
 
     @Override
-    public Usuario buscarUsuarioPorNombre(String nombre) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
     public Usuario buscarUsuarioPorId(Long id) {
         return usuarioRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
     }
@@ -141,5 +138,13 @@ public class UsuarioServiceImp implements UsuarioService{
         List<Usuario> usuarios =  usuarioRepository.findByActivoTrueAndTipoInAndNombreContainingIgnoreCase(rolesPermitidos, filtroNombre);
         
         return usuarios.stream().filter(usuario -> usuario.getPrestamos().stream().filter(p -> p.getFechaDevolucion() == null).count() < 5).toList();
+    }
+
+    @Override
+    public Page<Usuario> buscarUsuarios(String busqueda, Boolean activo, Pageable pageable) {
+        if(activo == null){
+            return usuarioRepository.buscarTodosUsuarios(busqueda, pageable);
+        }
+        return usuarioRepository.buscarUsuarios(busqueda, activo, pageable);
     }
 }
