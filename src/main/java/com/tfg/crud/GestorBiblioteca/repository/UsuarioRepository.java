@@ -23,7 +23,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Long>{
     @Query("""
-        SELECT u FROM usuarios u
+        SELECT u FROM Usuario u
         WHERE (:busqueda IS NULL OR :busqueda = ''
            OR LOWER(u.nombre) LIKE LOWER(CONCAT('%', :busqueda, '%')))
            AND (:activo IS NULL OR u.activo = :activo)
@@ -31,7 +31,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long>{
     Page<Usuario> buscarUsuarios(@Param("busqueda") String busqueda, @Param("activo") Boolean activo, Pageable pageable);
     
     @Query("""
-        SELECT u FROM usuarios u
+        SELECT u FROM Usuario u
                 WHERE (:busqueda IS NULL OR :busqueda = ''
                    OR LOWER(u.nombre) LIKE LOWER(CONCAT('%', :busqueda, '%')))
     """)

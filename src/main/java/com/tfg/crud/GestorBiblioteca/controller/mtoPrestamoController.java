@@ -52,14 +52,13 @@ public class mtoPrestamoController {
     }
     
     @GetMapping("/registro")
-    public String mostrarRegistroPrestamo(Model modelo, @RequestParam(required = false) String nombre, @RequestParam(required = false) String isbn, @RequestParam(required = false) Long idLibro, @RequestParam(required = false) Long idEjemplar, @RequestParam(required = false) Long idUsuario){
+    public String mostrarRegistroPrestamo(Model modelo, @RequestParam(required = false) String nombre, @RequestParam(required = false) String isbn, @RequestParam(required = false) Long idEjemplar, @RequestParam(required = false) Long idUsuario){
         
         LocalDate fechaInicio = LocalDate.now();
         LocalDate fechaFin = prestamoService.sumarDiasHabiles(fechaInicio);
         
         PrestamoDTO prestamoDTO = new PrestamoDTO();
         
-        prestamoDTO.setIdLibro(idLibro);
         prestamoDTO.setIdEjemplar(idEjemplar);
         prestamoDTO.setIdUsuario(idUsuario);
         prestamoDTO.setFechaInicio(fechaInicio);
@@ -67,15 +66,9 @@ public class mtoPrestamoController {
         
         modelo.addAttribute("prestamoDTO", prestamoDTO);
         
-        modelo.addAttribute("librosDisponibles", libroService.listarLibrosDisponibles(isbn));
-        
-        if(idLibro != null){
-            modelo.addAttribute("ejemplaresDisponibles", ejemplarService.listarEjemplaresDisponibles(idLibro));
-        }
-        
-        if(idEjemplar != null){
-            modelo.addAttribute("usuariosDisponibles", usuarioService.buscarUsuariosDisponibles(nombre));
-        }
+        modelo.addAttribute("ejemplares", ejemplarService.listarEjemplaresDisponibles());
+        modelo.addAttribute("usuarios", usuarioService.buscarUsuariosDisponibles(nombre));
+
         
         modelo.addAttribute("nombreBuscado", nombre);
         modelo.addAttribute("isbnBuscado", isbn);
@@ -94,30 +87,23 @@ public class mtoPrestamoController {
         }
         return "redirect:/prestamo";
     }
-    /*
+    
+    
     @GetMapping("/editar/{idPrestamo}")
-    public String mostrarEditarPrestamo(Model modelo, @PathVariable Long idPrestamo, @RequestParam(required = false) String nombre, @RequestParam(required = false) String isbn, @RequestParam(required = false) Long idLibro, @RequestParam(required = false) Long idEjemplar, @RequestParam(required = false) Long idUsuario){
+    public String mostrarEditarPrestamo(Model modelo, @PathVariable Long idPrestamo, @RequestParam(required = false) String nombre, @RequestParam(required = false) String isbn, @RequestParam(required = false) Long idEjemplar, @RequestParam(required = false) Long idUsuario){
         Prestamo prestamo = prestamoService.buscarPrestamoPorId(idPrestamo);
         
         PrestamoDTO prestamoDTO = new PrestamoDTO();
         
-        prestamoDTO.setIdLibro(prestamo.getEjemplar().getLibro().getIdLibro());
+        prestamoDTO.setIdPrestamo(prestamo.getIdPrestamo());
         prestamoDTO.setIdEjemplar(prestamo.getEjemplar().getIdEjemplar());
         prestamoDTO.setIdUsuario(prestamo.getUsuario().getIdUsuario());
         prestamoDTO.setFechaInicio(prestamo.getFechaInicio());
         prestamoDTO.setFechaFin(prestamo.getFechaFin());
         
+        modelo.addAttribute("ejemplares", ejemplarService.listarEjemplaresDisponibles());
+        modelo.addAttribute("usuarios", usuarioService.buscarUsuariosDisponibles(nombre));
         
-        
-        modelo.addAttribute("librosDisponibles", libroService.listarLibrosDisponibles(prestamo.getEjemplar().getCodigo()));
-        
-        if(prestamo.getEjemplar().getLibro().getIdLibro() != null){
-            modelo.addAttribute("ejemplaresDisponibles", ejemplarService.listarEjemplaresDisponibles(prestamo.getEjemplar().getLibro().getIdLibro()));
-        }
-        
-        if(prestamo.getUsuario().getIdUsuario() != null){
-            modelo.addAttribute("usuariosDisponibles", usuarioService.buscarUsuariosDisponibles(prestamo.getUsuario().getNombre()));
-        }
         modelo.addAttribute("prestamoDTO", prestamoDTO);
         
         return "edicionPrestamo";
@@ -128,7 +114,7 @@ public class mtoPrestamoController {
         
         prestamoService.editarPrestamo(idPrestamo, prestamoDTO);
         return "redirect:/prestamo";
-    }*/
+    }
     
     @PostMapping("/finalizar/{idPrestamo}")
     public String modificarEstadoPrestamo(@PathVariable Long idPrestamo){

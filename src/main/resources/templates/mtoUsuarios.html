@@ -47,7 +47,7 @@
     <button class="boton">Registrar Usuario</button>
 </a>
 
-<form th:action="@{/libro}"
+<form th:action="@{/usuario}"
       method="get">
         <input type="text"
                name="busqueda"
@@ -108,8 +108,28 @@
         </tr>
     </tbody>
 </table>
-<div th:each="usuarioDisponible : ${usuariosDisponibles}">
-    <p th:text="${usuarioDisponible.nombre}"></p>
+<div>
+
+    <a class='boton'
+        th:if="${pagina.hasPrevious()}"
+       th:href="@{/usuario(
+            page=${pagina.number - 1},
+            busqueda=${busqueda}
+       )}">
+        Anterior
+    </a>
+
+    <span th:text="${pagina.number + 1}"></span>
+
+    <a  class='boton'
+        th:if="${pagina.hasNext()}"
+       th:href="@{/usuario(
+            page=${pagina.number + 1},
+            busqueda=${busqueda}
+       )}">
+        Siguiente
+    </a>
+
 </div>
 <br>
 

@@ -2,280 +2,92 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title>Edición préstamo</title>
     <meta charset="UTF-8">
-
-    <script defer
-            th:src="@{/js/registroPrestamo.js}">
-    </script>
-
+    <title>Editar préstamo</title>
 </head>
 
 <body>
 
-<h1>Edición préstamo</h1>
+<h1>Editar préstamo</h1>
 
-<!-- ========================= -->
-<!-- BUSCADOR LIBROS -->
-<!-- ========================= -->
+<form method="post"
+      th:action="@{/prestamo/editar/{idPrestamo}(idPrestamo=${prestamoDTO.idPrestamo})}"
+      th:object="${prestamoDTO}">
 
-<div>
+    <!-- ID préstamo (CLAVE en edición) -->
+    <input type="hidden" th:field="*{idPrestamo}">
 
-    <h2>Buscar libro</h2>
+    <!-- ========================= -->
+    <!-- USUARIO -->
+    <!-- ========================= -->
 
-    <form method="get"
-          th:action="@{/prestamo/editar}">
+    <div>
+        <label>Usuario</label>
 
-        <!-- mantener usuario -->
-        <input type="hidden"
-               name="idUsuario"
-               th:value="${prestamoDTO.idUsuario}">
+        <select th:field="*{idUsuario}" required>
+            <option value="">Seleccione usuario</option>
 
-        <!-- mantener ejemplar -->
-        <input type="hidden"
-               name="idEjemplar"
-               th:value="${prestamoDTO.idEjemplar}">
+            <option th:each="usuario : ${usuarios}"
+                    th:value="${usuario.idUsuario}"
+                    th:text="${usuario.nombre + ' ' + usuario.apellido1}">
+            </option>
+        </select>
+    </div>
 
-        <input type="text"
-               name="isbn"
-               placeholder="Buscar ISBN"
-               th:value="${isbnBuscado}">
+    <br>
 
-        <button type="submit">
-            Buscar
-        </button>
+    <!-- ========================= -->
+    <!-- EJEMPLAR -->
+    <!-- ========================= -->
 
-    </form>
+    <div>
+        <label>Ejemplar</label>
 
-</div>
+        <select th:field="*{idEjemplar}" required>
+            <option value="">Seleccione ejemplar</option>
 
-<!-- ========================= -->
-<!-- RESULTADOS LIBROS -->
-<!-- ========================= -->
+            <option th:each="ejemplar : ${ejemplares}"
+                    th:value="${ejemplar.idEjemplar}"
+                    th:text="${ejemplar.libro.titulo + ' - ' + ejemplar .codigo}">
+            </option>
+        </select>
+    </div>
 
-<div>
+    <br>
 
-    <h2>Libros encontrados</h2>
+    <!-- ========================= -->
+    <!-- FECHAS -->
+    <!-- ========================= -->
 
-    <form id="formSeleccionLibro"
-          method="get"
-          th:action="@{/prestamo/editar}">
-
-        <!-- mantener búsqueda -->
-        <input type="hidden"
-               name="isbn"
-               th:value="${isbnBuscado}">
-
-        <!-- mantener usuario -->
-        <input type="hidden"
-               name="idUsuario"
-               th:value="${prestamoDTO.idUsuario}">
-
-        <!-- mantener ejemplar -->
-        <input type="hidden"
-               name="idEjemplar"
-               th:value="${prestamoDTO.idEjemplar}">
-
-        <div th:each="libro : ${librosDisponibles}">
-
-            <label>
-
-                <input type="radio"
-                       name="idLibro"
-                       th:value="${libro.idLibro}"
-                       th:checked="${prestamoDTO.idLibro == libro.idLibro}" 
-                       class="radioLibro">
-
-                <span th:text="${libro.titulo}"></span>
-                -
-                <span th:text="${libro.isbn}"></span>
-
-            </label>
-
-            <br>
-
-        </div>
-
-    </form>
-
-</div>
-<!-- ========================= -->
-<!-- EJEMPLARES -->
-<!-- ========================= -->
-
-<div th:if="${prestamoDTO.idLibro != null}">
-
-    <h2>Ejemplares disponibles</h2>
-
-    <form id="formSeleccionEjemplar"
-          method="get"
-          th:action="@{/prestamo/editar}">
-
-        <!-- mantener búsquedas -->
-        <input type="hidden"
-               name="isbn"
-               th:value="${isbnBuscado}">
-
-        <input type="hidden"
-               name="nombre"
-               th:value="${nombreBuscado}">
-
-        <!-- mantener libro -->
-        <input type="hidden"
-               name="idLibro"
-               th:value="${prestamoDTO.idLibro}">
-
-        <!-- mantener usuario -->
-        <input type="hidden"
-               name="idUsuario"
-               th:value="${prestamoDTO.idUsuario}">
-
-        <div th:each="ejemplar : ${ejemplaresDisponibles}">
-
-            <label>
-
-                <input type="radio"
-                       name="idEjemplar"
-                       th:value="${ejemplar.idEjemplar}"
-                       th:checked="${prestamoDTO.idEjemplar == ejemplar.idEjemplar}"
-                       class="radioEjemplar">
-
-                <span th:text="${ejemplar.codigo}">
-                </span>
-
-            </label>
-
-            <br>
-
-        </div>
-
-    </form>
-
-</div>
-<!-- ========================= -->
-<!-- BUSCADOR USUARIOS -->
-<!-- ========================= -->
-
-<div th:if="${prestamoDTO.idEjemplar != null}">
-
-    <h2>Buscar usuario</h2>
-
-    <form method="get"
-          th:action="@{/prestamo/editar}">
-
-        <!-- mantener libro -->
-        <input type="hidden"
-               name="idLibro"
-               th:value="${prestamoDTO.idLibro}">
-
-        <!-- mantener ejemplar -->
-        <input type="hidden"
-               name="idEjemplar"
-               th:value="${prestamoDTO.idEjemplar}">
-
-        <!-- mantener isbn -->
-        <input type="hidden"
-               name="isbn"
-               th:value="${isbnBuscado}">
-
-        <input type="text"
-               name="nombre"
-               placeholder="Buscar usuario"
-               th:value="${nombreBuscado}">
-
-        <button type="submit">
-            Buscar
-        </button>
-
-    </form>
-
-</div>
-
-<!-- ========================= -->
-<!-- USUARIOS -->
-<!-- ========================= -->
-
-<div th:if="${usuariosDisponibles != null}">
-
-    <h2>Usuarios disponibles</h2>
-
-    <form id="formSeleccionUsuario"
-          method="get"
-          th:action="@{/prestamo/editar}">
-
-        <!-- mantener búsquedas -->
-        <input type="hidden"
-               name="isbn"
-               th:value="${isbnBuscado}">
-
-        <input type="hidden"
-               name="nombre"
-               th:value="${nombreBuscado}">
-
-        <!-- mantener libro -->
-        <input type="hidden"
-               name="idLibro"
-               th:value="${prestamoDTO.idLibro}">
-
-        <!-- mantener ejemplar -->
-        <input type="hidden"
-               name="idEjemplar"
-               th:value="${prestamoDTO.idEjemplar}">
-
-        <div th:each="usuario : ${usuariosDisponibles}">
-
-            <label>
-
-                <input type="radio"
-                       name="idUsuario"
-                       th:value="${usuario.idUsuario}"
-                       th:checked="${prestamoDTO.idUsuario == usuario.idUsuario}"
-                       class="radioUsuario">
-
-                <span th:text="${usuario.nombre}"></span>
-
-                <span th:text="${usuario.apellido1}"></span>
-
-            </label>
-
-            <br>
-
-        </div>
-
-    </form>
-
-</div>
-
-<!-- ========================= -->
-<!-- FORMULARIO FINAL -->
-<!-- ========================= -->
-
-<div th:if="${prestamoDTO.idUsuario != null}">
-
-    <h2>Registrar préstamo</h2>
-
-    <form method="post" th:action="@{/prestamo/editar}" th:object="${prestamoDTO}">
-
-    <input type="hidden" th:field="*{idUsuario}">
-    <input type="hidden" th:field="*{idEjemplar}">
-    <input type="hidden" th:field="*{idLibro}">
-
-    
     <div>
         <label>Fecha inicio</label>
-        <input type="date" name="fechaInicio" th:value="${#temporals.format(prestamoDTO.fechaInicio, 'yyyy-MM-dd')}">
+        <input type="date" th:field="*{fechaInicio}">
     </div>
+
+    <br>
+
     <div>
         <label>Fecha fin</label>
-        <input type="date" th:value="${#temporals.format(prestamoDTO.fechaFin, 'yyyy-MM-dd')}">
+        <input type="date" th:field="*{fechaFin}">
     </div>
 
-    <button type="submit">Registrar préstamo</button>
+    <br>
+
+    <!-- ========================= -->
+    <!-- BOTÓN -->
+    <!-- ========================= -->
+
+    <button type="submit">
+        Guardar cambios
+    </button>
 
 </form>
-    <p>Inicio: <span th:text="${prestamoDTO.fechaInicio}"></span></p>
-    <p>Inicio: <span th:text="${prestamoDTO.fechaFin}"></span></p>
-</div>
-<a th:href="@{/prestamo}">salir</a>
+
+<br>
+
+<a th:href="@{/prestamo}">
+    Volver
+</a>
+
 </body>
 </html>

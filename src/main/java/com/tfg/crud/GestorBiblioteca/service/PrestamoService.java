@@ -21,7 +21,7 @@ public interface PrestamoService{
     public Prestamo registrarPrestamo(PrestamoDTO prestamoDTO);
     public List<Prestamo> listarPrestamosPorCodigo(String codigo);
     public Prestamo buscarPrestamoPorId(Long idPrestamo);
-    //public Prestamo editarPrestamo(Long idPrestamo, PrestamoDTO prestamoDTO);
+    public Prestamo editarPrestamo(Long idPrestamo, PrestamoDTO prestamoDTO);
     public void finalizarPrestamo(LocalDate fechaDevolucion, Long idPrestamo);
     public void reabrirPrestamo(Long idPrestamo);
     public LocalDate sumarDiasHabiles(LocalDate FechaInicio);

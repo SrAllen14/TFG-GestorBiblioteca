@@ -78,4 +78,9 @@ public class UsuarioDTO {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    @Override
+    public String toString() {
+        return "UsuarioDTO{" + "nombre=" + nombre + ", apellido1=" + apellido1 + ", apellido2=" + apellido2 + ", rol=" + rol + ", username=" + username + ", password=" + password + '}';
+    }
 }

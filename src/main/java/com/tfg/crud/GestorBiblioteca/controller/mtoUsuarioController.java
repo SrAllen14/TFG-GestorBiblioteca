@@ -46,7 +46,7 @@ public class mtoUsuarioController {
         Page<Usuario> pagina = usuarioService.buscarUsuarios(busqueda, activoFiltro, pageable);
         
         modelo.addAttribute("pagina", pagina);
-        modelo.addAttribute("libros", pagina.getContent());
+        modelo.addAttribute("usuarios", pagina.getContent());
         modelo.addAttribute("busqueda", busqueda);
         modelo.addAttribute("activo", activo);
         
@@ -87,6 +87,7 @@ public class mtoUsuarioController {
         usuarioDTO.setApellido2(usuario.getApellido2());
         usuarioDTO.setRol(usuario.getRol());
         usuarioDTO.setUsername(usuario.getUsername());
+        usuarioDTO.setPassword(usuario.getPassword());
         
         modelo.addAttribute("usuarioDTO", usuarioDTO);
         modelo.addAttribute("idUsuario", idUsuario);

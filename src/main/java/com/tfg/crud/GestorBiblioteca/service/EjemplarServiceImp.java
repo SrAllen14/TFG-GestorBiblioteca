@@ -73,9 +73,9 @@ public class EjemplarServiceImp implements EjemplarService{
     }
 
     @Override
-    public List<Ejemplar> listarEjemplaresDisponibles(Long idLibro) {
+    public List<Ejemplar> listarEjemplaresDisponibles() {
         
-        List<Ejemplar> ejemplares = ejemplarRepository.findByLibroIdLibroAndActivoTrue(idLibro);
+        List<Ejemplar> ejemplares = ejemplarRepository.buscarEjemplaresDisponibles();
         
         return ejemplares.stream().filter(e -> e.getPrestamos().stream().noneMatch((p -> p.getFechaDevolucion() == null))).toList();
     }

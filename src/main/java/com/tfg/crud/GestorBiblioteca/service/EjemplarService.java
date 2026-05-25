@@ -17,6 +17,6 @@ public interface EjemplarService{
     public Ejemplar buscarEjemplarPorId(Long id);
     public List<Ejemplar> listarEjemplaresPorLibro(Long idLibro);
     public List<Ejemplar> listarEjemplares();
-    public List<Ejemplar> listarEjemplaresDisponibles(Long idLibro);
+    public List<Ejemplar> listarEjemplaresDisponibles();
     public void darDeBajaEjemplar(Long id);
 }

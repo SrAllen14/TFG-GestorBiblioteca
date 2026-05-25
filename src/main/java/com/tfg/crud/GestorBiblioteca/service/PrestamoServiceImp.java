@@ -66,7 +66,7 @@ public class PrestamoServiceImp implements PrestamoService{
         
         return prestamoRepository.findById(idPrestamo).orElseThrow(() -> new RuntimeException("No se ha encontrado el prestamo"));
     }
-/*
+
     @Override
     public Prestamo editarPrestamo(Long idPrestamo, PrestamoDTO prestamoDTO) {
         Prestamo prestamo = buscarPrestamoPorId(idPrestamo);
@@ -80,7 +80,7 @@ public class PrestamoServiceImp implements PrestamoService{
         
         
         return prestamoRepository.save(prestamo);
-    }*/
+    }
 
     @Override
     public void finalizarPrestamo(LocalDate fechaDevolucion, Long idPrestamo) {
