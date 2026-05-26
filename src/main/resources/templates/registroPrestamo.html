@@ -213,9 +213,9 @@
                             </label>
 
                             <input type="date"
-                                   th:field="*{fechaInicio}"
+                                   th:value='${fechaInicio}'
                                    class="form-control"
-                                   required>
+                                   readonly>
 
                         </div>
 
@@ -229,9 +229,9 @@
                             </label>
 
                             <input type="date"
-                                   th:field="*{fechaFin}"
+                                   th:value='${fechaFin}'
                                    class="form-control"
-                                   required>
+                                   readonly>
 
                         </div>
 

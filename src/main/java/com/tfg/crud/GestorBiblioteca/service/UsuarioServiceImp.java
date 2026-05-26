@@ -35,6 +35,12 @@ public class UsuarioServiceImp implements UsuarioService{
     public Usuario registrarUsuario(UsuarioDTO usuarioDTO) {
         
         Usuario usuario = new Usuario();
+        
+        if(usuarioRepository.existsByDni(usuarioDTO.getDni())){
+            throw new IllegalArgumentException("Dni existente en el sistema");
+        }
+        
+        usuario.setDni(usuarioDTO.getDni());
         usuario.setNombre(usuarioDTO.getNombre());
         usuario.setApellido1(usuarioDTO.getApellido1());
         usuario.setApellido2(usuarioDTO.getApellido2());
@@ -105,6 +111,11 @@ public class UsuarioServiceImp implements UsuarioService{
         
         Usuario usuario = buscarUsuarioPorId(idUsuario);
         
+        if(usuarioRepository.existsByDni(usuarioEditadoDTO.getDni())){
+            throw new IllegalArgumentException("Dni existente en el sistema");
+        }
+        
+        usuario.setDni(usuarioEditadoDTO.getDni());
         usuario.setNombre(usuarioEditadoDTO.getNombre());
         usuario.setApellido1(usuarioEditadoDTO.getApellido1());
         usuario.setApellido2(usuarioEditadoDTO.getApellido2());
@@ -123,9 +134,6 @@ public class UsuarioServiceImp implements UsuarioService{
             usuario.setUsername(null);
             usuario.setPassword(null);
         }
-        
-        System.out.println(usuarioEditadoDTO.toString());
-        System.out.println(usuario.toString());
         
         return usuarioRepository.save(usuario);
 

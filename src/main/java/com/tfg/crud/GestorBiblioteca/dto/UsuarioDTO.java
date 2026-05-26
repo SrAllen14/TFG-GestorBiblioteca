@@ -5,6 +5,7 @@
 package com.tfg.crud.GestorBiblioteca.dto;
 
 import com.tfg.crud.GestorBiblioteca.entity.Rol;
+import com.tfg.crud.GestorBiblioteca.validation.DNI;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -15,6 +16,10 @@ import jakarta.validation.constraints.Size;
  * @author Usuario
  */
 public class UsuarioDTO {
+    
+    @NotBlank(message = "El dni es obligatorio")
+    @DNI(message = "DNI invalido")
+    private String dni;
     
     @NotBlank(message = "El nombre es obligatorio")
     @Pattern(regexp = "^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$", message = "El nombre solo puede contener carácteres numéricos")
@@ -31,22 +36,29 @@ public class UsuarioDTO {
     @NotNull
     private Rol rol;
     
-    @Size(min = 6, message = "El username es obligatorio")
     private String username;
     
-    @Size(min = 4,message = "El password es obligatorio")
     private String password;
 
     public UsuarioDTO() {
     }
 
-    public UsuarioDTO(String nombre, String apellido1, String apellido2, Rol rol, String username, String password) {
+    public UsuarioDTO(String dni, String nombre, String apellido1, String apellido2, Rol rol, String username, String password) {
+        this.dni = dni;
         this.nombre = nombre;
         this.apellido1 = apellido1;
         this.apellido2 = apellido2;
         this.rol = rol;
         this.username = username;
         this.password = password;
+    }
+
+    public String getDni() {
+        return dni;
+    }
+
+    public void setDni(String dni) {
+        this.dni = dni;
     }
 
     public String getNombre() {
@@ -95,10 +107,5 @@ public class UsuarioDTO {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    @Override
-    public String toString() {
-        return "UsuarioDTO{" + "nombre=" + nombre + ", apellido1=" + apellido1 + ", apellido2=" + apellido2 + ", rol=" + rol + ", username=" + username + ", password=" + password + '}';
     }
 }

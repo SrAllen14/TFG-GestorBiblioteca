@@ -5,9 +5,12 @@
 package com.tfg.crud.GestorBiblioteca.controller;
 
 import com.tfg.crud.GestorBiblioteca.dto.UsuarioDTO;
+import com.tfg.crud.GestorBiblioteca.entity.Prestamo;
 import com.tfg.crud.GestorBiblioteca.entity.Usuario;
-import com.tfg.crud.GestorBiblioteca.service.UsuarioServiceImp;
+import com.tfg.crud.GestorBiblioteca.service.PrestamoService;
+import com.tfg.crud.GestorBiblioteca.service.UsuarioService;
 import jakarta.validation.Valid;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,7 +35,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class mtoUsuarioController {
     
     @Autowired
-    private UsuarioServiceImp usuarioService;
+    private UsuarioService usuarioService;
+    
+    @Autowired
+    private PrestamoService prestamoService;
     
     @GetMapping
     public String mostrarMtoUsuario(Model modelo, @RequestParam(required = false) String busqueda, @RequestParam(required = false) String activo, @PageableDefault(size = 5) Pageable pageable){
@@ -55,6 +61,18 @@ public class mtoUsuarioController {
         return "mtoUsuarios";
     }
     
+    @GetMapping("/consultar/{idUsuario}")
+    public String consultarLibro(Model modelo, @PathVariable Long idUsuario) {
+
+        Usuario usuario = usuarioService.buscarUsuarioPorId(idUsuario);
+        List<Prestamo> prestamos = prestamoService.listarPrestamosPorUsuario(idUsuario);
+        
+        modelo.addAttribute("usuario", usuario);
+        modelo.addAttribute("prestamos", prestamos);
+
+        return "detalleUsuario";
+    }
+    
     @GetMapping("/crear")
     public String mostrarRegistroUsuario(Model modelo){
         
@@ -66,13 +84,19 @@ public class mtoUsuarioController {
     public String registrarUsuario(@Valid @ModelAttribute UsuarioDTO usuarioDTO, BindingResult result, RedirectAttributes redirectAttributes, Model modelo){
         modelo.addAttribute("usuarioDTO", usuarioDTO);
         
-        if(result.hasErrors()){
+        try{
+            if(result.hasErrors()){
+                System.out.println("No funciona");
+                return "registroUsuario";
+            }
+            usuarioService.registrarUsuario(usuarioDTO);
+            redirectAttributes.addFlashAttribute("succes","Usuario registrado correctamente");
+            return "redirect:/usuario";
+        } catch(IllegalArgumentException ex){
+            modelo.addAttribute("errorDni", ex.getMessage());
             return "registroUsuario";
         }
         
-        usuarioService.registrarUsuario(usuarioDTO);
-        redirectAttributes.addFlashAttribute("succes","Usuario registrado correctamente");
-        return "redirect:/usuario";
             
         
     }
@@ -84,6 +108,7 @@ public class mtoUsuarioController {
         
         UsuarioDTO usuarioDTO = new UsuarioDTO();
         
+        usuarioDTO.setDni(usuario.getDni());
         usuarioDTO.setNombre(usuario.getNombre());
         usuarioDTO.setApellido1(usuario.getApellido1());
         usuarioDTO.setApellido2(usuario.getApellido2());
@@ -98,14 +123,19 @@ public class mtoUsuarioController {
     }
     
     @PostMapping("/editar/{idUsuario}")
-    public String editarUsuario(@PathVariable Long idUsuario, BindingResult result, @ModelAttribute UsuarioDTO usuarioDTO, RedirectAttributes redirectAttributes, Model modelo){
+    public String editarUsuario(@PathVariable Long idUsuario, @Valid @ModelAttribute UsuarioDTO usuarioDTO, BindingResult result, RedirectAttributes redirectAttributes, Model modelo){
         modelo.addAttribute("usuarioDTO", usuarioDTO);
-        
-        if(result.hasErrors()){
+        try{
+            if(result.hasErrors()){
+                return "edicionUsuario";
+            }
+            usuarioService.editarUsuario(idUsuario, usuarioDTO);
+            return "redirect:/usuario";
+        } catch(IllegalArgumentException ex){
+            modelo.addAttribute("errorDni", ex.getMessage());
             return "edicionUsuario";
         }
-        usuarioService.editarUsuario(idUsuario, usuarioDTO);
-        return "redirect:/usuario";
+        
     }
     
     @PostMapping("/estado/{idUsuario}")

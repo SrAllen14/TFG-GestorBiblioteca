@@ -91,12 +91,18 @@ public class mtoLibrosController {
     @PostMapping("/crear")
     public String registrarLibro(@Valid @ModelAttribute Libro libro, BindingResult result, RedirectAttributes redirectAttributes, Model modelo) {
         modelo.addAttribute("libro", libro);
-        if(result.hasErrors()){
-            return "registroLibro";
-        } 
         
-        libroService.registarLibro(libro);
-        return "redirect:/libro";
+        try{
+            if(result.hasErrors()){
+                return "registroLibro";
+            } 
+
+            libroService.registarLibro(libro);
+            return "redirect:/libro";
+        }catch(IllegalArgumentException ex){
+            modelo.addAttribute("errorISBN", ex.getMessage());
+            return "registroLibro";
+        }    
     }
 
     @GetMapping("/editar/{idLibro}")
@@ -113,12 +119,17 @@ public class mtoLibrosController {
         
         modelo.addAttribute("libro", libro);
        
-        if(result.hasErrors()){
+        try{
+            if(result.hasErrors()){
+                return "edicionLibro";
+            } 
+
+            libroService.editarLibro(idLibro, libro);
+            return "redirect:/libro";
+        }catch(IllegalArgumentException ex){
+            modelo.addAttribute("errorISBN", ex.getMessage());
             return "edicionLibro";
-        } 
-            
-        libroService.editarLibro(idLibro, libro);
-        return "redirect:/libro";
+        }   
     }
 
     @PostMapping("/estado/{idLibro}")
@@ -172,5 +183,12 @@ public class mtoLibrosController {
         }
         
         return "redirect:/libro";
+    }
+    
+    @PostMapping("/consultar/{idLibro}/estado/{idEjemplar}")
+    public String cambiarEstadoUsuario(@PathVariable Long idLibro, @PathVariable Long idEjemplar){
+        
+        ejemplarService.darDeBajaEjemplar(idEjemplar);
+        return "redirect:/libro/consultar/" + idLibro;
     }
 }

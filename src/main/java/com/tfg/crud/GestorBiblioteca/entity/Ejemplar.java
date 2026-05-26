@@ -104,4 +104,23 @@ public class Ejemplar {
     public String toString() {
         return "Ejemplar{" + "idEjemplar=" + idEjemplar + ", codigo=" + codigo + ", libro=" + libro + '}';
     }
+    
+    public Prestamo getPrestamoActivo(){
+        
+        if(prestamos == null){
+            return null;
+        }
+        
+        for(Prestamo prestamo: prestamos){
+            if(prestamo.getFechaDevolucion() == null){
+                return prestamo;
+            }
+        }
+        
+        return null;
+    }
+    
+    public boolean isPrestado(){
+        return getPrestamoActivo() != null;
+    }
 }

@@ -25,18 +25,22 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long>{
     @Query("""
         SELECT u FROM Usuario u
         WHERE (:busqueda IS NULL OR :busqueda = ''
-           OR LOWER(u.nombre) LIKE LOWER(CONCAT('%', :busqueda, '%')))
+           OR LOWER(u.nombre) LIKE LOWER(CONCAT('%', :busqueda, '%'))
+           OR LOWER(u.dni) LIKE LOWER(CONCAT('%', :busqueda, '%')))
            AND (:activo IS NULL OR u.activo = :activo)
     """)
     Page<Usuario> buscarUsuarios(@Param("busqueda") String busqueda, @Param("activo") Boolean activo, Pageable pageable);
     
     @Query("""
         SELECT u FROM Usuario u
-                WHERE (:busqueda IS NULL OR :busqueda = ''
-                   OR LOWER(u.nombre) LIKE LOWER(CONCAT('%', :busqueda, '%')))
+            WHERE (:busqueda IS NULL OR :busqueda = ''
+            OR LOWER(u.nombre) LIKE LOWER(CONCAT('%', :busqueda, '%'))
+            OR LOWER(u.dni) LIKE LOWER(CONCAT('%', :busqueda, '%')))
     """)
     Page<Usuario> buscarTodosUsuarios(@Param("busqueda") String busqueda, Pageable pageable);
     
     Optional<Usuario> findByUsername(String username);
     List<Usuario> findByActivoTrueAndTipoInAndNombreContainingIgnoreCase(List<Rol> roles, String nombre);
+
+    public boolean existsByDni(String dni);
 }

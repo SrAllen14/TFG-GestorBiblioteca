@@ -65,6 +65,15 @@ public class mtoPrestamoController {
 
         return "mtoPrestamos";
     }
+    
+    @GetMapping("/consultar/{idPrestamo}")
+    public String consultarPrestamo(@PathVariable Long idPrestamo, Model modelo){
+        
+        Prestamo prestamo = prestamoService.buscarPrestamoPorId(idPrestamo);
+        modelo.addAttribute("prestamo", prestamo);
+        
+        return "detallePrestamo";
+    }
 
     @GetMapping("/registro")
     public String mostrarRegistroPrestamo(Model modelo, @RequestParam(required = false) String nombre, @RequestParam(required = false) String isbn, @RequestParam(required = false) Long idEjemplar, @RequestParam(required = false) Long idUsuario) {
@@ -83,7 +92,11 @@ public class mtoPrestamoController {
 
         modelo.addAttribute("ejemplares", ejemplarService.listarEjemplaresDisponibles());
         modelo.addAttribute("usuarios", usuarioService.buscarUsuariosDisponibles(nombre));
-
+        
+        modelo.addAttribute("fechaInicio", fechaInicio);
+        modelo.addAttribute("fechaFin", fechaFin);
+        
+        
         modelo.addAttribute("nombreBuscado", nombre);
         modelo.addAttribute("isbnBuscado", isbn);
 
@@ -130,20 +143,12 @@ public class mtoPrestamoController {
     }
 
     @PostMapping("/finalizar/{idPrestamo}")
-    public String modificarEstadoPrestamo(@PathVariable Long idPrestamo) {
+    public String modificarEstadoPrestamo(@PathVariable Long idPrestamo, @RequestParam String codigo) {
 
         LocalDate hoy = LocalDate.now();
 
-        prestamoService.finalizarPrestamo(hoy, idPrestamo);
+        prestamoService.finalizarPrestamo(hoy, idPrestamo, codigo);
 
-        return "redirect:/prestamo";
-    }
-
-    @PostMapping("/reabrir/{idPrestamo}")
-    public String reabrirPrestamo(@PathVariable Long idPrestamo) {
-
-        prestamoService.reabrirPrestamo(idPrestamo);
-
-        return "redirect:/prestamo";
+        return "redirect:/prestamo/consultar/{idPrestamo}";
     }
 }

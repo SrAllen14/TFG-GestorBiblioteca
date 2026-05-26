@@ -85,12 +85,13 @@ public class PrestamoServiceImp implements PrestamoService{
     }
 
     @Override
-    public void finalizarPrestamo(LocalDate fechaDevolucion, Long idPrestamo) {
+    public void finalizarPrestamo(LocalDate fechaDevolucion, Long idPrestamo, String codigo) {
         Prestamo prestamo = buscarPrestamoPorId(idPrestamo);
         
-        prestamo.setFechaDevolucion(fechaDevolucion);
-        
-        prestamoRepository.save(prestamo);
+        if(codigo.equals(prestamo.getEjemplar().getCodigo())){
+            prestamo.setFechaDevolucion(fechaDevolucion);
+            prestamoRepository.save(prestamo);
+        }
     }
 
     @Override
@@ -127,5 +128,14 @@ public class PrestamoServiceImp implements PrestamoService{
         
         return prestamoRepository.buscarPrestamos(busqueda, activo, pageable);
     }
+
+    @Override
+    public List<Prestamo> listarPrestamosPorUsuario(Long idUsuario) {
+        return prestamoRepository.findByUsuarioIdUsuario(idUsuario);
+    }
     
+    @Override
+    public Prestamo getPrestamoActivo(Ejemplar e) {
+        return e.getPrestamos().stream().filter(p -> p.getFechaDevolucion() == null).findFirst().orElse(null);
+    }
 }

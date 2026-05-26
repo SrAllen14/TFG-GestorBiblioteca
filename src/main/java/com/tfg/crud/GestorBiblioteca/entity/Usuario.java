@@ -29,6 +29,9 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idUsuario;
     
+    @Column(name = "DNI", unique = true)
+    private String dni;
+    
     @Column(name = "Nombre")
     private String nombre;
     
@@ -56,7 +59,8 @@ public class Usuario {
     public Usuario() {
     }
 
-    public Usuario(String nombre, String apellido1, String apellido2, Rol tipo, boolean activo) {
+    public Usuario(String dni, String nombre, String apellido1, String apellido2, Rol tipo, boolean activo) {
+        this.dni = dni;
         this.nombre = nombre;
         this.apellido1 = apellido1;
         this.apellido2 = apellido2;
@@ -65,7 +69,8 @@ public class Usuario {
         this.prestamos = new ArrayList<>();
     }
 
-    public Usuario(String nombre, String apellido1, String apellido2, String username, String password, Rol tipo, boolean activo) {
+    public Usuario(String dni, String nombre, String apellido1, String apellido2, String username, String password, Rol tipo, boolean activo) {
+        this.dni = dni;
         this.nombre = nombre;
         this.apellido1 = apellido1;
         this.apellido2 = apellido2;
@@ -76,8 +81,9 @@ public class Usuario {
         this.prestamos = new ArrayList<>();
     }
 
-    public Usuario(Long idUsuario, String nombre, String apellido1, String apellido2, String password, Rol tipo, boolean activo) {
+    public Usuario(Long idUsuario, String dni, String nombre, String apellido1, String apellido2, String password, Rol tipo, boolean activo) {
         this.idUsuario = idUsuario;
+        this.dni = dni;
         this.nombre = nombre;
         this.apellido1 = apellido1;
         this.apellido2 = apellido2;
@@ -93,6 +99,14 @@ public class Usuario {
 
     public void setIdUsuario(Long idUsuario) {
         this.idUsuario = idUsuario;
+    }
+
+    public String getDni() {
+        return dni;
+    }
+
+    public void setDni(String dni) {
+        this.dni = dni;
     }
 
     public String getNombre() {
@@ -157,10 +171,5 @@ public class Usuario {
 
     public void setPrestamos(List<Prestamo> prestamos) {
         this.prestamos = prestamos;
-    }
-
-    @Override
-    public String toString() {
-        return "Usuario{" + "nombre=" + nombre + ", apellido1=" + apellido1 + ", apellido2=" + apellido2 + ", username=" + username + ", password=" + password +'}';
     }
 }

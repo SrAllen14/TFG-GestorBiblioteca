@@ -162,12 +162,14 @@
                         
                         <td th:text="${prestamo.ejemplar.codigo}"></td>
 
-                        <td th:text="${prestamo.fechaInicio}"></td>
+                        <td th:text="${#temporals.format(prestamo.fechaInicio, 'dd-MM-yyyy')}"></td>
 
-                        <td th:text="${prestamo.fechaFin}"></td>
+                        <td th:text="${#temporals.format(prestamo.fechaFin, 'dd-MM-yyyy')}"></td>
 
-                        <td th:text="${prestamo.fechaDevolucion}"></td>
+                        <td th:if="${prestamo.fechaDevolucion != null}" th:text="${#temporals.format(prestamo.fechaDevolucion, 'dd-MM-yyyy')}"></td>
+                        <td th:if="${prestamo.fechaDevolucion == null}">No se ha devuelto</td>
 
+                        
                         <td th:text="${prestamo.fechaDevolucion} == null ? Activo : Devuelto"></td>
                         <td>
 
@@ -178,22 +180,12 @@
                                    class="btn btn-warning btn-sm">
                                     <i class="bi bi-pencil-square"></i>
                                 </a>
-                                <form th:if="${prestamo.FechaDevolucion == null}" 
-                                    th:action="@{/prestamo/finalizar/{idPrestamo}(idPrestamo=${prestamo.idPrestamo})}"
-                                      method="post">
-                                    <button type="submit"
-                                            class="btn btn-secondary btn-sm">
-                                        Dar de baja
-                                    </button>
-                                </form>
-                                <form th:if="${prestamo.FechaDevolucion != null}"  
-                                    th:action="@{/prestamo/reabrir/{idPrestamo}(idPrestamo=${prestamo.idPrestamo})}"
-                                      method="post">
-                                    <button type="submit"
-                                            class="btn btn-secondary btn-sm">
-                                        Reabrir
-                                    </button>
-                                </form>
+                                <a th:href="@{/prestamo/consultar/{id}(id=${prestamo.idPrestamo})}"
+                                   class="btn btn-info btn-sm text-white">
+
+                                    <i class="bi bi-eye"></i>
+
+                                </a>
                             </div>
                         </td>
                     </tr>

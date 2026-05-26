@@ -24,8 +24,8 @@ public class LibroServiceImp implements LibroService{
     
     @Override
     public Libro registarLibro(Libro libro) {
-        if (libroRepository.existsByIsbn(libro.getIsbn())) {
-            throw new IllegalArgumentException("ISBN ya existe");
+        if(libroRepository.existsByIsbn(libro.getIsbn())){
+            throw new IllegalArgumentException("El ISBN existe en el sistema");
         }
         libro.setActivo(true);
         
@@ -46,6 +46,10 @@ public class LibroServiceImp implements LibroService{
     public Libro editarLibro(Long id, Libro libroEditado) {
         
         Libro libro = buscarLibroPorId(id);
+        
+        if(libroRepository.existsByIsbn(libroEditado.getIsbn())){
+            throw new IllegalArgumentException("El ISBN existe en el sistema");
+        }
         
         libro.setTitulo(libroEditado.getTitulo());
         libro.setAutor(libroEditado.getAutor());

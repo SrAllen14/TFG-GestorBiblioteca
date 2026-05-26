@@ -178,6 +178,7 @@
                                    th:field="*{isbn}"
                                    required>
                             <div class="text-danger" th:if="${#fields.hasErrors('isbn')}" th:errors='*{isbn}'></div>
+                            <div class="text-danger" th:if="${errorISBN}" th:text='${errorISBN}'></div>
                         </div>
 
                         <!-- BOTONES -->

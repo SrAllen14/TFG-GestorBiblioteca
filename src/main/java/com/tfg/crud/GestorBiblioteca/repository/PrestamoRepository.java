@@ -21,7 +21,9 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PrestamoRepository extends JpaRepository<Prestamo, Long>{
+    
     List<Prestamo> findByEjemplarCodigoContainingIgnoreCase(String codigoEjemplar);
+    List<Prestamo> findByUsuarioIdUsuario(Long idUsuario);
     
     @Query("""
            SELECT p FROM Prestamo p WHERE (:busqueda IS NULL 
