@@ -6,7 +6,6 @@ package com.tfg.crud.GestorBiblioteca.service;
 
 import com.tfg.crud.GestorBiblioteca.entity.Libro;
 import com.tfg.crud.GestorBiblioteca.repository.LibroRepository;
-import com.tfg.crud.GestorBiblioteca.validation.IsbnValidator;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -25,12 +24,10 @@ public class LibroServiceImp implements LibroService{
     
     @Override
     public Libro registarLibro(Libro libro) {
-        
-        libro.setActivo(true);
-        
-        if (!IsbnValidator.isValid(libro.getIsbn())){
-            throw new IllegalArgumentException("ISBN inválido");
+        if (libroRepository.existsByIsbn(libro.getIsbn())) {
+            throw new IllegalArgumentException("ISBN ya existe");
         }
+        libro.setActivo(true);
         
         return libroRepository.save(libro);
     }
@@ -54,12 +51,8 @@ public class LibroServiceImp implements LibroService{
         libro.setAutor(libroEditado.getAutor());
         libro.setGenero(libroEditado.getGenero());
         libro.setEditorial(libroEditado.getEditorial());
+        libro.setIsbn(libroEditado.getIsbn());
         
-        if (!IsbnValidator.isValid(libroEditado.getIsbn())){
-            throw new IllegalArgumentException("ISBN inválido");
-        } else{
-            libro.setIsbn(libroEditado.getIsbn());
-        }
         
         libroRepository.save(libro);
         

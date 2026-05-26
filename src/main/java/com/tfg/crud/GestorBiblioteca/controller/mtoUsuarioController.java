@@ -7,12 +7,14 @@ package com.tfg.crud.GestorBiblioteca.controller;
 import com.tfg.crud.GestorBiblioteca.dto.UsuarioDTO;
 import com.tfg.crud.GestorBiblioteca.entity.Usuario;
 import com.tfg.crud.GestorBiblioteca.service.UsuarioServiceImp;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -61,17 +63,17 @@ public class mtoUsuarioController {
     }
     
     @PostMapping("/crear")
-    public String registrarUsuario(@ModelAttribute UsuarioDTO usuarioDTO, RedirectAttributes redirectAttributes){
+    public String registrarUsuario(@Valid @ModelAttribute UsuarioDTO usuarioDTO, BindingResult result, RedirectAttributes redirectAttributes, Model modelo){
+        modelo.addAttribute("usuarioDTO", usuarioDTO);
         
-        try{
-            usuarioService.registrarUsuario(usuarioDTO);
-            redirectAttributes.addFlashAttribute("succes","Usuario registrado correctamente");
-        } catch(RuntimeException re){
-            redirectAttributes.addFlashAttribute("error", re.getMessage());
-            return "redirect:/usuario/crear";
+        if(result.hasErrors()){
+            return "registroUsuario";
         }
         
+        usuarioService.registrarUsuario(usuarioDTO);
+        redirectAttributes.addFlashAttribute("succes","Usuario registrado correctamente");
         return "redirect:/usuario";
+            
         
     }
     
@@ -96,15 +98,19 @@ public class mtoUsuarioController {
     }
     
     @PostMapping("/editar/{idUsuario}")
-    public String editarUsuario(@PathVariable Long idUsuario, @ModelAttribute UsuarioDTO usuarioDTO){
+    public String editarUsuario(@PathVariable Long idUsuario, BindingResult result, @ModelAttribute UsuarioDTO usuarioDTO, RedirectAttributes redirectAttributes, Model modelo){
+        modelo.addAttribute("usuarioDTO", usuarioDTO);
         
+        if(result.hasErrors()){
+            return "edicionUsuario";
+        }
         usuarioService.editarUsuario(idUsuario, usuarioDTO);
         return "redirect:/usuario";
     }
     
     @PostMapping("/estado/{idUsuario}")
     public String cambiarEstadoUsuario(@PathVariable Long idUsuario){
-    
+        
         usuarioService.modificarEstadoUsuario(idUsuario);
         return "redirect:/usuario";
     }

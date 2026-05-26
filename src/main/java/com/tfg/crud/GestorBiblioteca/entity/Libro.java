@@ -4,6 +4,7 @@
  */
 package com.tfg.crud.GestorBiblioteca.entity;
 
+import com.tfg.crud.GestorBiblioteca.validation.ISBN;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -13,6 +14,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,9 +32,12 @@ public class Libro {
     private Long idLibro;
     
     @Column(name = "Titulo")
+    @NotBlank(message = "El título es obligatorio")
     private String titulo;
     
     @Column(name = "Autor")
+    @NotBlank(message = "El autor es obligatorio")
+    @Pattern(regexp = "^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$", message = "El autor solo puede contener letras")
     private String autor;
     
     @Column(name = "Genero")
@@ -40,10 +45,13 @@ public class Libro {
     private Genero genero;
     
     @Column(name = "Editorial")
+    @NotBlank(message = "La editorial es obligatoria")
+    @Pattern(regexp = "^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ,.]+$", message = "La editorial contiene caracteres no válidos")
     private String editorial;
     
     @Column(name = "ISBN", unique = true)
-    @Pattern(regexp = "^(\\d{10}|\\d{13}|\\d{9}X)$", message = "ISBN debe ser ISBN-10 o ISBN-13 válido")
+    @NotBlank(message = "El ISBN es obligatorio")
+    @ISBN(message = "ISBN invalido")
     private String isbn;
     
     @Column(name = "Activo")

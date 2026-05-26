@@ -39,4 +39,6 @@ public interface LibroRepository extends JpaRepository<Libro, Long>{
     Page<Libro> buscarTodosLibros(@Param("busqueda") String busqueda, Pageable pageable);
     
     List<Libro> findByIsbnContainingAndActivoTrue(String isbn);
+
+    public boolean existsByIsbn(String isbn);
 }

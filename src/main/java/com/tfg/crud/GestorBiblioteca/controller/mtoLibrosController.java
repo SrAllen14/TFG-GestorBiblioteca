@@ -22,6 +22,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -84,20 +85,17 @@ public class mtoLibrosController {
 
         modelo.addAttribute("libro", new Libro());
 
-        return "/registroLibro";
+        return "registroLibro";
     }
 
     @PostMapping("/crear")
-    public String registrarLibro(@Valid @ModelAttribute Libro libro, RedirectAttributes redirectAttributes) {
-
-        try {
-            libroService.registarLibro(libro);
-            redirectAttributes.addFlashAttribute("success", "Usuario registrado");
-        } catch (RuntimeException re) {
-            redirectAttributes.addFlashAttribute("error", re.getMessage());
-            return "redirect:/libro/crear";
-        }
-
+    public String registrarLibro(@Valid @ModelAttribute Libro libro, BindingResult result, RedirectAttributes redirectAttributes, Model modelo) {
+        modelo.addAttribute("libro", libro);
+        if(result.hasErrors()){
+            return "registroLibro";
+        } 
+        
+        libroService.registarLibro(libro);
         return "redirect:/libro";
     }
 
@@ -111,8 +109,14 @@ public class mtoLibrosController {
     }
 
     @PostMapping("/editar/{idLibro}")
-    public String editarLibro(@Valid @PathVariable Long idLibro, @ModelAttribute Libro libro) {
-
+    public String editarLibro(@PathVariable Long idLibro, @Valid @ModelAttribute Libro libro, BindingResult result, RedirectAttributes redirectAttributes, Model modelo) {
+        
+        modelo.addAttribute("libro", libro);
+       
+        if(result.hasErrors()){
+            return "edicionLibro";
+        } 
+            
         libroService.editarLibro(idLibro, libro);
         return "redirect:/libro";
     }

@@ -5,6 +5,10 @@
 package com.tfg.crud.GestorBiblioteca.dto;
 
 import com.tfg.crud.GestorBiblioteca.entity.Rol;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 /**
  *
@@ -12,11 +16,25 @@ import com.tfg.crud.GestorBiblioteca.entity.Rol;
  */
 public class UsuarioDTO {
     
+    @NotBlank(message = "El nombre es obligatorio")
+    @Pattern(regexp = "^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$", message = "El nombre solo puede contener carácteres numéricos")
     private String nombre;
+    
+    @NotBlank(message = "El primer apellido es obligatorio")
+    @Pattern(regexp = "^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$", message = "El primer apellido solo puede contener carácteres numéricos")
     private String apellido1;
+    
+    @NotBlank(message = "El segundo apellido es obligatorio")
+    @Pattern(regexp = "^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$", message = "El segundo apellido solo puede contener carácteres numéricos")
     private String apellido2;
+    
+    @NotNull
     private Rol rol;
+    
+    @Size(min = 6, message = "El username es obligatorio")
     private String username;
+    
+    @Size(min = 4,message = "El password es obligatorio")
     private String password;
 
     public UsuarioDTO() {
