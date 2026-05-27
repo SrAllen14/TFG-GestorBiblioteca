@@ -5,12 +5,16 @@
 package com.tfg.crud.GestorBiblioteca.controller;
 
 import com.tfg.crud.GestorBiblioteca.dto.PrestamoDTO;
+import com.tfg.crud.GestorBiblioteca.entity.Ejemplar;
 import com.tfg.crud.GestorBiblioteca.entity.Prestamo;
+import com.tfg.crud.GestorBiblioteca.entity.Usuario;
 import com.tfg.crud.GestorBiblioteca.service.EjemplarService;
 import com.tfg.crud.GestorBiblioteca.service.LibroService;
 import com.tfg.crud.GestorBiblioteca.service.PrestamoService;
 import com.tfg.crud.GestorBiblioteca.service.UsuarioService;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -131,6 +135,9 @@ public class mtoPrestamoController {
         LocalDate fechaInicio = LocalDate.now();
         LocalDate fechaFin = prestamoService.sumarDiasHabiles(fechaInicio);
         
+        List<Ejemplar> ejemplares = new ArrayList<>(ejemplarService.listarEjemplaresDisponibles());
+        List<Usuario> usuarios = new ArrayList<>(usuarioService.buscarUsuariosDisponibles(nombre));
+        
         Prestamo prestamo = prestamoService.buscarPrestamoPorId(idPrestamo);
 
         PrestamoDTO prestamoDTO = new PrestamoDTO();
@@ -139,8 +146,23 @@ public class mtoPrestamoController {
         prestamoDTO.setIdEjemplar(prestamo.getEjemplar().getIdEjemplar());
         prestamoDTO.setIdUsuario(prestamo.getUsuario().getIdUsuario());
 
-        modelo.addAttribute("ejemplares", ejemplarService.listarEjemplaresDisponibles());
-        modelo.addAttribute("usuarios", usuarioService.buscarUsuariosDisponibles(nombre));
+        boolean usuarioExiste = usuarios.stream()
+                .anyMatch(u -> u.getIdUsuario().equals(prestamo.getUsuario().getIdUsuario()));
+
+        if (!usuarioExiste) {
+            usuarios.add(prestamo.getUsuario());
+        }
+
+        
+        boolean ejemplarExiste = ejemplares.stream()
+                .anyMatch(e -> e.getIdEjemplar().equals(prestamo.getEjemplar().getIdEjemplar()));
+
+        if (!ejemplarExiste) {
+            ejemplares.add(prestamo.getEjemplar());
+        }
+        
+        modelo.addAttribute("ejemplares", ejemplares);
+        modelo.addAttribute("usuarios", usuarios);
 
         modelo.addAttribute("fechaInicio", fechaInicio);
         modelo.addAttribute("fechaFin", fechaFin);  

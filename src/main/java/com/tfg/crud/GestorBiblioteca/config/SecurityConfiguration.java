@@ -23,7 +23,7 @@ public class SecurityConfiguration{
     
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests(auth -> auth.requestMatchers("/", "/login", "/css/**").permitAll().anyRequest().authenticated())
+        http.authorizeHttpRequests(auth -> auth.requestMatchers("/", "/login", "/api/inicio", "/css/**").permitAll().anyRequest().authenticated())
                 .formLogin(form -> form.loginPage("/login").defaultSuccessUrl("/", false).failureUrl("/login?error=true").permitAll())
                 .logout(logout -> logout.logoutUrl("/logout").logoutSuccessUrl("/").invalidateHttpSession(true).deleteCookies("JSESSIONID").permitAll());
         
