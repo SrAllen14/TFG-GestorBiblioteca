@@ -29,9 +29,7 @@ public class UserDetailsServiceImp implements UserDetailsService{
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         
         Usuario usuario = usuarioRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
-
+        
         return new User(usuario.getUsername(), usuario.getPassword(), Collections.singletonList(new SimpleGrantedAuthority(usuario.getRol().name())));
     }
-
-    
 }

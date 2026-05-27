@@ -160,29 +160,33 @@ public class mtoLibrosController {
     }
     
     @PostMapping("/importar")
-    public String importarLibros(@RequestParam("archivo") MultipartFile archivo) throws IOException{
-        
-        BufferedReader reader = new BufferedReader(new InputStreamReader(archivo.getInputStream()));
-        String line;
-        
-        reader.readLine();
-        
-        while((line=reader.readLine()) != null){
-            
-            String[] data = line.split(",");
-            
-            Libro libro = new Libro();
-            libro.setTitulo(data[0]);
-            libro.setAutor(data[1]);
-            libro.setIsbn(data[2]);
-            libro.setGenero(Genero.valueOf(data[3]));
-            libro.setEditorial(data[4]);
-            libro.setActivo(true);
-            
-            libroService.registarLibro(libro);
+    public String importarLibros(@RequestParam("archivo") MultipartFile archivo, RedirectAttributes redirectAttributes) throws IOException{
+        try{
+            BufferedReader reader = new BufferedReader(new InputStreamReader(archivo.getInputStream()));
+            String line;
+
+            reader.readLine();
+
+            while((line=reader.readLine()) != null){
+
+                String[] data = line.split(",");
+
+                Libro libro = new Libro();
+                libro.setTitulo(data[0]);
+                libro.setAutor(data[1]);
+                libro.setIsbn(data[2]);
+                libro.setGenero(Genero.valueOf(data[3]));
+                libro.setEditorial(data[4]);
+                libro.setActivo(true);
+
+                libroService.registarLibro(libro);
+            }
+
+            return "redirect:/libro";
+        }catch(RuntimeException ex){
+            redirectAttributes.addFlashAttribute("error", "No se han podido importar lo libros por este motivo: " + ex.getMessage());
+            return "redirect:/libro";
         }
-        
-        return "redirect:/libro";
     }
     
     @PostMapping("/consultar/{idLibro}/estado/{idEjemplar}")

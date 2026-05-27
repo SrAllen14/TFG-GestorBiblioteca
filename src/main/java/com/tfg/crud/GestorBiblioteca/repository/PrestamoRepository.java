@@ -44,4 +44,6 @@ public interface PrestamoRepository extends JpaRepository<Prestamo, Long>{
             @Param("busqueda") String busqueda,
             @Param("activo") Boolean activo,
             Pageable pageable);
+    
+    Long countByFechaDevolucionIsNull();
 }

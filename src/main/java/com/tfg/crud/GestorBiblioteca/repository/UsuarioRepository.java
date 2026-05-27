@@ -39,8 +39,12 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long>{
     """)
     Page<Usuario> buscarTodosUsuarios(@Param("busqueda") String busqueda, Pageable pageable);
     
-    Optional<Usuario> findByUsername(String username);
     List<Usuario> findByActivoTrueAndTipoInAndNombreContainingIgnoreCase(List<Rol> roles, String nombre);
-
-    public boolean existsByDni(String dni);
+    
+    Long countByActivoTrueAndTipoIn(List<Rol> roles);
+    
+    Optional<Usuario> findByUsername(String username);
+    Usuario findByDni(String dni);
+    Boolean existsByDni(String dni);
+    Boolean existsByUsername(String username);
 }

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <title>Editar libro</title>
@@ -42,37 +43,82 @@
 <!-- NAVBAR (MISMO QUE RESTO DE LA APP) -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-
-        <a class="navbar-brand" href="/">Inicio</a>
-
+        <a class="navbar-brand" href="/">Gestor de Biblioteca Escolar</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+          <span class="navbar-toggler-icon"></span>
+      </button>
 
-        <div class="collapse navbar-collapse" id="navbarNav">
+      <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+              <li class="nav-item">
+                  <a class="nav-link" href="/usuario">Usuarios</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="/libro">Libros</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="/prestamo">Prestamos</a>
+              </li>
+              <li class="nav-item dropdown" sec:authorize="isAuthenticated()">
 
-            <ul class="navbar-nav ms-auto">
+                <a class="nav-link dropdown-toggle d-flex align-items-center gap-2"
+                   href="#"
+                   role="button"
+                   data-bs-toggle="dropdown"
+                   aria-expanded="false">
 
-                <li class="nav-item">
-                    <a class="nav-link" href="/usuario">Usuarios</a>
-                </li>
+                    <!-- CÍRCULO USUARIO -->
+                    <div class="rounded-circle bg-primary text-white d-flex justify-content-center align-items-center"
+                         style="width: 35px; height: 35px;">
 
-                <li class="nav-item">
-                    <a class="nav-link" href="/libro">Libros</a>
-                </li>
+                        <i class="bi bi-person-fill"></i>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="/prestamo">Préstamos</a>
-                </li>
+                    </div>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="/login">Iniciar sesión</a>
-                </li>
+                    <!-- USERNAME -->
+                    <span sec:authentication="name"></span>
 
-            </ul>
+                </a>
 
-        </div>
+                <ul class="dropdown-menu dropdown-menu-end shadow border-0">
 
+                    <!-- EDITAR PERFIL -->
+                    <li>
+                        <a class="dropdown-item"
+                           href="/usuario/perfil">
+
+                            <i class="bi bi-person-circle"></i>
+                            Editar perfil
+
+                        </a>
+                    </li>
+
+                    <li><hr class="dropdown-divider"></li>
+
+                    <!-- LOGOUT -->
+                    <li>
+
+                        <form th:action="@{/logout}"
+                              method="post"
+                              class="m-0">
+
+                            <button type="submit"
+                                    class="dropdown-item text-danger">
+
+                                <i class="bi bi-box-arrow-right"></i>
+                                Cerrar sesión
+
+                            </button>
+
+                        </form>
+
+                    </li>
+
+                </ul>
+
+            </li>
+          </ul>
+      </div>
     </div>
 </nav>
 

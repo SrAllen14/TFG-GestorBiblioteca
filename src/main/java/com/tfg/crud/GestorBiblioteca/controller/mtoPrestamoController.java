@@ -117,6 +117,9 @@ public class mtoPrestamoController {
 
     @GetMapping("/editar/{idPrestamo}")
     public String mostrarEditarPrestamo(Model modelo, @PathVariable Long idPrestamo, @RequestParam(required = false) String nombre, @RequestParam(required = false) String isbn, @RequestParam(required = false) Long idEjemplar, @RequestParam(required = false) Long idUsuario) {
+        LocalDate fechaInicio = LocalDate.now();
+        LocalDate fechaFin = prestamoService.sumarDiasHabiles(fechaInicio);
+        
         Prestamo prestamo = prestamoService.buscarPrestamoPorId(idPrestamo);
 
         PrestamoDTO prestamoDTO = new PrestamoDTO();
@@ -124,12 +127,13 @@ public class mtoPrestamoController {
         prestamoDTO.setIdPrestamo(prestamo.getIdPrestamo());
         prestamoDTO.setIdEjemplar(prestamo.getEjemplar().getIdEjemplar());
         prestamoDTO.setIdUsuario(prestamo.getUsuario().getIdUsuario());
-        prestamoDTO.setFechaInicio(prestamo.getFechaInicio());
-        prestamoDTO.setFechaFin(prestamo.getFechaFin());
 
         modelo.addAttribute("ejemplares", ejemplarService.listarEjemplaresDisponibles());
         modelo.addAttribute("usuarios", usuarioService.buscarUsuariosDisponibles(nombre));
 
+        modelo.addAttribute("fechaInicio", fechaInicio);
+        modelo.addAttribute("fechaFin", fechaFin);  
+        
         modelo.addAttribute("prestamoDTO", prestamoDTO);
 
         return "edicionPrestamo";

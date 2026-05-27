@@ -63,38 +63,19 @@
 
         </button>
 
-        <div class="collapse navbar-collapse"
-             id="navbarNav">
-
-            <ul class="navbar-nav ms-auto">
-
-                <li class="nav-item">
-                    <a class="nav-link" href="/usuario">
-                        Usuarios
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="/libro">
-                        Libros
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link active" href="/prestamo">
-                        Prestamos
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="/login">
-                        Iniciar sesión
-                    </a>
-                </li>
-
-            </ul>
-
-        </div>
+        <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/usuario">Usuarios</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/libro">Libros</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/prestamo">Prestamos</a>
+                    </li>
+                </ul>
+            </div>
 
     </div>
 
@@ -191,8 +172,8 @@
                                 Fecha inicio
                             </label>
 
-                            <input type="date"
-                                   th:field="*{fechaInicio}"
+                            <input type="date"                                  
+                                   th:value='${fechaInicio}'
                                    class="form-control">
 
                         </div>
@@ -204,8 +185,8 @@
                                 Fecha fin
                             </label>
 
-                            <input type="date"
-                                   th:field="*{fechaFin}"
+                            <input type="date"                                   
+                                   th:value='${fechaFin}'
                                    class="form-control">
 
                         </div>

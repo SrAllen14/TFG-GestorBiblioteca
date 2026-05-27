@@ -77,9 +77,6 @@ public class PrestamoServiceImp implements PrestamoService{
         
         prestamo.setUsuario(usuario);
         prestamo.setEjemplar(ejemplar);
-        prestamo.setFechaFin(prestamoDTO.getFechaFin());
-        
-        
         
         return prestamoRepository.save(prestamo);
     }

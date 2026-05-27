@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -92,8 +93,8 @@ public class mtoUsuarioController {
             usuarioService.registrarUsuario(usuarioDTO);
             redirectAttributes.addFlashAttribute("succes","Usuario registrado correctamente");
             return "redirect:/usuario";
-        } catch(IllegalArgumentException ex){
-            modelo.addAttribute("errorDni", ex.getMessage());
+        } catch(RuntimeException ex){
+            modelo.addAttribute("error", ex.getMessage());
             return "registroUsuario";
         }
         
@@ -131,8 +132,8 @@ public class mtoUsuarioController {
             }
             usuarioService.editarUsuario(idUsuario, usuarioDTO);
             return "redirect:/usuario";
-        } catch(IllegalArgumentException ex){
-            modelo.addAttribute("errorDni", ex.getMessage());
+        } catch(RuntimeException ex){
+            modelo.addAttribute("error", ex.getMessage());
             return "edicionUsuario";
         }
         
@@ -143,5 +144,22 @@ public class mtoUsuarioController {
         
         usuarioService.modificarEstadoUsuario(idUsuario);
         return "redirect:/usuario";
+    }
+    
+    @GetMapping("/usuario/perfil")
+    public String mostrarEditarPerfil(Authentication auth, Model modelo){
+        String username = auth.getName();
+        
+        Usuario usuario = usuarioService.buscarUsuarioPorUsername(username);
+        
+        modelo.addAttribute("usuario", usuario);
+        return "editarPerfil";
+    }
+    
+    @PostMapping("/usuario/perfil")
+    public String editarPerfil(){
+        
+        
+        return "redirect:/";
     }
 }

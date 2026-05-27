@@ -40,5 +40,8 @@ public interface LibroRepository extends JpaRepository<Libro, Long>{
     
     List<Libro> findByIsbnContainingAndActivoTrue(String isbn);
 
-    public boolean existsByIsbn(String isbn);
+    Long countByActivoTrue();
+    
+    Libro findByIsbn(String isbn);
+    Boolean existsByIsbn(String isbn);
 }

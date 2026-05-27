@@ -47,7 +47,9 @@ public class LibroServiceImp implements LibroService{
         
         Libro libro = buscarLibroPorId(id);
         
-        if(libroRepository.existsByIsbn(libroEditado.getIsbn())){
+        Libro existe = libroRepository.findByIsbn(libroEditado.getIsbn());
+        
+        if(existe != null && !existe.getIdLibro().equals(id)){
             throw new IllegalArgumentException("El ISBN existe en el sistema");
         }
         

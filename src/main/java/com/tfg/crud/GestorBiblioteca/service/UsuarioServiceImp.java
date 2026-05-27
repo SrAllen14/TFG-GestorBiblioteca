@@ -40,6 +40,10 @@ public class UsuarioServiceImp implements UsuarioService{
             throw new IllegalArgumentException("Dni existente en el sistema");
         }
         
+        if(usuarioRepository.existsByUsername(usuarioDTO.getUsername())){
+            throw new IllegalArgumentException("Username existente en el sistema");
+        }
+        
         usuario.setDni(usuarioDTO.getDni());
         usuario.setNombre(usuarioDTO.getNombre());
         usuario.setApellido1(usuarioDTO.getApellido1());
@@ -111,8 +115,19 @@ public class UsuarioServiceImp implements UsuarioService{
         
         Usuario usuario = buscarUsuarioPorId(idUsuario);
         
-        if(usuarioRepository.existsByDni(usuarioEditadoDTO.getDni())){
-            throw new IllegalArgumentException("Dni existente en el sistema");
+        Usuario existenteDNI = usuarioRepository.findByDni(usuarioEditadoDTO.getDni());
+        Usuario existenteUsername = buscarUsuarioPorUsername(usuarioEditadoDTO.getUsername());
+
+        if(existenteDNI != null &&
+           !existenteDNI.getIdUsuario().equals(idUsuario)){
+
+            throw new IllegalArgumentException("El DNI ya existe");
+        }
+        
+        if(existenteUsername != null &&
+           !existenteUsername.getIdUsuario().equals(idUsuario)){
+
+            throw new IllegalArgumentException("El username ya existe");
         }
         
         usuario.setDni(usuarioEditadoDTO.getDni());
@@ -133,6 +148,16 @@ public class UsuarioServiceImp implements UsuarioService{
         } else{
             usuario.setUsername(null);
             usuario.setPassword(null);
+        }
+        
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String rolUsuario = auth.getAuthorities().iterator().next().getAuthority();
+        
+        if(rolUsuario.equals("ROLE_BIBLIOTECARIO")){
+            
+            if(usuarioEditadoDTO.getRol() == Rol.ROLE_ADMINISTRADOR || usuarioEditadoDTO.getRol() == Rol.ROLE_BIBLIOTECARIO){
+                throw new RuntimeException("Un bibliotecario no puede editar administradores ni bibliotecarios");
+            }
         }
         
         return usuarioRepository.save(usuario);
@@ -159,5 +184,10 @@ public class UsuarioServiceImp implements UsuarioService{
             return usuarioRepository.buscarTodosUsuarios(busqueda, pageable);
         }
         return usuarioRepository.buscarUsuarios(busqueda, activo, pageable);
+    }
+
+    @Override
+    public Usuario buscarUsuarioPorUsername(String username) {
+        return usuarioRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
     }
 }

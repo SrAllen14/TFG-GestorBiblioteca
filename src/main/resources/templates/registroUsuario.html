@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <title>Registrar Usuario</title>
@@ -43,72 +44,30 @@
 
 <body class="bg-light">
 
-<!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-
     <div class="container-fluid">
+        <a class="navbar-brand" href="/">Gestor de Biblioteca Escolar</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+      </button>
 
-        <a class="navbar-brand"
-           href="/">
-            Inicio
-        </a>
-
-        <button class="navbar-toggler"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#navbarNav">
-
-            <span class="navbar-toggler-icon"></span>
-
-        </button>
-
-        <div class="collapse navbar-collapse"
-             id="navbarNav">
-
-            <ul class="navbar-nav ms-auto">
-
-                <li class="nav-item">
-
-                    <a class="nav-link"
-                       href="/usuario">
-                        Usuarios
-                    </a>
-
-                </li>
-
-                <li class="nav-item">
-
-                    <a class="nav-link"
-                       href="/libro">
-                        Libros
-                    </a>
-
-                </li>
-
-                <li class="nav-item">
-
-                    <a class="nav-link"
-                       href="/prestamo">
-                        Prestamos
-                    </a>
-
-                </li>
-
-                <li class="nav-item">
-
-                    <a class="nav-link"
-                       href="/login">
-                        Iniciar sesión
-                    </a>
-
-                </li>
-
-            </ul>
-
-        </div>
-
+      <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+              <li class="nav-item">
+                  <a class="nav-link" href="/usuario">Usuarios</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="/libro">Libros</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="/prestamo">Prestamos</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="/login">Iniciar sesión</a>
+              </li>
+          </ul>
+      </div>
     </div>
-
 </nav>
 
 <!-- Contenido -->
@@ -159,7 +118,6 @@
                                    th:field="*{dni}"
                                    required>
                             <div class="text-danger" th:if="${#fields.hasErrors('dni')}" th:errors='*{dni}'></div>
-                            <div class="text-danger" th:if="${errorDni}" th:text="${errorDni}"></div>
                         </div>
                         
                         <!-- Nombre -->
@@ -308,13 +266,6 @@
                              class="alert alert-danger">
 
                             <span th:text="${error}"></span>
-
-                        </div>
-
-                        <div th:if="${success}"
-                             class="alert alert-success">
-
-                            <span th:text="${success}"></span>
 
                         </div>
 
