@@ -9,6 +9,7 @@ import com.tfg.crud.GestorBiblioteca.entity.Ejemplar;
 import com.tfg.crud.GestorBiblioteca.entity.Prestamo;
 import com.tfg.crud.GestorBiblioteca.entity.Usuario;
 import com.tfg.crud.GestorBiblioteca.repository.PrestamoRepository;
+import com.tfg.crud.GestorBiblioteca.repository.UsuarioRepository;
 import java.time.LocalDate;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,9 @@ public class PrestamoServiceImp implements PrestamoService{
     
     @Autowired
     private PrestamoRepository prestamoRepository;
+    
+    @Autowired
+    private UsuarioRepository usuarioRepository;
     
     @Autowired
     private UsuarioService usuarioService;
@@ -87,6 +91,14 @@ public class PrestamoServiceImp implements PrestamoService{
         
         if(codigo.equals(prestamo.getEjemplar().getCodigo())){
             prestamo.setFechaDevolucion(fechaDevolucion);
+            
+            if(fechaDevolucion.isAfter(prestamo.getFechaFin())){
+                Usuario usuario = usuarioService.buscarUsuarioPorId(prestamo.getUsuario().getIdUsuario());
+                
+                usuario.setActivo(false);
+                
+                usuarioRepository.save(usuario);
+            }
             prestamoRepository.save(prestamo);
         }
     }

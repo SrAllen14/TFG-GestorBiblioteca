@@ -146,20 +146,48 @@ public class mtoUsuarioController {
         return "redirect:/usuario";
     }
     
-    @GetMapping("/usuario/perfil")
+    @GetMapping("/perfil")
     public String mostrarEditarPerfil(Authentication auth, Model modelo){
         String username = auth.getName();
         
+        UsuarioDTO usuarioDTO = new UsuarioDTO();
         Usuario usuario = usuarioService.buscarUsuarioPorUsername(username);
         
-        modelo.addAttribute("usuario", usuario);
+        usuarioDTO.setDni(usuario.getDni());
+        usuarioDTO.setNombre(usuario.getNombre());
+        usuarioDTO.setApellido1(usuario.getApellido1());
+        usuarioDTO.setApellido2(usuario.getApellido2());
+        usuarioDTO.setRol(usuario.getRol());
+        usuarioDTO.setUsername(usuario.getUsername());
+        usuarioDTO.setPassword(usuario.getPassword());
+        
+        modelo.addAttribute("usuarioDTO", usuarioDTO);
+        
         return "editarPerfil";
     }
     
-    @PostMapping("/usuario/perfil")
-    public String editarPerfil(){
+    @PostMapping("/perfil")
+    public String editarPerfil(@Valid @ModelAttribute UsuarioDTO usuarioDTO, BindingResult result, RedirectAttributes redirectAttributes, Model modelo, Authentication auth, @RequestParam String confirmPassword){
+        modelo.addAttribute("usuarioDTO", usuarioDTO);
         
-        
-        return "redirect:/";
+        try{
+            if(result.hasErrors()){
+                return "edicionUsuario";
+            }
+            
+            if(usuarioDTO.getPassword() != null && !usuarioDTO.getPassword().isBlank()){
+                if(!usuarioDTO.getPassword().equals(confirmPassword)){
+                    modelo.addAttribute("error", "Las contraseñas no coinciden");
+                    return "editarPerfil";
+                }
+            }
+            
+            Usuario usuario = usuarioService.buscarUsuarioPorUsername(auth.getName());
+            usuarioService.editarUsuario(usuario.getIdUsuario(), usuarioDTO);
+            return "redirect:/";
+        } catch(RuntimeException ex){
+            modelo.addAttribute("error", ex.getMessage());
+            return "editarPerfil";
+        }
     }
 }

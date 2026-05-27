@@ -10,9 +10,7 @@
 </head>
 
 <body class="bg-light">
-
-<div class="container py-5">
-
+    
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
           <div class="container-fluid">
               <a class="navbar-brand" href="/">Gestor de Biblioteca Escolar</a>
@@ -94,6 +92,7 @@
           </div>
       </nav>
 
+<div class="container py-5">
     <div class="row g-4">
 
         <!-- USUARIO -->
@@ -128,6 +127,7 @@
                             Inactivo
                         </span>
                     </p>
+                    <div class="text-danger" th:if="${sancion}" th:text='${sancion}'></div>
                 </div>
             </div>
         </div>
@@ -203,10 +203,10 @@
                         Finalizar préstamo
                     </button>
                 </div>
-
+               
             </form>
 
-        </div>
+        </div> 
     </div>
 
 </div>

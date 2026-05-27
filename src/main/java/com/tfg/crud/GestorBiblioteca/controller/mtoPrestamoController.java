@@ -68,10 +68,21 @@ public class mtoPrestamoController {
     
     @GetMapping("/consultar/{idPrestamo}")
     public String consultarPrestamo(@PathVariable Long idPrestamo, Model modelo){
-        
+        String sancion;
         Prestamo prestamo = prestamoService.buscarPrestamoPorId(idPrestamo);
-        modelo.addAttribute("prestamo", prestamo);
         
+        if(prestamo.getFechaDevolucion() != null){
+            if(prestamo.getFechaDevolucion().isAfter(prestamo.getFechaFin())){
+                sancion = "El usuario ha sido suspendido por falta grave en la entrega del libro. Para terminar la suspensión dirigase al mantenimiento de usuario.";
+            } else{
+                sancion = null;
+            }
+        } else{
+            sancion = null;
+        }
+        
+        modelo.addAttribute("prestamo", prestamo);
+        modelo.addAttribute("sancion", sancion);
         return "detallePrestamo";
     }
 
