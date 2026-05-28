@@ -3,140 +3,162 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
-    <title>Editar libro</title>
-
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Edición de libro</title>
 
-    <!-- Bootstrap Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1">
 
-    <style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
 
-        body{
-            background-color:#f8f9fa;
-        }
-
-        .card-formulario{
-            border:none;
-            border-radius:12px;
-        }
-
-        .card-header-custom{
-            background-color:#212529;
-            color:white;
-            border-radius:12px 12px 0 0 !important;
-        }
-
-        .btn-guardar{
-            width:100%;
-        }
-
-    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+          rel="stylesheet">
 </head>
 
-<body class="bg-light">
+<body class="bg-light d-flex flex-column min-vh-100">
 
-<!-- NAVBAR (MISMO QUE RESTO DE LA APP) -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
     <div class="container-fluid">
-        <a class="navbar-brand" href="/">Gestor de Biblioteca Escolar</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-          <span class="navbar-toggler-icon"></span>
-      </button>
 
-      <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav ms-auto">
-              <li class="nav-item">
-                  <a class="nav-link" href="/usuario">Usuarios</a>
-              </li>
-              <li class="nav-item">
-                  <a class="nav-link" href="/libro">Libros</a>
-              </li>
-              <li class="nav-item">
-                  <a class="nav-link" href="/prestamo">Prestamos</a>
-              </li>
-              <li class="nav-item dropdown" sec:authorize="isAuthenticated()">
+        <a class="navbar-brand"
+           href="/">
 
-                <a class="nav-link dropdown-toggle d-flex align-items-center gap-2"
-                   href="#"
-                   role="button"
-                   data-bs-toggle="dropdown"
-                   aria-expanded="false">
+            Gestor de Biblioteca Escolar
 
-                    <!-- CÍRCULO USUARIO -->
-                    <div class="rounded-circle bg-primary text-white d-flex justify-content-center align-items-center"
-                         style="width: 35px; height: 35px;">
+        </a>
 
-                        <i class="bi bi-person-fill"></i>
+        <button class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarNav">
 
-                    </div>
+            <span class="navbar-toggler-icon"></span>
 
-                    <!-- USERNAME -->
-                    <span sec:authentication="name"></span>
+        </button>
 
-                </a>
+        <div class="collapse navbar-collapse"
+             id="navbarNav">
 
-                <ul class="dropdown-menu dropdown-menu-end shadow border-0">
+            <ul class="navbar-nav ms-auto">
 
-                    <!-- EDITAR PERFIL -->
-                    <li>
-                        <a class="dropdown-item"
-                           href="/usuario/perfil">
+                <li class="nav-item">
 
-                            <i class="bi bi-person-circle"></i>
-                            Editar perfil
+                    <a class="nav-link"
+                       href="/usuario">
 
-                        </a>
-                    </li>
+                        Usuarios
 
-                    <li><hr class="dropdown-divider"></li>
+                    </a>
 
-                    <!-- LOGOUT -->
-                    <li>
+                </li>
 
-                        <form th:action="@{/logout}"
-                              method="post"
-                              class="m-0">
+                <li class="nav-item">
 
-                            <button type="submit"
-                                    class="dropdown-item text-danger">
+                    <a class="nav-link"
+                       href="/libro">
 
-                                <i class="bi bi-box-arrow-right"></i>
-                                Cerrar sesión
+                        Libros
 
-                            </button>
+                    </a>
 
-                        </form>
+                </li>
 
-                    </li>
+                <li class="nav-item">
 
-                </ul>
+                    <a class="nav-link"
+                       href="/prestamo">
 
-            </li>
-          </ul>
-      </div>
+                        Préstamos
+
+                    </a>
+
+                </li>
+
+                <li class="nav-item dropdown"
+                    sec:authorize="isAuthenticated()">
+
+                    <a class="nav-link dropdown-toggle d-flex align-items-center gap-2"
+                       href="#"
+                       role="button"
+                       data-bs-toggle="dropdown">
+
+                        <div class="rounded-circle bg-primary text-white d-flex justify-content-center align-items-center"
+                             style="width:35px;height:35px;">
+
+                            <i class="bi bi-person-fill"></i>
+
+                        </div>
+
+                        <span sec:authentication="name"></span>
+
+                    </a>
+
+                    <ul class="dropdown-menu dropdown-menu-end shadow border-0">
+
+                        <li>
+
+                            <a class="dropdown-item"
+                               href="/usuario/perfil">
+
+                                <i class="bi bi-person-circle"></i>
+                                Mi perfil
+
+                            </a>
+
+                        </li>
+
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+
+                        <li>
+
+                            <form th:action="@{/logout}"
+                                  method="post"
+                                  class="m-0">
+
+                                <button type="submit"
+                                        class="dropdown-item text-danger">
+
+                                    <i class="bi bi-box-arrow-right"></i>
+                                    Cerrar sesión
+
+                                </button>
+
+                            </form>
+
+                        </li>
+
+                    </ul>
+
+                </li>
+
+            </ul>
+
+        </div>
+
     </div>
+
 </nav>
 
-<!-- CONTENIDO -->
-<div class="container py-5">
+<main class="container py-5 flex-grow-1">
 
-    <div class="row justify-content-center">
+<div class="row justify-content-center">
 
         <div class="col-lg-7 col-md-9">
 
-            <div class="card shadow-sm card-formulario">
+            <div class="card shadow-sm border-0 rounded-4">
 
-                <!-- CABECERA -->
-                <div class="card-header card-header-custom text-center py-3">
+                <div class="card-header bg-dark text-white text-center py-3 rounded-top-4">
 
-                    <h2>
+                    <h2 class="mb-1">
+
                         <i class="bi bi-pencil-square"></i>
                         Editar Libro
+
                     </h2>
 
                     <p class="mb-0">
@@ -145,99 +167,159 @@
 
                 </div>
 
-                <!-- CUERPO -->
                 <div class="card-body p-4">
 
                     <form th:action="@{/libro/editar/{id}(id=${libro.idLibro})}"
                           th:object="${libro}"
                           method="post">
 
-                        <!-- TÍTULO -->
                         <div class="mb-3">
 
-                            <label class="form-label">Título</label>
+                            <label class="form-label">
+                                Título
+                            </label>
 
                             <input type="text"
                                    class="form-control"
                                    th:field="*{titulo}"
                                    required>
-                            <div class="text-danger" th:if="${#fields.hasErrors('titulo')}" th:errors='*{titulo}'></div>
+
+                            <div class="text-danger"
+                                 th:if="${#fields.hasErrors('titulo')}"
+                                 th:errors="*{titulo}">
+                            </div>
 
                         </div>
 
-                        <!-- AUTOR -->
                         <div class="mb-3">
 
-                            <label class="form-label">Autor</label>
+                            <label class="form-label">
+                                Autor
+                            </label>
 
                             <input type="text"
                                    class="form-control"
                                    th:field="*{autor}"
                                    required>
-                            <div class="text-danger" th:if="${#fields.hasErrors('autor')}" th:errors='*{autor}'></div>
+
+                            <div class="text-danger"
+                                 th:if="${#fields.hasErrors('autor')}"
+                                 th:errors="*{autor}">
+                            </div>
+
                         </div>
 
-                        <!-- GÉNERO -->
                         <div class="mb-3">
 
-                            <label class="form-label">Género</label>
+                            <label class="form-label">
+                                Género
+                            </label>
 
                             <select class="form-select"
                                     th:field="*{genero}"
                                     required>
 
-                                <option value="">Seleccione un género</option>
+                                <option value="">
+                                    Seleccione un género
+                                </option>
 
-                                <option value="ACCION">Acción</option>
-                                <option value="HISTORICA">Histórica</option>
-                                <option value="CIENCIA_FICCION">Ciencia ficción</option>
-                                <option value="NOVELA_NEGRA">Novela negra</option>
-                                <option value="ROMANTICA">Romántica</option>
-                                <option value="ENCICLOPEDIA">Enciclopedia</option>
-                                <option value="DICCIONARIO">Diccionario</option>
-                                <option value="POESIA">Poesía</option>
-                                <option value="TEATRO">Teatro</option>
+                                <option value="ACCION">
+                                    Acción
+                                </option>
+
+                                <option value="HISTORICA">
+                                    Histórica
+                                </option>
+
+                                <option value="CIENCIA_FICCION">
+                                    Ciencia ficción
+                                </option>
+
+                                <option value="NOVELA_NEGRA">
+                                    Novela negra
+                                </option>
+
+                                <option value="ROMANTICA">
+                                    Romántica
+                                </option>
+
+                                <option value="ENCICLOPEDIA">
+                                    Enciclopedia
+                                </option>
+
+                                <option value="DICCIONARIO">
+                                    Diccionario
+                                </option>
+
+                                <option value="POESIA">
+                                    Poesía
+                                </option>
+
+                                <option value="TEATRO">
+                                    Teatro
+                                </option>
 
                             </select>
 
                         </div>
 
-                        <!-- EDITORIAL -->
                         <div class="mb-3">
 
-                            <label class="form-label">Editorial</label>
+                            <label class="form-label">
+                                Editorial
+                            </label>
 
                             <input type="text"
                                    class="form-control"
                                    th:field="*{editorial}"
                                    required>
-                            <div class="text-danger" th:if="${#fields.hasErrors('editorial')}" th:errors='*{editorial}'></div>
+
+                            <div class="text-danger"
+                                 th:if="${#fields.hasErrors('editorial')}"
+                                 th:errors="*{editorial}">
+                            </div>
+
                         </div>
 
-                        <!-- ISBN -->
                         <div class="mb-4">
 
-                            <label class="form-label">ISBN</label>
+                            <label class="form-label">
+                                ISBN
+                            </label>
 
                             <input type="text"
                                    class="form-control"
                                    th:field="*{isbn}"
                                    required>
-                            <div class="text-danger" th:if="${#fields.hasErrors('isbn')}" th:errors='*{isbn}'></div>
-                            <div class="text-danger" th:if="${errorISBN}" th:text='${errorISBN}'></div>
+
+                            <div class="text-danger"
+                                 th:if="${#fields.hasErrors('isbn')}"
+                                 th:errors="*{isbn}">
+                            </div>
+
+                            <div class="text-danger"
+                                 th:if="${errorISBN}"
+                                 th:text="${errorISBN}">
+                            </div>
+
                         </div>
 
-                        <!-- BOTONES -->
                         <div class="d-grid gap-2">
 
-                            <button type="submit" class="btn btn-primary">
+                            <button type="submit"
+                                    class="btn btn-primary">
+
                                 <i class="bi bi-save"></i>
                                 Guardar cambios
+
                             </button>
 
-                            <a th:href="@{/libro}" class="btn btn-outline-secondary">
+                            <a th:href="@{/libro}"
+                               class="btn btn-outline-secondary">
+
                                 <i class="bi bi-arrow-left"></i>
                                 Volver
+
                             </a>
 
                         </div>
@@ -251,8 +333,51 @@
         </div>
 
     </div>
+    
+</main>
 
-</div>
+<footer class="bg-dark text-white py-4 mt-auto shadow">
+
+    <div class="container text-center">
+
+        <p class="mb-3 fw-semibold">
+
+            © 2026 Todos los derechos reservados · Álvaro Allen Perlines
+
+        </p>
+
+        <div class="d-flex justify-content-center gap-4 flex-wrap">
+
+            <a href="https://github.com"
+               target="_blank"
+               class="text-white text-decoration-none">
+
+                <i class="bi bi-github"></i>
+                GitHub
+
+            </a>
+
+            <a href="#"
+               class="text-white text-decoration-none">
+
+                <i class="bi bi-file-earmark-code"></i>
+                JavaDoc
+
+            </a>
+
+            <a href="#"
+               class="text-white text-decoration-none">
+
+                <i class="bi bi-file-earmark-pdf-fill text-danger"></i>
+                PDF
+
+            </a>
+
+        </div>
+
+    </div>
+
+</footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
