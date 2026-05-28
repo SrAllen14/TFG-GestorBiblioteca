@@ -136,25 +136,36 @@
                 </div>
 
                 <div class="col-md-3">
-                    <select name="activo"
+
+                    <select name="estadoPrestamo"
                             class="form-select">
 
                         <option value=""
-                                th:selected="${activo == null}">
+                                th:selected="${estadoPrestamo == null}">
                             Todos
                         </option>
 
-                        <option value="true"
-                                th:selected="${activo == 'true'}">
+                        <option value="ACTIVO"
+                                th:selected="${estadoPrestamo == 'ACTIVO'}">
                             Activos
                         </option>
 
-                        <option value="false"
-                                th:selected="${activo == 'false'}">
-                            Inactivos
+                        <option value="ENTREGADO"
+                                th:selected="${estadoPrestamo == 'ENTREGADO'}">
+                            Entregados
+                        </option>
+
+                        <option value="ENTREGADO_CON_RETRASO"
+                                th:selected="${estadoPrestamo == 'ENTREGADO_CON_RETRASO'}">
+                            Entregados con retraso
+                        </option>
+                        <option value="RETRASADO"
+                                th:selected="${estadoPrestamo == 'RETRASADO'}">
+                            Retrasados
                         </option>
 
                     </select>
+
                 </div>
 
                 <div class="col-md-auto">
@@ -214,7 +225,29 @@
                         <td th:if="${prestamo.fechaDevolucion == null}">No se ha devuelto</td>
 
                         
-                        <td th:text="${prestamo.fechaDevolucion} == null ? Activo : Devuelto"></td>
+                        <td>
+                            <p>
+                                <span th:if="${prestamo.estadoPrestamo.name() == 'ENTREGADO'}"
+                                      class="badge bg-success">
+                                    Entregado
+                                </span>
+
+                                <span th:if="${prestamo.estadoPrestamo.name() == 'ACTIVO'}"
+                                      class="badge bg-secondary">
+                                    Activo
+                                </span>
+
+                                <span th:if="${prestamo.estadoPrestamo.name() == 'ENTREGADO_CON_RETRASO'}"
+                                      class="badge bg-warning text-dark">
+                                    Entregado con retraso
+                                </span>
+                                
+                                <span th:if="${prestamo.estadoPrestamo.name() == 'RETRASADO'}"
+                                      class="badge bg-danger text-dark">
+                                    Retrasado
+                                </span>
+                            </p>
+                        </td>
                         <td>
 
                             <div class="d-flex gap-2 justify-content-center">

@@ -5,6 +5,7 @@
 package com.tfg.crud.GestorBiblioteca.controller;
 
 import com.tfg.crud.GestorBiblioteca.dto.UsuarioDTO;
+import com.tfg.crud.GestorBiblioteca.entity.EstadoUsuario;
 import com.tfg.crud.GestorBiblioteca.entity.Prestamo;
 import com.tfg.crud.GestorBiblioteca.entity.Usuario;
 import com.tfg.crud.GestorBiblioteca.service.PrestamoService;
@@ -42,31 +43,25 @@ public class mtoUsuarioController {
     private PrestamoService prestamoService;
     
     @GetMapping
-    public String mostrarMtoUsuario(Model modelo, @RequestParam(required = false) String busqueda, @RequestParam(required = false) String activo, @PageableDefault(size = 5) Pageable pageable){
-    
-        Boolean activoFiltro = null;
-
-        if ("true".equalsIgnoreCase(activo)) {
-            activoFiltro = true;
-        } else if ("false".equalsIgnoreCase(activo)) {
-            activoFiltro = false;
-        }
+    public String mostrarMtoUsuario(Model modelo, @RequestParam(required = false) String busqueda, @RequestParam(required = false)EstadoUsuario estadoUsuario, @PageableDefault(size = 5) Pageable pageable){
         
-        Page<Usuario> pagina = usuarioService.buscarUsuarios(busqueda, activoFiltro, pageable);
+        Page<Usuario> pagina = usuarioService.buscarUsuarios(busqueda, estadoUsuario, pageable);
         
         modelo.addAttribute("pagina", pagina);
         modelo.addAttribute("usuarios", pagina.getContent());
         modelo.addAttribute("busqueda", busqueda);
-        modelo.addAttribute("activo", activo);
+        modelo.addAttribute("estadoUsuario", (estadoUsuario != null) ? estadoUsuario.name() : null);
         
         return "mtoUsuarios";
     }
     
     @GetMapping("/consultar/{idUsuario}")
-    public String consultarLibro(Model modelo, @PathVariable Long idUsuario) {
+    public String consultarUsuario(Model modelo, @PathVariable Long idUsuario) {
 
         Usuario usuario = usuarioService.buscarUsuarioPorId(idUsuario);
         List<Prestamo> prestamos = prestamoService.listarPrestamosPorUsuario(idUsuario);
+        
+        System.out.println(usuario.getEstadoUsuario());
         
         modelo.addAttribute("usuario", usuario);
         modelo.addAttribute("prestamos", prestamos);
@@ -139,10 +134,17 @@ public class mtoUsuarioController {
         
     }
     
-    @PostMapping("/estado/{idUsuario}")
-    public String cambiarEstadoUsuario(@PathVariable Long idUsuario){
+    @PostMapping("/estado/baja/{idUsuario}")
+    public String darDeBajaUsuario(@PathVariable Long idUsuario){
         
-        usuarioService.modificarEstadoUsuario(idUsuario);
+        usuarioService.modificarEstadoUsuario(idUsuario, EstadoUsuario.BAJA);
+        return "redirect:/usuario";
+    }
+    
+    @PostMapping("/estado/alta/{idUsuario}")
+    public String activarUsuario(@PathVariable Long idUsuario){
+        
+        usuarioService.modificarEstadoUsuario(idUsuario, EstadoUsuario.ACTIVO);
         return "redirect:/usuario";
     }
     

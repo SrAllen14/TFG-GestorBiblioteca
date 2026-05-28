@@ -4,6 +4,7 @@
  */
 package com.tfg.crud.GestorBiblioteca.repository;
 
+import com.tfg.crud.GestorBiblioteca.entity.EstadoUsuario;
 import com.tfg.crud.GestorBiblioteca.entity.Rol;
 import com.tfg.crud.GestorBiblioteca.entity.Usuario;
 import java.util.List;
@@ -27,9 +28,9 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long>{
         WHERE (:busqueda IS NULL OR :busqueda = ''
            OR LOWER(u.nombre) LIKE LOWER(CONCAT('%', :busqueda, '%'))
            OR LOWER(u.dni) LIKE LOWER(CONCAT('%', :busqueda, '%')))
-           AND (:activo IS NULL OR u.activo = :activo)
+           AND (:estadoUsuario IS NULL OR u.estadoUsuario = :estadoUsuario)
     """)
-    Page<Usuario> buscarUsuarios(@Param("busqueda") String busqueda, @Param("activo") Boolean activo, Pageable pageable);
+    Page<Usuario> buscarUsuarios(@Param("busqueda") String busqueda, @Param("estadoUsuario") EstadoUsuario estadoUsuario, Pageable pageable);
     
     @Query("""
         SELECT u FROM Usuario u
@@ -39,9 +40,9 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long>{
     """)
     Page<Usuario> buscarTodosUsuarios(@Param("busqueda") String busqueda, Pageable pageable);
     
-    List<Usuario> findByActivoTrueAndTipoInAndNombreContainingIgnoreCase(List<Rol> roles, String nombre);
+    List<Usuario> findByEstadoUsuarioInAndTipoInAndNombreContainingIgnoreCase(List<EstadoUsuario> estados, List<Rol> roles, String nombre);
     
-    Long countByActivoTrueAndTipoIn(List<Rol> roles);
+    Long countByEstadoUsuarioInAndTipoIn(List<EstadoUsuario> estados, List<Rol> roles);
     
     Optional<Usuario> findByUsername(String username);
     Usuario findByDni(String dni);

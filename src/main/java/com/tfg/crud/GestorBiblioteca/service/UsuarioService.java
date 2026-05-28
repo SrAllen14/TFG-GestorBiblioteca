@@ -5,6 +5,7 @@
 package com.tfg.crud.GestorBiblioteca.service;
 
 import com.tfg.crud.GestorBiblioteca.dto.UsuarioDTO;
+import com.tfg.crud.GestorBiblioteca.entity.EstadoUsuario;
 import com.tfg.crud.GestorBiblioteca.entity.Usuario;
 import java.util.List;
 import org.springframework.data.domain.Page;
@@ -21,7 +22,7 @@ public interface UsuarioService{
     public Usuario buscarUsuarioPorId(Long id);
     public Usuario buscarUsuarioPorUsername(String id);
     public List<Usuario> buscarUsuariosDisponibles(String filtroNombre);
-    public Page<Usuario> buscarUsuarios(String busqueda, Boolean activo, Pageable pageable);
+    public Page<Usuario> buscarUsuarios(String busqueda, EstadoUsuario estadoUsuario, Pageable pageable);
     public Usuario editarUsuario(Long id, UsuarioDTO usuarioEditadoDTO);
-    public void modificarEstadoUsuario(Long id);
+    public void modificarEstadoUsuario(Long id, EstadoUsuario estadoUsuario);
 }

@@ -114,7 +114,7 @@
             <div class="row g-3">
 
                 <div class="col-md-4">
-                    <p><strong>ID:</strong> <span th:text="${usuario.idUsuario}"></span></p>
+                    <p><strong>DNI:</strong> <span th:text="${usuario.dni}"></span></p>
                 </div>
 
                 <div class="col-md-4">
@@ -143,16 +143,34 @@
                     <p>
                         <strong>Estado:</strong>
 
-                        <span th:if="${usuario.activo}" class="badge bg-success">
+                        <span th:if="${usuario.estadoUsuario.name() == 'ACTIVO'}"
+                              class="badge bg-success">
                             Activo
                         </span>
 
-                        <span th:unless="${usuario.activo}" class="badge bg-secondary">
-                            Inactivo
+                        <span th:if="${usuario.estadoUsuario.name() == 'BAJA'}"
+                              class="badge bg-secondary">
+                            Baja
                         </span>
+
+                        <span th:if="${usuario.estadoUsuario.name() == 'SUSPENDIDO'}"
+                              class="badge bg-warning text-dark">
+                            Suspendido
+                        </span>
+
                     </p>
                 </div>
+                <div class="col-md-4">
+                    <form th:if="${usuario.estadoUsuario.name() == 'SUSPENDIDO'}"
+                            th:action="@{/usuario/estado/alta/{idUsuario}(idUsuario=${usuario.idUsuario})}"
+                            method="post">
 
+                          <button type="submit" class="btn btn-success btn-sm">
+                              Levantar suspensión
+                          </button>
+
+                      </form>
+                </div>
             </div>
 
         </div>

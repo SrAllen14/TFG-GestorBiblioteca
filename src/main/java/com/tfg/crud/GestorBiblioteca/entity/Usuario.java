@@ -51,7 +51,9 @@ public class Usuario {
     @Enumerated(EnumType.STRING)
     private Rol tipo;
     
-    private boolean activo;
+    @Column(name = "EstadoUsuario")
+    @Enumerated(EnumType.STRING)
+    private EstadoUsuario estadoUsuario;
 
     @OneToMany(mappedBy = "usuario")
     private List<Prestamo> prestamos;
@@ -59,17 +61,17 @@ public class Usuario {
     public Usuario() {
     }
 
-    public Usuario(String dni, String nombre, String apellido1, String apellido2, Rol tipo, boolean activo) {
+    public Usuario(String dni, String nombre, String apellido1, String apellido2, Rol tipo, EstadoUsuario estadoUsuario) {
         this.dni = dni;
         this.nombre = nombre;
         this.apellido1 = apellido1;
         this.apellido2 = apellido2;
         this.tipo = tipo;
-        this.activo = activo;
+        this.estadoUsuario = estadoUsuario;
         this.prestamos = new ArrayList<>();
     }
 
-    public Usuario(String dni, String nombre, String apellido1, String apellido2, String username, String password, Rol tipo, boolean activo) {
+    public Usuario(String dni, String nombre, String apellido1, String apellido2, String username, String password, Rol tipo, EstadoUsuario estadoUsuario) {
         this.dni = dni;
         this.nombre = nombre;
         this.apellido1 = apellido1;
@@ -77,11 +79,11 @@ public class Usuario {
         this.username = username;
         this.password = password;
         this.tipo = tipo;
-        this.activo = activo;
+        this.estadoUsuario = estadoUsuario;
         this.prestamos = new ArrayList<>();
     }
 
-    public Usuario(Long idUsuario, String dni, String nombre, String apellido1, String apellido2, String password, Rol tipo, boolean activo) {
+    public Usuario(Long idUsuario, String dni, String nombre, String apellido1, String apellido2, String password, Rol tipo, EstadoUsuario estadoUsuario) {
         this.idUsuario = idUsuario;
         this.dni = dni;
         this.nombre = nombre;
@@ -89,7 +91,7 @@ public class Usuario {
         this.apellido2 = apellido2;
         this.password = password;
         this.tipo = tipo;
-        this.activo = activo;
+        this.estadoUsuario = estadoUsuario;        
         this.prestamos = new ArrayList<>();
     }
 
@@ -157,12 +159,12 @@ public class Usuario {
         this.username = username;
     }
 
-    public boolean isActivo() {
-        return activo;
+    public EstadoUsuario getEstadoUsuario() {
+        return estadoUsuario;
     }
 
-    public void setActivo(boolean activo) {
-        this.activo = activo;
+    public void setEstadoUsuario(EstadoUsuario estadoUsuario) {
+        this.estadoUsuario = estadoUsuario;
     }
 
     public List<Prestamo> getPrestamos() {

@@ -6,6 +6,7 @@ package com.tfg.crud.GestorBiblioteca.controller;
 
 import com.tfg.crud.GestorBiblioteca.dto.PrestamoDTO;
 import com.tfg.crud.GestorBiblioteca.entity.Ejemplar;
+import com.tfg.crud.GestorBiblioteca.entity.EstadoPrestamo;
 import com.tfg.crud.GestorBiblioteca.entity.Prestamo;
 import com.tfg.crud.GestorBiblioteca.entity.Usuario;
 import com.tfg.crud.GestorBiblioteca.service.EjemplarService;
@@ -50,22 +51,16 @@ public class mtoPrestamoController {
     private EjemplarService ejemplarService;
 
     @GetMapping
-    public String mostrarPrestamos(@RequestParam(required = false) String busqueda, @RequestParam(required = false) String activo,@PageableDefault(size = 10) Pageable pageable, Model model) {
-
-        Boolean activoFiltro = null;
-
-        if ("true".equals(activo)) {
-            activoFiltro = true;
-        } else if ("false".equals(activo)) {
-            activoFiltro = false;
-        }
-
-        Page<Prestamo> pagina= prestamoService.buscarPrestamos(busqueda, activoFiltro, pageable);
+    public String mostrarPrestamos(@RequestParam(required = false) String busqueda, @RequestParam(required = false) EstadoPrestamo estadoPrestamo, @PageableDefault(size = 10) Pageable pageable, Model model) {
+        
+        Page<Prestamo> pagina= prestamoService.buscarPrestamos(busqueda, estadoPrestamo, pageable);
+        
+        prestamoService.actualizarPrestamosRetrasados();
         
         model.addAttribute("pagina", pagina);
         model.addAttribute("prestamos", pagina.getContent());
         model.addAttribute("busqueda", busqueda);
-        model.addAttribute("activo", activo);
+        model.addAttribute("estadoPrestamo", (estadoPrestamo != null) ? estadoPrestamo.name() : null);
 
         return "mtoPrestamos";
     }

@@ -6,6 +6,7 @@ package com.tfg.crud.GestorBiblioteca.service;
 
 import com.tfg.crud.GestorBiblioteca.dto.PrestamoDTO;
 import com.tfg.crud.GestorBiblioteca.entity.Ejemplar;
+import com.tfg.crud.GestorBiblioteca.entity.EstadoPrestamo;
 import com.tfg.crud.GestorBiblioteca.entity.Prestamo;
 import java.time.LocalDate;
 import java.util.List;
@@ -25,10 +26,12 @@ public interface PrestamoService{
     public List<Prestamo> listarPrestamosPorCodigo(String codigo);
     public List<Prestamo> listarPrestamosPorUsuario(Long idUsuario);
     public Prestamo buscarPrestamoPorId(Long idPrestamo);
-    public Page<Prestamo> buscarPrestamos(String busqueda, Boolean activo, Pageable  pageable);
+    public Page<Prestamo> buscarPrestamos(String busqueda, EstadoPrestamo estadoPrestamo, Pageable  pageable);
     public Prestamo editarPrestamo(Long idPrestamo, PrestamoDTO prestamoDTO);
     public void finalizarPrestamo(LocalDate fechaDevolucion, Long idPrestamo, String codigo);
     public void reabrirPrestamo(Long idPrestamo);
+    public void cambiarEstado(Long idPrestamo, EstadoPrestamo estadoPrestamo);
     public Prestamo getPrestamoActivo(Ejemplar e);
     public LocalDate sumarDiasHabiles(LocalDate FechaInicio);
+    public void actualizarPrestamosRetrasados();
 }

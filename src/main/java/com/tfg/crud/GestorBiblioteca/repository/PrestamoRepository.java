@@ -4,6 +4,7 @@
  */
 package com.tfg.crud.GestorBiblioteca.repository;
 
+import com.tfg.crud.GestorBiblioteca.entity.EstadoPrestamo;
 import com.tfg.crud.GestorBiblioteca.entity.Prestamo;
 import java.util.List;
 import org.springframework.data.domain.Page;
@@ -36,14 +37,12 @@ public interface PrestamoRepository extends JpaRepository<Prestamo, Long>{
                 :busqueda IS NULL OR :busqueda = ''
                 OR LOWER(p.usuario.nombre) LIKE LOWER(CONCAT('%', :busqueda, '%'))
                 OR LOWER(p.ejemplar.codigo) LIKE LOWER(CONCAT('%', :busqueda, '%')))
-            AND (:activo IS NULL
-                OR (:activo = true AND p.fechaDevolucion IS NULL)
-                OR (:activo = false AND p.fechaDevolucion IS NOT NULL))
+            AND (:estadoPrestamo IS NULL OR p.estadoPrestamo = :estadoPrestamo)
         """)
     Page<Prestamo> buscarPrestamos(
             @Param("busqueda") String busqueda,
-            @Param("activo") Boolean activo,
+            @Param("estadoPrestamo") EstadoPrestamo estadoPrestamo,
             Pageable pageable);
     
-    Long countByFechaDevolucionIsNull();
+    Long countByEstadoPrestamoIn(List<EstadoPrestamo> estados);
 }
