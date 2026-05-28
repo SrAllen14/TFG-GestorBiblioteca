@@ -3,52 +3,31 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
-    <title>Mi Perfil</title>
-
     <meta charset="UTF-8">
+
+    <title>Edición de perfil</title>
+
     <meta name="viewport"
           content="width=device-width, initial-scale=1">
 
-    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
           rel="stylesheet">
 
-    <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
           rel="stylesheet">
-
-    <style>
-
-        body{
-            background-color:#f8f9fa;
-        }
-
-        .card-formulario{
-            border:none;
-            border-radius:12px;
-        }
-
-        .card-header-custom{
-            background-color:#212529;
-            color:white;
-            border-radius:12px 12px 0 0 !important;
-        }
-
-        .btn-guardar{
-            width:100%;
-        }
-
-    </style>
-
 </head>
 
-<body class="bg-light">
+<body class="bg-light d-flex flex-column min-vh-100">
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
     <div class="container-fluid">
 
-        <a class="navbar-brand" href="/">
+        <a class="navbar-brand"
+           href="/">
+
             Gestor de Biblioteca Escolar
+
         </a>
 
         <button class="navbar-toggler"
@@ -66,21 +45,36 @@
             <ul class="navbar-nav ms-auto">
 
                 <li class="nav-item">
-                    <a class="nav-link" href="/usuario">
+
+                    <a class="nav-link"
+                       href="/usuario">
+
                         Usuarios
+
                     </a>
+
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="/libro">
+
+                    <a class="nav-link"
+                       href="/libro">
+
                         Libros
+
                     </a>
+
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="/prestamo">
-                        Prestamos
+
+                    <a class="nav-link"
+                       href="/prestamo">
+
+                        Préstamos
+
                     </a>
+
                 </li>
 
                 <li class="nav-item dropdown"
@@ -89,11 +83,10 @@
                     <a class="nav-link dropdown-toggle d-flex align-items-center gap-2"
                        href="#"
                        role="button"
-                       data-bs-toggle="dropdown"
-                       aria-expanded="false">
+                       data-bs-toggle="dropdown">
 
                         <div class="rounded-circle bg-primary text-white d-flex justify-content-center align-items-center"
-                             style="width: 35px; height: 35px;">
+                             style="width:35px;height:35px;">
 
                             <i class="bi bi-person-fill"></i>
 
@@ -104,6 +97,22 @@
                     </a>
 
                     <ul class="dropdown-menu dropdown-menu-end shadow border-0">
+
+                        <li>
+
+                            <a class="dropdown-item"
+                               href="/usuario/perfil">
+
+                                <i class="bi bi-person-circle"></i>
+                                Mi perfil
+
+                            </a>
+
+                        </li>
+
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
 
                         <li>
 
@@ -132,7 +141,10 @@
         </div>
 
     </div>
+
 </nav>
+
+<main class="container py-5 flex-grow-1">
 
 <!-- CONTENIDO -->
 <div class="container py-5">
@@ -141,10 +153,9 @@
 
         <div class="col-lg-7 col-md-9">
 
-            <div class="card shadow-sm card-formulario">
+            <div class="card shadow-sm border-0 rounded-4">
 
-                <!-- CABECERA -->
-                <div class="card-header card-header-custom text-center py-3">
+                <div class="card-header bg-dark text-white text-center py-3 rounded-top-4">
 
                     <h3 class="mb-1">
 
@@ -159,14 +170,12 @@
 
                 </div>
 
-                <!-- BODY -->
                 <div class="card-body p-4">
 
                     <form th:action="@{/usuario/perfil}"
                           th:object="${usuarioDTO}"
                           method="post">
 
-                        <!-- DNI -->
                         <div class="mb-3">
 
                             <label class="form-label">
@@ -180,7 +189,6 @@
 
                         </div>
 
-                        <!-- Nombre -->
                         <div class="mb-3">
 
                             <label for="nombre"
@@ -203,7 +211,6 @@
 
                         </div>
 
-                        <!-- Primer apellido -->
                         <div class="mb-3">
 
                             <label for="apellido1"
@@ -226,7 +233,6 @@
 
                         </div>
 
-                        <!-- Segundo apellido -->
                         <div class="mb-3">
 
                             <label for="apellido2"
@@ -249,7 +255,6 @@
 
                         </div>
 
-                        <!-- Username -->
                         <div class="mb-3">
 
                             <label class="form-label">
@@ -263,7 +268,6 @@
 
                         </div>
 
-                        <!-- Rol -->
                         <div class="mb-4">
 
                             <label class="form-label">
@@ -277,8 +281,7 @@
 
                         </div>
 
-                        <!-- CONTRASEÑA -->
-                        <div class="border rounded p-3 mb-4 bg-light">
+                        <div class="border rounded-3 p-3 mb-4 bg-light">
 
                             <h5 class="mb-3">
 
@@ -287,7 +290,6 @@
 
                             </h5>
 
-                            <!-- NUEVA PASSWORD -->
                             <div class="mb-3">
 
                                 <label for="password"
@@ -304,7 +306,6 @@
 
                             </div>
 
-                            <!-- CONFIRMAR PASSWORD -->
                             <div class="mb-2">
 
                                 <label for="confirmPassword"
@@ -329,7 +330,6 @@
 
                         </div>
 
-                        <!-- MENSAJE ERROR -->
                         <div th:if="${error}"
                              class="alert alert-danger">
 
@@ -337,11 +337,10 @@
 
                         </div>
 
-                        <!-- BOTONES -->
                         <div class="d-grid gap-2">
 
                             <button type="submit"
-                                    class="btn btn-primary btn-guardar">
+                                    class="btn btn-primary w-100">
 
                                 <i class="bi bi-save-fill"></i>
                                 Guardar cambios
@@ -369,6 +368,53 @@
     </div>
 
 </div>
+    
+</main>
+
+<footer class="bg-dark text-white py-4 mt-auto shadow">
+
+    <div class="container text-center">
+
+        <p class="mb-3 fw-semibold">
+
+            © 2026 Todos los derechos reservados · Álvaro Allen Perlines
+
+        </p>
+
+        <div class="d-flex justify-content-center gap-4 flex-wrap">
+
+            <a href="https://github.com"
+               target="_blank"
+               class="text-white text-decoration-none">
+
+                <i class="bi bi-github"></i>
+                GitHub
+
+            </a>
+
+            <a href="#"
+               class="text-white text-decoration-none">
+
+                <i class="bi bi-file-earmark-code"></i>
+                JavaDoc
+
+            </a>
+
+            <a href="#"
+               class="text-white text-decoration-none">
+
+                <i class="bi bi-file-earmark-pdf-fill text-danger"></i>
+                PDF
+
+            </a>
+
+        </div>
+
+    </div>
+
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
