@@ -5,12 +5,17 @@
 package com.tfg.crud.GestorBiblioteca.controller;
 
 import com.tfg.crud.GestorBiblioteca.dto.PrestamoDTO;
+import com.tfg.crud.GestorBiblioteca.entity.Ejemplar;
+import com.tfg.crud.GestorBiblioteca.entity.EstadoPrestamo;
 import com.tfg.crud.GestorBiblioteca.entity.Prestamo;
+import com.tfg.crud.GestorBiblioteca.entity.Usuario;
 import com.tfg.crud.GestorBiblioteca.service.EjemplarService;
 import com.tfg.crud.GestorBiblioteca.service.LibroService;
 import com.tfg.crud.GestorBiblioteca.service.PrestamoService;
 import com.tfg.crud.GestorBiblioteca.service.UsuarioService;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -46,32 +51,37 @@ public class mtoPrestamoController {
     private EjemplarService ejemplarService;
 
     @GetMapping
-    public String mostrarPrestamos(@RequestParam(required = false) String busqueda, @RequestParam(required = false) String activo,@PageableDefault(size = 10) Pageable pageable, Model model) {
-
-        Boolean activoFiltro = null;
-
-        if ("true".equals(activo)) {
-            activoFiltro = true;
-        } else if ("false".equals(activo)) {
-            activoFiltro = false;
-        }
-
-        Page<Prestamo> pagina= prestamoService.buscarPrestamos(busqueda, activoFiltro, pageable);
+    public String mostrarPrestamos(@RequestParam(required = false) String busqueda, @RequestParam(required = false) EstadoPrestamo estadoPrestamo, @PageableDefault(size = 10) Pageable pageable, Model model) {
+        
+        Page<Prestamo> pagina= prestamoService.buscarPrestamos(busqueda, estadoPrestamo, pageable);
+        
+        prestamoService.actualizarPrestamosRetrasados();
         
         model.addAttribute("pagina", pagina);
         model.addAttribute("prestamos", pagina.getContent());
         model.addAttribute("busqueda", busqueda);
-        model.addAttribute("activo", activo);
+        model.addAttribute("estadoPrestamo", (estadoPrestamo != null) ? estadoPrestamo.name() : null);
 
         return "mtoPrestamos";
     }
     
     @GetMapping("/consultar/{idPrestamo}")
     public String consultarPrestamo(@PathVariable Long idPrestamo, Model modelo){
-        
+        String sancion;
         Prestamo prestamo = prestamoService.buscarPrestamoPorId(idPrestamo);
-        modelo.addAttribute("prestamo", prestamo);
         
+        if(prestamo.getFechaDevolucion() != null){
+            if(prestamo.getFechaDevolucion().isAfter(prestamo.getFechaFin())){
+                sancion = "El usuario ha sido suspendido por falta grave en la entrega del libro. Para terminar la suspensión dirigase al mantenimiento de usuario.";
+            } else{
+                sancion = null;
+            }
+        } else{
+            sancion = null;
+        }
+        
+        modelo.addAttribute("prestamo", prestamo);
+        modelo.addAttribute("sancion", sancion);
         return "detallePrestamo";
     }
 
@@ -120,6 +130,9 @@ public class mtoPrestamoController {
         LocalDate fechaInicio = LocalDate.now();
         LocalDate fechaFin = prestamoService.sumarDiasHabiles(fechaInicio);
         
+        List<Ejemplar> ejemplares = new ArrayList<>(ejemplarService.listarEjemplaresDisponibles());
+        List<Usuario> usuarios = new ArrayList<>(usuarioService.buscarUsuariosDisponibles(nombre));
+        
         Prestamo prestamo = prestamoService.buscarPrestamoPorId(idPrestamo);
 
         PrestamoDTO prestamoDTO = new PrestamoDTO();
@@ -128,8 +141,23 @@ public class mtoPrestamoController {
         prestamoDTO.setIdEjemplar(prestamo.getEjemplar().getIdEjemplar());
         prestamoDTO.setIdUsuario(prestamo.getUsuario().getIdUsuario());
 
-        modelo.addAttribute("ejemplares", ejemplarService.listarEjemplaresDisponibles());
-        modelo.addAttribute("usuarios", usuarioService.buscarUsuariosDisponibles(nombre));
+        boolean usuarioExiste = usuarios.stream()
+                .anyMatch(u -> u.getIdUsuario().equals(prestamo.getUsuario().getIdUsuario()));
+
+        if (!usuarioExiste) {
+            usuarios.add(prestamo.getUsuario());
+        }
+
+        
+        boolean ejemplarExiste = ejemplares.stream()
+                .anyMatch(e -> e.getIdEjemplar().equals(prestamo.getEjemplar().getIdEjemplar()));
+
+        if (!ejemplarExiste) {
+            ejemplares.add(prestamo.getEjemplar());
+        }
+        
+        modelo.addAttribute("ejemplares", ejemplares);
+        modelo.addAttribute("usuarios", usuarios);
 
         modelo.addAttribute("fechaInicio", fechaInicio);
         modelo.addAttribute("fechaFin", fechaFin);  

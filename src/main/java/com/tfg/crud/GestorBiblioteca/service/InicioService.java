@@ -5,6 +5,8 @@
 package com.tfg.crud.GestorBiblioteca.service;
 
 import com.tfg.crud.GestorBiblioteca.dto.InicioDTO;
+import com.tfg.crud.GestorBiblioteca.entity.EstadoPrestamo;
+import com.tfg.crud.GestorBiblioteca.entity.EstadoUsuario;
 import com.tfg.crud.GestorBiblioteca.entity.Rol;
 import com.tfg.crud.GestorBiblioteca.repository.LibroRepository;
 import com.tfg.crud.GestorBiblioteca.repository.PrestamoRepository;
@@ -35,11 +37,11 @@ public class InicioService {
         List<Rol> rolesPermitidos = List.of(Rol.ROLE_ALUMNO, Rol.ROLE_PROFESOR);
         
         dto.setPrestamosActivos(
-            prestamoRepository.countByFechaDevolucionIsNull()
+            prestamoRepository.countByEstadoPrestamoIn(List.of(EstadoPrestamo.ACTIVO))
         );
 
         dto.setUsuariosActivos(
-            usuarioRepository.countByActivoTrueAndTipoIn(rolesPermitidos)
+            usuarioRepository.countByEstadoUsuarioInAndTipoIn(List.of(EstadoUsuario.ACTIVO),rolesPermitidos)
         );
 
         dto.setLibrosActivos(

@@ -5,6 +5,7 @@
 package com.tfg.crud.GestorBiblioteca.controller;
 
 import com.tfg.crud.GestorBiblioteca.dto.UsuarioDTO;
+import com.tfg.crud.GestorBiblioteca.entity.EstadoUsuario;
 import com.tfg.crud.GestorBiblioteca.entity.Prestamo;
 import com.tfg.crud.GestorBiblioteca.entity.Usuario;
 import com.tfg.crud.GestorBiblioteca.service.PrestamoService;
@@ -42,31 +43,25 @@ public class mtoUsuarioController {
     private PrestamoService prestamoService;
     
     @GetMapping
-    public String mostrarMtoUsuario(Model modelo, @RequestParam(required = false) String busqueda, @RequestParam(required = false) String activo, @PageableDefault(size = 5) Pageable pageable){
-    
-        Boolean activoFiltro = null;
-
-        if ("true".equalsIgnoreCase(activo)) {
-            activoFiltro = true;
-        } else if ("false".equalsIgnoreCase(activo)) {
-            activoFiltro = false;
-        }
+    public String mostrarMtoUsuario(Model modelo, @RequestParam(required = false) String busqueda, @RequestParam(required = false)EstadoUsuario estadoUsuario, @PageableDefault(size = 5) Pageable pageable){
         
-        Page<Usuario> pagina = usuarioService.buscarUsuarios(busqueda, activoFiltro, pageable);
+        Page<Usuario> pagina = usuarioService.buscarUsuarios(busqueda, estadoUsuario, pageable);
         
         modelo.addAttribute("pagina", pagina);
         modelo.addAttribute("usuarios", pagina.getContent());
         modelo.addAttribute("busqueda", busqueda);
-        modelo.addAttribute("activo", activo);
+        modelo.addAttribute("estadoUsuario", (estadoUsuario != null) ? estadoUsuario.name() : null);
         
         return "mtoUsuarios";
     }
     
     @GetMapping("/consultar/{idUsuario}")
-    public String consultarLibro(Model modelo, @PathVariable Long idUsuario) {
+    public String consultarUsuario(Model modelo, @PathVariable Long idUsuario) {
 
         Usuario usuario = usuarioService.buscarUsuarioPorId(idUsuario);
         List<Prestamo> prestamos = prestamoService.listarPrestamosPorUsuario(idUsuario);
+        
+        System.out.println(usuario.getEstadoUsuario());
         
         modelo.addAttribute("usuario", usuario);
         modelo.addAttribute("prestamos", prestamos);
@@ -139,27 +134,62 @@ public class mtoUsuarioController {
         
     }
     
-    @PostMapping("/estado/{idUsuario}")
-    public String cambiarEstadoUsuario(@PathVariable Long idUsuario){
+    @PostMapping("/estado/baja/{idUsuario}")
+    public String darDeBajaUsuario(@PathVariable Long idUsuario){
         
-        usuarioService.modificarEstadoUsuario(idUsuario);
+        usuarioService.modificarEstadoUsuario(idUsuario, EstadoUsuario.BAJA);
         return "redirect:/usuario";
     }
     
-    @GetMapping("/usuario/perfil")
+    @PostMapping("/estado/alta/{idUsuario}")
+    public String activarUsuario(@PathVariable Long idUsuario){
+        
+        usuarioService.modificarEstadoUsuario(idUsuario, EstadoUsuario.ACTIVO);
+        return "redirect:/usuario";
+    }
+    
+    @GetMapping("/perfil")
     public String mostrarEditarPerfil(Authentication auth, Model modelo){
         String username = auth.getName();
         
+        UsuarioDTO usuarioDTO = new UsuarioDTO();
         Usuario usuario = usuarioService.buscarUsuarioPorUsername(username);
         
-        modelo.addAttribute("usuario", usuario);
+        usuarioDTO.setDni(usuario.getDni());
+        usuarioDTO.setNombre(usuario.getNombre());
+        usuarioDTO.setApellido1(usuario.getApellido1());
+        usuarioDTO.setApellido2(usuario.getApellido2());
+        usuarioDTO.setRol(usuario.getRol());
+        usuarioDTO.setUsername(usuario.getUsername());
+        usuarioDTO.setPassword(usuario.getPassword());
+        
+        modelo.addAttribute("usuarioDTO", usuarioDTO);
+        
         return "editarPerfil";
     }
     
-    @PostMapping("/usuario/perfil")
-    public String editarPerfil(){
+    @PostMapping("/perfil")
+    public String editarPerfil(@Valid @ModelAttribute UsuarioDTO usuarioDTO, BindingResult result, RedirectAttributes redirectAttributes, Model modelo, Authentication auth, @RequestParam String confirmPassword){
+        modelo.addAttribute("usuarioDTO", usuarioDTO);
         
-        
-        return "redirect:/";
+        try{
+            if(result.hasErrors()){
+                return "edicionUsuario";
+            }
+            
+            if(usuarioDTO.getPassword() != null && !usuarioDTO.getPassword().isBlank()){
+                if(!usuarioDTO.getPassword().equals(confirmPassword)){
+                    modelo.addAttribute("error", "Las contraseñas no coinciden");
+                    return "editarPerfil";
+                }
+            }
+            
+            Usuario usuario = usuarioService.buscarUsuarioPorUsername(auth.getName());
+            usuarioService.editarUsuario(usuario.getIdUsuario(), usuarioDTO);
+            return "redirect:/";
+        } catch(RuntimeException ex){
+            modelo.addAttribute("error", ex.getMessage());
+            return "editarPerfil";
+        }
     }
 }

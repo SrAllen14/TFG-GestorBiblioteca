@@ -6,6 +6,8 @@ package com.tfg.crud.GestorBiblioteca.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -36,6 +38,10 @@ public class Prestamo {
     @Column(name = "fechaDevolucion")
     private LocalDate fechaDevolucion;
     
+    @Column(name = "EstadoPrestamo")
+    @Enumerated(EnumType.STRING)
+    private EstadoPrestamo estadoPrestamo;
+    
     @ManyToOne
     @JoinColumn(name = "idUsuario")
     private Usuario usuario;
@@ -47,21 +53,23 @@ public class Prestamo {
     public Prestamo() {
     }
 
-    public Prestamo(LocalDate fechaInicio, LocalDate fechaFin, LocalDate fechaDevolucion, Usuario usuario, Ejemplar ejemplar) {
+    public Prestamo(LocalDate fechaInicio, LocalDate fechaFin, LocalDate fechaDevolucion, Usuario usuario, Ejemplar ejemplar, EstadoPrestamo estadoPrestamo) {
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
         this.fechaDevolucion = fechaDevolucion;
         this.usuario = usuario;
         this.ejemplar = ejemplar;
+        this.estadoPrestamo = estadoPrestamo;
     }
 
-    public Prestamo(Long idPrestamo, LocalDate fechaInicio, LocalDate fechaFin, LocalDate fechaDevolucion, Usuario usuario, Ejemplar ejemplar) {
+    public Prestamo(Long idPrestamo, LocalDate fechaInicio, LocalDate fechaFin, LocalDate fechaDevolucion, Usuario usuario, Ejemplar ejemplar, EstadoPrestamo estadoPrestamo) {
         this.idPrestamo = idPrestamo;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
         this.fechaDevolucion = fechaDevolucion;
         this.usuario = usuario;
         this.ejemplar = ejemplar;
+        this.estadoPrestamo = estadoPrestamo;
     }
 
     public Long getIdPrestamo() {
@@ -110,6 +118,14 @@ public class Prestamo {
 
     public void setEjemplar(Ejemplar ejemplar) {
         this.ejemplar = ejemplar;
+    }
+
+    public EstadoPrestamo getEstadoPrestamo() {
+        return estadoPrestamo;
+    }
+
+    public void setEstadoPrestamo(EstadoPrestamo estadoPrestamo) {
+        this.estadoPrestamo = estadoPrestamo;
     }
 
     @Override
