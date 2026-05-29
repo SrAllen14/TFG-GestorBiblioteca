@@ -61,8 +61,6 @@ public class mtoUsuarioController {
         Usuario usuario = usuarioService.buscarUsuarioPorId(idUsuario);
         List<Prestamo> prestamos = prestamoService.listarPrestamosPorUsuario(idUsuario);
         
-        System.out.println(usuario.getEstadoUsuario());
-        
         modelo.addAttribute("usuario", usuario);
         modelo.addAttribute("prestamos", prestamos);
 
@@ -82,7 +80,6 @@ public class mtoUsuarioController {
         
         try{
             if(result.hasErrors()){
-                System.out.println("No funciona");
                 return "registroUsuario";
             }
             usuarioService.registrarUsuario(usuarioDTO);

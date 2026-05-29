@@ -142,8 +142,6 @@ public class UsuarioServiceImp implements UsuarioService {
 
             if (usuarioEditadoDTO.getPassword() != null && !usuarioEditadoDTO.getPassword().isBlank()) {
                 usuario.setPassword(passwordEncoder.encode(usuarioEditadoDTO.getPassword()));
-            } else {
-                System.out.println("No hay contraseña");
             }
         } else {
             usuario.setUsername(null);
