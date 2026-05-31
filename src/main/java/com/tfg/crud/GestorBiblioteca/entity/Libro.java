@@ -20,43 +20,69 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
- * @author Usuario
+ * Representa los libros existentes en el catálogo de la biblioteca
+ * Guarda la información de los libros y de sus ejemplares
+ * 
+ * @author Álvaro Allén alvaro.allper.1@educa.jcyl.es
  */
 @Entity
 @Table(name = "Libros")
 public class Libro {
     
+    /**
+     * Número identificativo autogenerado incremental
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idLibro;
     
+    /**
+     * Título de la obra
+     */
     @Column(name = "Titulo")
     @NotBlank(message = "El título es obligatorio")
     private String titulo;
     
+    /**
+     * Nombre completo del autor de la obra
+     */
     @Column(name = "Autor")
     @NotBlank(message = "El autor es obligatorio")
     @Pattern(regexp = "^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$", message = "El autor solo puede contener letras")
     private String autor;
     
+    /**
+     * Género literario que define a la obra
+     */
     @Column(name = "Genero")
     @Enumerated(EnumType.STRING)
     private Genero genero;
     
+    /**
+     * Nombre de la editorial de la obra
+     */
     @Column(name = "Editorial")
     @NotBlank(message = "La editorial es obligatoria")
     @Pattern(regexp = "^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ,.]+$", message = "La editorial contiene caracteres no válidos")
     private String editorial;
     
+    /**
+     * Código identificativo único de la obra
+     */
     @Column(name = "ISBN", unique = true)
     @NotBlank(message = "El ISBN es obligatorio")
     @ISBN(message = "ISBN invalido")
     private String isbn;
     
+    /**
+     * Estado actual de la obra que puede ser activo o inactivo
+     */
     @Column(name = "Activo")
     private boolean activo;
     
+    /**
+     * Lista de los ejemplares pertenecientes a una obra concreta
+     */
     @OneToMany(mappedBy = "libro")
     private List<Ejemplar> ejemplares;
     

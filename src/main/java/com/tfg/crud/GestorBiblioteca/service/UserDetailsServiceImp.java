@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.tfg.crud.GestorBiblioteca.service;
 
 import com.tfg.crud.GestorBiblioteca.entity.Usuario;
@@ -16,8 +12,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 /**
+ * Servicio encargado de la autenticación de usuarios en el sistema.
+ * Implementa UserDetailsService de Spring Security para cargar los
+ * datos del usuario durante el proceso de login.
  *
- * @author Usuario
+ * @author Álvaro Allén alvaro.allper.1@educa.jcyl.es
  */
 @Service
 public class UserDetailsServiceImp implements UserDetailsService{
@@ -25,6 +24,13 @@ public class UserDetailsServiceImp implements UserDetailsService{
     @Autowired
     private UsuarioRepository usuarioRepository;
     
+    /**
+     * Carga un usuario del sistema a partir de su nombre de usuario.
+     * 
+     * @param username nombre de usuario utilizado en el login
+     * @return detalles del usuario para Spring Security
+     * @throws UsernameNotFoundException si el usuario no existe
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         

@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
+ * Controlador encargado de gestionar las operaciones relacionadas
+ * con los ejemplares de los libros.
  *
- * @author Usuarioa
+ * @author Álvaro Allén alvaro.allper.1@educa.jcyl.es
  */
 @Controller
 @RequestMapping("/ejemplar")
@@ -26,7 +28,12 @@ public class ejemplarController {
     @Autowired
     private EjemplarService ejemplarService;
         
-    
+    /**
+     * Registra un nuevo ejemplar asociado a un libro.
+     * 
+     * @param idLibro Identificador del libro al que se añadirá el ejemplar
+     * @return Redirección a la ruta /libro/consultar/{idLibro} o la vista de detalles de un libro
+     */
     @PostMapping("/{idLibro}/registro")
     public String registrarEjemplar(@PathVariable Long idLibro){
     

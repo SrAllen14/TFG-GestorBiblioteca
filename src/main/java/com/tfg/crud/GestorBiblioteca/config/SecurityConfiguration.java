@@ -13,14 +13,26 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 /**
+ * Configuración de seguridad de la aplicación mediante
+ * Spring Security. Define las reglas de acceso, el inicio
+ * de sesión y el cierre de sesión de los usuarios.
  *
- * @author Usuario
+ * @author Álvaro Allén alvaro.allper.1@educa.jcyl.es
  */
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration{
     
+    /**
+     * Configura las reglas de seguridad de la aplicación.
+     * Establece las rutas públicas, el formulario de inicio 
+     * de sesión y el proceso de cierre de sesión.
+     * 
+     * @param http Objeto de configuración de seguridad HTTP
+     * @return Cadena de filtros de seguridad configurada
+     * @throws Exception Si se produce un error duratne la configuración
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(auth -> auth.requestMatchers("/", "/login", "/api/inicio", "/css/**").permitAll().anyRequest().authenticated())
@@ -30,6 +42,13 @@ public class SecurityConfiguration{
         return http.build();
     }
     
+    /**
+     * Crea el codificador de contraseñas utilizado por la 
+     * aplicación. Se emplea el algoritmo BCrypt para almacenar 
+     * las contraseñas de forma segura.
+     * 
+     * @return Codificador de contraseñas BCrypt
+     */
     @Bean
     public PasswordEncoder passwordEncoder(){
     

@@ -17,28 +17,46 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
- * @author Usuario
+ * Representa las personas y trabajadores de la biblioteca escolar
+ * Contiene la información necesaria para realizar un préstamo y
+ * autenticarse en la aplicación
+ * 
+ * @author Álvaro Allén alvaro.allper.1@educa.jcyl.es
  */
 
 @Entity
 @Table(name = "Ejemplares")
 public class Ejemplar {
-    
+    /**
+     * Número identificativo autogenerado incremental.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idEjemplar;
     
+    /**
+     * Cadena indentificativa compuesta por ISBN-IdEjemplar.
+     */
     @Column(name = "Codigo")
     private String codigo;
     
+    /**
+     * Objeto de la clase libro que almacena la información.
+     * del libro al que pertenece el ejemplar
+     */
     @ManyToOne
     @JoinColumn(name = "idLibro")
     private Libro libro;
 
+    /**
+     * Estado actual del ejemplar que puede ser activo o inactivo
+     */
     @Column(name = "Activo")
     private boolean activo;
     
+    /**
+     * Lista de préstamos en los que está el ejemplar
+     */
     @OneToMany(mappedBy = "ejemplar")
     private List<Prestamo> prestamos;
     

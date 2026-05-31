@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
+ * Controlador REST encargado de proporcionar los datos
+ * mostrador en la página principal de la aplicación.
  *
- * @author Usuario
+ * @author Álvaro Allén alvaro.allper.1@educa.jcyl.es
  */
 
 @RestController
@@ -23,6 +25,12 @@ public class InicioRestController {
     @Autowired
     private InicioService inicioService;
     
+    /**
+     * Obtiene los datos estadisticos necesarios para la
+     * página de inicio de la aplicación.
+     * 
+     * @return Objeto con la información de inicio
+     */
     @GetMapping
     public InicioDTO getInicio(){
         return inicioService.obtenerDatos();

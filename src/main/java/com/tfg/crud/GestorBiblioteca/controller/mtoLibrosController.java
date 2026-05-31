@@ -33,8 +33,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
+ * Controlador encargado de la gestión de libros y ejemplares.
+ * Permite registrar, consultar, editar, importar y exportar
+ * información relacionada con el catálogo de la biblioteca.
  *
- * @author Usuario
+ * @author Álvaro Allén alvaro.allper.1@educa.jcyl.es
  */
 @Controller
 @RequestMapping("/libro")
@@ -46,6 +49,16 @@ public class mtoLibrosController {
     @Autowired
     private EjemplarService ejemplarService;
 
+    /**
+     * Muestra el listado de libros con opciones de 
+     * búsqueda, filtrado y paginación.
+     * 
+     * @param modelo Modelo utilizado para la vista
+     * @param busqueda Texto de búsqueda
+     * @param activo Estado del libro para filtrar
+     * @param pageable Configuración de paginación
+     * @return Vista de mantenimiento de libros
+     */
     @GetMapping
     public String mostrarLibros(Model modelo, @RequestParam(required = false) String busqueda, @RequestParam(required = false) String activo, @PageableDefault(size = 5) Pageable pageable) {
 
@@ -68,6 +81,14 @@ public class mtoLibrosController {
         return "mtoLibros";
     }
 
+    /**
+     * Muestra el detalle de un libro junto con sus 
+     * ejemplares asociados.
+     * 
+     * @param modelo Modelo utilizado para la vista
+     * @param idLibro Identificador del libro
+     * @return Vista de detalle del libro
+     */
     @GetMapping("/consultar/{idLibro}")
     public String consultarLibro(Model modelo, @PathVariable Long idLibro) {
 
@@ -80,6 +101,12 @@ public class mtoLibrosController {
         return "detalleLibro";
     }
 
+    /**
+     * Muestra el formulario de registro de libros.
+     * 
+     * @param modelo Modelo utilizado para la vista
+     * @return Vista de registro de libro
+     */
     @GetMapping("/crear")
     public String mostrarRegistroLibro(Model modelo) {
 
@@ -88,6 +115,15 @@ public class mtoLibrosController {
         return "registroLibro";
     }
 
+    /**
+     * Registra un nuevo libro en el sistema.
+     * 
+     * @param libro Datos del libro
+     * @param result Resultado de las validaciones
+     * @param redirectAttributes Atributos de redirección
+     * @param modelo Modelo utilizado para la vista
+     * @return Redirección a la ruta /libro o vista de mantenimiento
+     */
     @PostMapping("/crear")
     public String registrarLibro(@Valid @ModelAttribute Libro libro, BindingResult result, RedirectAttributes redirectAttributes, Model modelo) {
         modelo.addAttribute("libro", libro);
@@ -105,6 +141,13 @@ public class mtoLibrosController {
         }    
     }
 
+    /**
+     * Muestra el formulario de edición de un libro.
+     * 
+     * @param modelo Modelo utilizado para la vista
+     * @param idLibro Identificador del libro
+     * @return Vista de edición de libro
+     */
     @GetMapping("/editar/{idLibro}")
     public String mostrarEditarLibro(Model modelo, @PathVariable Long idLibro) {
 
@@ -114,6 +157,16 @@ public class mtoLibrosController {
         return "edicionLibro";
     }
 
+    /**
+     * Actualiza la información de un libro existente.
+     * 
+     * @param idLibro Identificador del libro
+     * @param libro Datos actualizados
+     * @param result Resultado de las validaciones
+     * @param redirectAttributes Atributos de redirección
+     * @param modelo Modelo utilizado para la vista
+     * @return Redirección a la ruta /libro o a la vista de mantenimiento
+     */
     @PostMapping("/editar/{idLibro}")
     public String editarLibro(@PathVariable Long idLibro, @Valid @ModelAttribute Libro libro, BindingResult result, RedirectAttributes redirectAttributes, Model modelo) {
         
@@ -132,6 +185,12 @@ public class mtoLibrosController {
         }   
     }
 
+    /**
+     * Modifica el estado de un libro.
+     * 
+     * @param idLibro Identificador del libro
+     * @return Redirección a la ruta /libro o a la vista de mantenimiento
+     */
     @PostMapping("/estado/{idLibro}")
     public String cambiarEstadoLibro(@PathVariable Long idLibro) {
 
@@ -139,6 +198,12 @@ public class mtoLibrosController {
         return "redirect:/libro";
     }
     
+    /**
+     * Exporta el catálogo de libros a un fichero CSV.
+     * 
+     * @param response Respuesta HTTP utilizada para generar el archivo
+     * @throws IOException Si ocurre un error durante la exportación
+     */
     @GetMapping("/exportar")
     public void exportarLibros(HttpServletResponse response) throws IOException{
         
@@ -159,6 +224,14 @@ public class mtoLibrosController {
         writer.close();
     }
     
+    /**
+     * Importa libros desde un fichero CSV.
+     * 
+     * @param archivo Archivo CSV seleccionado
+     * @param redirectAttributes Atributos de redirección
+     * @return Redirección a la ruta /libro o a la vista de mantenimiento
+     * @throws IOException Si ocurre un error al leer el archivo
+     */
     @PostMapping("/importar")
     public String importarLibros(@RequestParam("archivo") MultipartFile archivo, RedirectAttributes redirectAttributes) throws IOException{
         try{
@@ -189,6 +262,13 @@ public class mtoLibrosController {
         }
     }
     
+    /**
+     * Modifica el estado de un ejemplar asociado a un libro.
+     * 
+     * @param idLibro Identificador del libro
+     * @param idEjemplar Identificador del ejemplar
+     * @return Redirección a la ruta /libro/consultar/{idLibro} o vista de consulta de libro
+     */
     @PostMapping("/consultar/{idLibro}/estado/{idEjemplar}")
     public String cambiarEstadoUsuario(@PathVariable Long idLibro, @PathVariable Long idEjemplar){
         
