@@ -31,8 +31,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
+ * Controlador encargado de la gestión de préstamos. 
+ * Permite registrar, consultar, editar y finalizar
+ * préstamos de ejemplares a los usuarios.
  *
- * @author Usuario
+ * @author Álvaro Allén alvaro.allper.1@educa.jcyl.es
  */
 @Controller
 @RequestMapping("/prestamo")
@@ -50,6 +53,16 @@ public class mtoPrestamoController {
     @Autowired
     private EjemplarService ejemplarService;
 
+    /**
+     * Muestra el listado de préstamos con opciones de 
+     * búsqueda, filtrado y paginación.
+     * 
+     * @param busqueda Texto utilizado para la búsqueda
+     * @param estadoPrestamo Estado por el que filtrar
+     * @param pageable Configuración de paginación
+     * @param model Modelo utilizado para la vista
+     * @return Vista de mantenimiento de préstamos
+     */
     @GetMapping
     public String mostrarPrestamos(@RequestParam(required = false) String busqueda, @RequestParam(required = false) EstadoPrestamo estadoPrestamo, @PageableDefault(size = 10) Pageable pageable, Model model) {
         
@@ -65,10 +78,21 @@ public class mtoPrestamoController {
         return "mtoPrestamos";
     }
     
+    /**
+     * Muestra el detalle de un préstamo concreto.
+     * 
+     * @param idPrestamo Identificador del préstamo
+     * @param modelo Modelo utilizado para la vista
+     * @return Vista de detalle del préstamo
+     */
     @GetMapping("/consultar/{idPrestamo}")
     public String consultarPrestamo(@PathVariable Long idPrestamo, Model modelo){
         String sancion;
         Prestamo prestamo = prestamoService.buscarPrestamoPorId(idPrestamo);
+        
+        // Comprueba si la devolución se realizó fuera
+        // de plazo para mostrar la información sobre
+        // la sanción aplicada.
         
         if(prestamo.getFechaDevolucion() != null){
             if(prestamo.getFechaDevolucion().isAfter(prestamo.getFechaFin())){
@@ -85,6 +109,16 @@ public class mtoPrestamoController {
         return "detallePrestamo";
     }
 
+    /**
+     * Muestra el formulario de registro de préstamos.
+     * 
+     * @param modelo Modelo utilizado para la vista
+     * @param nombre Nombre utilizado para filtrar usuarios
+     * @param isbn ISBN utilizado para filtrar libros
+     * @param idEjemplar Ejemplar seleccionado
+     * @param idUsuario Usuario seleccionado
+     * @return Vista de registro de préstamo
+     */
     @GetMapping("/registro")
     public String mostrarRegistroPrestamo(Model modelo, @RequestParam(required = false) String nombre, @RequestParam(required = false) String isbn, @RequestParam(required = false) Long idEjemplar, @RequestParam(required = false) Long idUsuario) {
 
@@ -113,6 +147,13 @@ public class mtoPrestamoController {
         return "registroPrestamo";
     }
 
+    /**
+     * Registro un nuevo préstamo en el sistema.
+     * 
+     * @param prestamoDTO Datos del préstamo
+     * @param redirectAttributes Atributos para mensajes temporales
+     * @return Redirección a la ruta /prestamo
+     */
     @PostMapping("/registro")
     public String registrarPrestamo(@ModelAttribute PrestamoDTO prestamoDTO, RedirectAttributes redirectAttributes) {
 
@@ -125,6 +166,17 @@ public class mtoPrestamoController {
         return "redirect:/prestamo";
     }
 
+    /**
+     * Muestra el formulario de edición de un préstamo.
+     * 
+     * @param modelo Modelo utilizado para la vista
+     * @param idPrestamo Identificador del préstamo
+     * @param nombre Nombre utilizado para filtrar usuarios
+     * @param isbn ISBN utillizado para filtrar libros
+     * @param idEjemplar Ejemplar seleccionado
+     * @param idUsuario Usuario seleccionado
+     * @return Vista de edición de préstamo
+     */
     @GetMapping("/editar/{idPrestamo}")
     public String mostrarEditarPrestamo(Model modelo, @PathVariable Long idPrestamo, @RequestParam(required = false) String nombre, @RequestParam(required = false) String isbn, @RequestParam(required = false) Long idEjemplar, @RequestParam(required = false) Long idUsuario) {
         LocalDate fechaInicio = LocalDate.now();
@@ -141,16 +193,17 @@ public class mtoPrestamoController {
         prestamoDTO.setIdEjemplar(prestamo.getEjemplar().getIdEjemplar());
         prestamoDTO.setIdUsuario(prestamo.getUsuario().getIdUsuario());
 
-        boolean usuarioExiste = usuarios.stream()
-                .anyMatch(u -> u.getIdUsuario().equals(prestamo.getUsuario().getIdUsuario()));
+        // Añade el usuario actual del préstamo a la lista
+        // si no aparece entre los usuarios disponibles.
+        boolean usuarioExiste = usuarios.stream().anyMatch(u -> u.getIdUsuario().equals(prestamo.getUsuario().getIdUsuario()));
 
         if (!usuarioExiste) {
             usuarios.add(prestamo.getUsuario());
         }
 
-        
-        boolean ejemplarExiste = ejemplares.stream()
-                .anyMatch(e -> e.getIdEjemplar().equals(prestamo.getEjemplar().getIdEjemplar()));
+        // Añade el ejemplar el actual del préstamo a la lista
+        // si no aparece entre los ejemplares disponibles.
+        boolean ejemplarExiste = ejemplares.stream().anyMatch(e -> e.getIdEjemplar().equals(prestamo.getEjemplar().getIdEjemplar()));
 
         if (!ejemplarExiste) {
             ejemplares.add(prestamo.getEjemplar());
@@ -167,6 +220,13 @@ public class mtoPrestamoController {
         return "edicionPrestamo";
     }
 
+    /**
+     * Actualiza la información de un préstamo existente.
+     * 
+     * @param idPrestamo Identificador del préstamo
+     * @param prestamoDTO Datos actualizados
+     * @return Redirección al listado de préstamos
+     */
     @PostMapping("/editar/{idPrestamo}")
     public String editarPrestamo(@PathVariable Long idPrestamo, @ModelAttribute PrestamoDTO prestamoDTO) {
 
@@ -174,6 +234,13 @@ public class mtoPrestamoController {
         return "redirect:/prestamo";
     }
 
+    /**
+     * Finaliza un préstamo registrando la fecha de devolución.
+     * 
+     * @param idPrestamo Identificador del préstamo
+     * @param codigo Código del ejemplar devuelto.
+     * @return Redirección al detalle del préstamo
+     */
     @PostMapping("/finalizar/{idPrestamo}")
     public String modificarEstadoPrestamo(@PathVariable Long idPrestamo, @RequestParam String codigo) {
 

@@ -1,20 +1,25 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.tfg.crud.GestorBiblioteca.validation;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
 /**
+ * Validador encargado de comprobar que un DNI español tiene
+ * un formato correcto y que la letra de control coincide con
+ * el número introducido.
  *
- * @author Usuario
+ * @author Álvaro Allén alvaro.allper.1@educa.jcyl.es
  */
 class DNIValidator implements ConstraintValidator<DNI, String>{
 
     private static final String LETRAS = "TRWAGMYFPDXBNJZSQVHLCKE";
     
+    /**
+     * Comprueba si el DNI recibido es válido.
+     * @param dni DNI a validar
+     * @param cvc Contexto de validación
+     * @return true si el DNI es válido, false en caso contrario
+     */
     @Override
     public boolean isValid(String dni, ConstraintValidatorContext cvc) {
         if (dni == null || dni.isBlank()) {

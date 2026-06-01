@@ -17,35 +17,59 @@ import jakarta.persistence.Table;
 import java.time.LocalDate;
 
 /**
- *
- * @author Usuario
+ * Representa el prestamo de un ejemplar a un usuario del sistema
+ * Almacena la información necesaria para procesar la lógica 
+ * principal del negocio
+ * 
+ * @author Álvaro Allén alvaro.allper.1@educa.jcyl.es
  */
 
 @Entity
 @Table(name = "Prestamos")
 public class Prestamo {
     
+    /**
+     * Número identificativo autogenerado incremental
+     */
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long idPrestamo;
     
+    /**
+     * Fecha en la que comienza el préstamo
+     */
     @Column(name = "FechaInicio")
     private LocalDate fechaInicio;
     
+    /**
+     * Fecha límite de entrega de préstamo
+     */
     @Column(name = "FechaFin")
     private LocalDate fechaFin;
     
+    /**
+     * Fecha de devolución y finalizado de préstamo
+     */
     @Column(name = "fechaDevolucion")
     private LocalDate fechaDevolucion;
     
+    /**
+     * Estado en el que se encuentra el préstamo
+     */
     @Column(name = "EstadoPrestamo")
     @Enumerated(EnumType.STRING)
     private EstadoPrestamo estadoPrestamo;
     
+    /**
+     * Usuario perteneciente al préstamo
+     */
     @ManyToOne
     @JoinColumn(name = "idUsuario")
     private Usuario usuario;
     
+    /**
+     * Ejemplar perteneciente al préstamo
+     */
     @ManyToOne
     @JoinColumn(name = "idEjemplar")
     private Ejemplar ejemplar;

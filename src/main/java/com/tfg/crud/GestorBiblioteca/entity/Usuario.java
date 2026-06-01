@@ -17,44 +17,77 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
- * @author Usuario
+ * Representa las personas y trabajadores de la biblioteca escolar
+ * Contiene la información necesaria para realizar un préstamo y
+ * autenticarse en la aplicación
+ * 
+ * @author Álvaro Allén alvaro.allper.1@educa.jcyl.es
  */
 
 @Entity
 @Table(name = "Usuarios")
 public class Usuario {
     
+    /**
+     * Número identificativo autogenerado incremental
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idUsuario;
     
+    /**
+     * Número identificativo del Documento Nacional de Identidad español
+     */
     @Column(name = "DNI", unique = true)
     private String dni;
     
+    /**
+     * Nombre del usuario
+     */
     @Column(name = "Nombre")
     private String nombre;
     
+    /**
+     * Primer apellido del usuario
+     */
     @Column(name = "Apellido1")
     private String apellido1;
     
+    /**
+     * Segundo apellido del usuario
+     */
     @Column(name = "Apellido2")
     private String apellido2;
     
+    /**
+     * Nombre de usuario para usuarios del sistema
+     */
     @Column(name = "Username")
     private String username;
-            
+      
+    /**
+     * Contraseña pertenciente a un username
+     */
     @Column(name = "Password", unique = true)
     private String password;
     
+    /**
+     * Tipo de usuario que define su rol en el sistema
+     */
     @Column(name = "Rol")
     @Enumerated(EnumType.STRING)
     private Rol tipo;
     
+    /**
+     * Estado en el que se encuentra el usuario
+     */
     @Column(name = "EstadoUsuario")
     @Enumerated(EnumType.STRING)
     private EstadoUsuario estadoUsuario;
 
+    /**
+     * Listado de préstamos realizados por un usuario
+     */
     @OneToMany(mappedBy = "usuario")
     private List<Prestamo> prestamos;
     

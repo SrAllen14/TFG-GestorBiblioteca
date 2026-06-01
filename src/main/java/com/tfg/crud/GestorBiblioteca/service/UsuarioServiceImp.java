@@ -92,11 +92,6 @@ public class UsuarioServiceImp implements UsuarioService {
     }
 
     @Override
-    public List<Usuario> listarUsuarios() {
-        return usuarioRepository.findAll();
-    }
-
-    @Override
     public Usuario buscarUsuarioPorId(Long id) {
         return usuarioRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
     }

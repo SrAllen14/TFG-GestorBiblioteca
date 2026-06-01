@@ -280,7 +280,6 @@
                     <thead class="table-dark">
 
                     <tr>
-                        <th>ID</th>
                         <th>Título</th>
                         <th>Autor</th>
                         <th>Género</th>
@@ -296,8 +295,6 @@
                     <tbody>
 
                     <tr th:each="libro : ${libros}">
-
-                        <td th:text="${libro.idLibro}"></td>
 
                         <td th:text="${libro.titulo}"></td>
 

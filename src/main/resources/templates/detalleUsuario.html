@@ -173,14 +173,10 @@
                 </div>
 
                 <div class="col-md-4">
-                    <p><strong>Apellido 1:</strong> <span th:text="${usuario.apellido1}"></span></p>
+                    <p><strong>Apellidos:</strong> <span th:text="${usuario.apellido1 + ' ' + usuario.apellido2}"></span></p>
                 </div>
 
-                <div class="col-md-4">
-                    <p><strong>Apellido 2:</strong> <span th:text="${usuario.apellido2}"></span></p>
-                </div>
-
-                <div class="col-md-4">
+                <div class="col-md-4" th:if="${usuario.username != null}">
                     <p><strong>Username:</strong> <span th:text="${usuario.username}"></span></p>
                 </div>
 

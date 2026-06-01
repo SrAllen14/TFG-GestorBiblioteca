@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.tfg.crud.GestorBiblioteca.service;
 
 import com.tfg.crud.GestorBiblioteca.dto.InicioDTO;
@@ -16,8 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- *
- * @author Usuario
+ * Servicio enecargado de obtener los datos principales mostrados por 
+ * pantalla de inicio. Calcula estadísticas básicas como número de
+ * préstamos activos, usuarios activos y libros disponibles.
+ * 
+ * @author alvaro.allper.1@educa.jcyl.es
  */
 @Service
 public class InicioService {
@@ -31,6 +30,13 @@ public class InicioService {
     @Autowired
     private LibroRepository libroRepository;
 
+    /**
+     * Obtiene las métricas principales del sistema para la pantalla 
+     * de inicio. Incluye préstamos activos, usuarios activos y libros 
+     * activos.
+     * 
+     * @return objeto DTO con los datos resumidos del sistema.
+     */
     public InicioDTO obtenerDatos() {
 
         InicioDTO dto = new InicioDTO();

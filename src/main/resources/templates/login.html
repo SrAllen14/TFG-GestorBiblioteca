@@ -29,119 +29,7 @@
             Gestor de Biblioteca Escolar
 
         </a>
-
-        <button class="navbar-toggler"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#navbarNav">
-
-            <span class="navbar-toggler-icon"></span>
-
-        </button>
-
-        <div class="collapse navbar-collapse"
-             id="navbarNav">
-
-            <ul class="navbar-nav ms-auto">
-
-                <li class="nav-item">
-
-                    <a class="nav-link"
-                       href="/usuario">
-
-                        Usuarios
-
-                    </a>
-
-                </li>
-
-                <li class="nav-item">
-
-                    <a class="nav-link"
-                       href="/libro">
-
-                        Libros
-
-                    </a>
-
-                </li>
-
-                <li class="nav-item">
-
-                    <a class="nav-link"
-                       href="/prestamo">
-
-                        Préstamos
-
-                    </a>
-
-                </li>
-
-                <li class="nav-item dropdown"
-                    sec:authorize="isAuthenticated()">
-
-                    <a class="nav-link dropdown-toggle d-flex align-items-center gap-2"
-                       href="#"
-                       role="button"
-                       data-bs-toggle="dropdown">
-
-                        <div class="rounded-circle bg-primary text-white d-flex justify-content-center align-items-center"
-                             style="width:35px;height:35px;">
-
-                            <i class="bi bi-person-fill"></i>
-
-                        </div>
-
-                        <span sec:authentication="name"></span>
-
-                    </a>
-
-                    <ul class="dropdown-menu dropdown-menu-end shadow border-0">
-
-                        <li>
-
-                            <a class="dropdown-item"
-                               href="/usuario/perfil">
-
-                                <i class="bi bi-person-circle"></i>
-                                Mi perfil
-
-                            </a>
-
-                        </li>
-
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-
-                        <li>
-
-                            <form th:action="@{/logout}"
-                                  method="post"
-                                  class="m-0">
-
-                                <button type="submit"
-                                        class="dropdown-item text-danger">
-
-                                    <i class="bi bi-box-arrow-right"></i>
-                                    Cerrar sesión
-
-                                </button>
-
-                            </form>
-
-                        </li>
-
-                    </ul>
-
-                </li>
-
-            </ul>
-
-        </div>
-
-    </div>
-
+    </div>  
 </nav>
 
 <main class="container py-5 flex-grow-1">
@@ -175,6 +63,10 @@
                               
                               <div class="d-grid">
                                   <button type="submit" class="btn btn-primary btn-lg">Entrar</button>
+                                <a th:href="@{/}" class="btn btn-outline-secondary">
+                                     <i class="bi bi-arrow-left"></i>
+                                     Volver
+                                 </a>
                               </div>
                           </form>
                       </div>

@@ -61,15 +61,6 @@ public class PrestamoServiceImp implements PrestamoService {
     }
 
     @Override
-    public List<Prestamo> listarPrestamosPorCodigo(String codigo) {
-        if (codigo == null || codigo.isBlank()) {
-            codigo = "";
-        }
-
-        return prestamoRepository.findByEjemplarCodigoContainingIgnoreCase(codigo);
-    }
-
-    @Override
     public Prestamo buscarPrestamoPorId(Long idPrestamo) {
 
         return prestamoRepository.findById(idPrestamo).orElseThrow(() -> new RuntimeException("No se ha encontrado el prestamo"));
