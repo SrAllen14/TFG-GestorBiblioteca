@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.tfg.crud.GestorBiblioteca.validation;
 
 import jakarta.validation.Constraint;
@@ -13,8 +9,15 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * Anotación de validación personalizada para comprobar que un
+ * ISBN tiene formato válido según los estándares ISBN-10 o 
+ * ISBN-13.
+ * 
+ * Esta anotación puede aplicarse sobre atributos de una entidad
+ * o DTO par que la validación se realice automáticamente mediante
+ * la clase {@link ISBNValidator}
  *
- * @author Usuario
+ * @author Álvaro Allén alvaro.allper.1@educa.jcyl.es
  */
 
 @Documented
@@ -22,8 +25,24 @@ import java.lang.annotation.Target;
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ISBN {
-    
+    /**
+     * Mensaje mostrado cuando el ISBN no supera la validación.
+     * 
+     * @return mensaje de error
+     */
     String message() default "ISBN inválido";
+    
+    /**
+     * Permite agrupar validaciones.
+     * 
+     * @return mensaje de error
+     */
     Class<?>[] groups() default {};
+    
+    /**
+     * Permite asociar información adicional a la validación.
+     * 
+     * @return información adicional de validación
+     */
     Class<? extends Payload>[] payload() default {};
 }
