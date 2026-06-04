@@ -17,7 +17,7 @@ Seleccione el documento que desea consultar:
 ├── Manualdeusuario.md
 ├── Manualdedespliegue.md
 └── docs/
-    └── images/# Markdown for Netbeans ![Description Here](https://raw.githubusercontent.com/moacirrf/netbeans-markdown/main/images/nblogo48x48.png)
+    └── images/etbeans ![Description Here](https://raw.githubusercontent.com/moacirrf/netbeans-markdown/main/images/nblogo48x48.png)
 
 ***
 
