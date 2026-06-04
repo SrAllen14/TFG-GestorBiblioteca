@@ -1,0 +1,9 @@
+com.tfg.crud.GestorBiblioteca
+com.tfg.crud.GestorBiblioteca.config
+com.tfg.crud.GestorBiblioteca.controller
+com.tfg.crud.GestorBiblioteca.dto
+com.tfg.crud.GestorBiblioteca.entity
+com.tfg.crud.GestorBiblioteca.repository
+com.tfg.crud.GestorBiblioteca.rest
+com.tfg.crud.GestorBiblioteca.service
+com.tfg.crud.GestorBiblioteca.validation
