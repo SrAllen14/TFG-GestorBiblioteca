@@ -69,7 +69,7 @@
                 <li class="nav-item">
 
                     <a class="nav-link"
-                       href="/prestamo">
+                       href="/prestamo?estadoPrestamo=ACTIVO">
 
                         Préstamos
 
@@ -291,8 +291,10 @@
 
                         <td>
 
-                            <div th:if="${!(#authorization.expression('hasRole(''ROLE_BIBLIOTECARIO'')') 
-                                        && usuario.rol.name() == 'ROLE_ADMINISTRADOR')}" 
+                            <div th:if="${!#authorization.expression('hasRole(''ROLE_BIBLIOTECARIO'')')
+                                        ||
+                                        (usuario.rol.name() != 'ROLE_ADMINISTRADOR'
+                                        && usuario.rol.name() != 'ROLE_BIBLIOTECARIO')}" 
                                 class="d-flex gap-2 justify-content-center">
 
                                 <!-- EDITAR -->

@@ -69,7 +69,7 @@
                 <li class="nav-item">
 
                     <a class="nav-link"
-                       href="/prestamo">
+                       href="/prestamo?estadoPrestamo=ACTIVO">
 
                         Préstamos
 
@@ -189,6 +189,7 @@
 
                             <select th:field="*{idUsuario}"
                                     class="form-select"
+                                    style="background-color: lightgoldenrodyellow;"
                                     required>
 
                                 <option value="">
@@ -214,6 +215,7 @@
 
                             <select th:field="*{idEjemplar}"
                                     class="form-select"
+                                    style="background-color: lightgoldenrodyellow;"
                                     required>
 
                                 <option value="">
@@ -240,6 +242,7 @@
                             <input type="date"
                                    th:value="${fechaInicio}"
                                    class="form-control"
+                                   style="background-color: lightgray;"
                                    readonly>
 
                         </div>
@@ -255,6 +258,7 @@
                             <input type="date"
                                    th:value="${fechaFin}"
                                    class="form-control"
+                                   style="background-color: lightgray;"
                                    readonly>
 
                         </div>
@@ -269,7 +273,7 @@
 
                             </button>
 
-                            <a th:href="@{/prestamo}"
+                            <a th:href="@{/prestamo?estadoPrestamo=ACTIVO}"
                                class="btn btn-outline-secondary">
 
                                 <i class="bi bi-arrow-left-circle"></i>
