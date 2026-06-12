@@ -69,7 +69,7 @@
                 <li class="nav-item">
 
                     <a class="nav-link"
-                       href="/prestamo">
+                       href="/prestamo?estadoPrestamo=ACTIVO">
 
                         Préstamos
 
@@ -184,8 +184,7 @@
                     <select name="estadoPrestamo"
                             class="form-select">
 
-                        <option value=""
-                                th:selected="${estadoPrestamo == null}">
+                        <option value="">
                             Todos
                         </option>
 

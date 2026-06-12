@@ -69,7 +69,7 @@
                 <li class="nav-item">
 
                     <a class="nav-link"
-                       href="/prestamo">
+                       href="/prestamo?estadoPrestamo=ACTIVO">
 
                         Préstamos
 
@@ -185,6 +185,7 @@
                             <input type="text"
                                    class="form-control"
                                    th:field="*{dni}"
+                                   style="background-color: lightgray;"
                                    readonly>
 
                         </div>
@@ -264,6 +265,7 @@
                             <input type="text"
                                    class="form-control"
                                    th:field="*{username}"
+                                   style="background-color: lightgray;"
                                    readonly>
 
                         </div>
@@ -277,6 +279,7 @@
                             <input type="text"
                                    class="form-control"
                                    th:field="*{rol}"
+                                   style="background-color: lightgray;"
                                    readonly>
 
                         </div>

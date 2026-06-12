@@ -69,7 +69,7 @@
                 <li class="nav-item">
 
                     <a class="nav-link"
-                       href="/prestamo">
+                       href="/prestamo?estadoPrestamo=ACTIVO">
 
                         Préstamos
 
@@ -192,6 +192,8 @@
                                    id="dni"
                                    class="form-control"
                                    th:field="*{dni}"
+                                   style="background-color: lightgoldenrodyellow;"
+                                   placeholder="Introduzca el DNI..."
                                    required>
 
                             <div class="text-danger"
@@ -214,6 +216,8 @@
                                    id="nombre"
                                    class="form-control"
                                    th:field="*{nombre}"
+                                   style="background-color: lightgoldenrodyellow;"
+                                   placeholder="Introduzca el nombre..."
                                    required>
 
                             <div class="text-danger"
@@ -236,6 +240,8 @@
                                    id="apellido1"
                                    class="form-control"
                                    th:field="*{apellido1}"
+                                   style="background-color: lightgoldenrodyellow;"
+                                   placeholder="Introduzca el primer apellido..."
                                    required>
 
                             <div class="text-danger"
@@ -258,6 +264,8 @@
                                    id="apellido2"
                                    class="form-control"
                                    th:field="*{apellido2}"
+                                   style="background-color: lightgoldenrodyellow;"
+                                   placeholder="Introduzca el segundo apellido..."
                                    required>
 
                             <div class="text-danger"
@@ -279,6 +287,7 @@
                             <select id="rol"
                                     class="form-select"
                                     th:field="*{rol}"
+                                    style="background-color: lightgoldenrodyellow;"
                                     required>
 
                                 <option value="">
@@ -334,7 +343,9 @@
                                 <input type="text"
                                        id="username"
                                        class="form-control"
-                                       th:field="*{username}">
+                                       th:field="*{username}"
+                                       style="background-color: lightgoldenrodyellow;"
+                                       placeholder="Introduzca el usuario...">
 
                                 <div class="text-danger"
                                      th:if="${#fields.hasErrors('username')}"
@@ -355,7 +366,9 @@
                                 <input type="password"
                                        id="password"
                                        class="form-control"
-                                       th:field="*{password}">
+                                       th:field="*{password}"
+                                       style="background-color: lightgoldenrodyellow;"
+                                       placeholder="Introduzca la contraseña...">
 
                                 <div class="text-danger"
                                      th:if="${#fields.hasErrors('password')}"

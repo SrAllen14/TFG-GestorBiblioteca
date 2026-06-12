@@ -69,7 +69,7 @@
                 <li class="nav-item">
 
                     <a class="nav-link"
-                       href="/prestamo">
+                       href="/prestamo?estadoPrestamo=ACTIVO">
 
                         Préstamos
 
@@ -185,6 +185,8 @@
                             <input type="text"
                                    class="form-control"
                                    th:field="*{titulo}"
+                                   style="background-color: lightgoldenrodyellow;"
+                                   placeholder="Introduzca el título..."
                                    required>
 
                             <div class="text-danger"
@@ -203,6 +205,8 @@
                             <input type="text"
                                    class="form-control"
                                    th:field="*{autor}"
+                                   style="background-color: lightgoldenrodyellow;"
+                                   placeholder="Introduzca el autor..."
                                    required>
 
                             <div class="text-danger"
@@ -220,6 +224,7 @@
 
                             <select class="form-select"
                                     th:field="*{genero}"
+                                    style="background-color: lightgoldenrodyellow;"
                                     required>
 
                                 <option value="">
@@ -275,6 +280,8 @@
                             <input type="text"
                                    class="form-control"
                                    th:field="*{editorial}"
+                                   style="background-color: lightgoldenrodyellow;"
+                                   placeholder="Introduzca la editorial..."
                                    required>
 
                             <div class="text-danger"
@@ -293,6 +300,8 @@
                             <input type="text"
                                    class="form-control"
                                    th:field="*{isbn}"
+                                   style="background-color: lightgoldenrodyellow;"
+                                   placeholder="Introduzca el ISBN..."
                                    required>
 
                             <div class="text-danger"

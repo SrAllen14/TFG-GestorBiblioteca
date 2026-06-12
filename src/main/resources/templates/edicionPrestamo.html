@@ -69,7 +69,7 @@
                 <li class="nav-item">
 
                     <a class="nav-link"
-                       href="/prestamo">
+                       href="/prestamo?estadoPrestamo=ACTIVO">
 
                         Préstamos
 
@@ -175,7 +175,7 @@
 
                         <div class="mb-3">
                             <label class="form-label">Usuario</label>
-                            <select th:field="*{idUsuario}" class="form-select" required>
+                            <select th:field="*{idUsuario}" class="form-select" style="background-color: lightgoldenrodyellow" required>
                                 <option value="">Seleccione usuario</option>
                                 <option th:each="usuario : ${usuarios}"
                                         th:value="${usuario.idUsuario}"
@@ -186,7 +186,7 @@
 
                         <div class="mb-3">
                             <label class="form-label">Ejemplar</label>
-                            <select th:field="*{idEjemplar}" class="form-select" required>
+                            <select th:field="*{idEjemplar}" class="form-select" style="background-color: lightgoldenrodyellow" required>
                                 <option value="">Seleccione ejemplar</option>
                                 <option th:each="ejemplar : ${ejemplares}"
                                         th:value="${ejemplar.idEjemplar}"
@@ -197,12 +197,12 @@
 
                         <div class="mb-3">
                             <label class="form-label">Fecha inicio</label>
-                            <input type="date" th:value="${fechaInicio}" class="form-control">
+                            <input type="date" th:value="${fechaInicio}" class="form-control" style="background-color: lightgray;" readonly>
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label">Fecha fin</label>
-                            <input type="date" th:value="${fechaFin}" class="form-control">
+                            <input type="date" th:value="${fechaFin}" class="form-control" style="background-color: lightgray;" readonly>
                         </div>
 
                         <div class="d-grid gap-2">
